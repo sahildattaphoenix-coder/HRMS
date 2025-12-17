@@ -1,0 +1,32 @@
+.header {
+  height: 64px;
+  background: #ffffff;
+  padding: 0 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  z-index: 10;
+}
+.left{
+  display: flex;
+  // align-items: center;
+  // justify-content: space-between;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #0d6efd;
+}
+
+.user {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  font-size: 14px;
+
+  img {
+    border-radius: 50%;
+  }
+}

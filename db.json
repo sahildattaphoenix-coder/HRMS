@@ -1,0 +1,84 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "email": "admin@gmail.com",
+      "password": "123456",
+      "role": "admin",
+      "name": "Admin User"
+    },
+    {
+      "id": 2,
+      "email": "employee@gmail.com",
+      "password": "123456",
+      "role": "employee",
+      "name": "Employee User"
+    }
+  ],
+
+  "employees": [
+    {
+      "id": 1,
+      "name": "Rahul",
+      "department": "IT",
+      "salary": 30000
+    },
+    {
+      "id": 2,
+      "name": "Amit",
+      "department": "HR",
+      "salary": 28000
+    },
+    {
+      "id": 3,
+      "name": "Neha",
+      "department": "Finance",
+      "salary": 32000
+    }
+  ],
+
+  "attendance": [
+    {
+      "id": 1,
+      "employeeId": 1,
+      "employeeName": "Rahul",
+      "day": "Mon",
+      "hours": 9
+    },
+    {
+      "id": 2,
+      "employeeId": 2,
+      "employeeName": "Amit",
+      "day": "Mon",
+      "hours": 8
+    },
+    {
+      "id": 3,
+      "employeeId": 3,
+      "employeeName": "Neha",
+      "day": "Mon",
+      "hours": 7
+    },
+    {
+      "id": 4,
+      "employeeId": 1,
+      "employeeName": "Rahul",
+      "day": "Tue",
+      "hours": 8
+    },
+    {
+      "id": 5,
+      "employeeId": 2,
+      "employeeName": "Amit",
+      "day": "Tue",
+      "hours": 6
+    },
+    {
+      "id": 6,
+      "employeeId": 3,
+      "employeeName": "Neha",
+      "day": "Tue",
+      "hours": 9
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+<div class="box">
+
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h5>Employees</h5>
+    <button class="btn btn-primary btn-sm">
+      + Add Employee
+    </button>
+  </div>
+
+  <!-- LOADING -->
+  <div *ngIf="loading" class="text-center py-5">
+    Loading employees...
+  </div>
+
+  <!-- TABLE -->
+  <table *ngIf="!loading" class="table table-hover">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Name</th>
+        <th>Department</th>
+        <th>Salary</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let emp of employees; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>{{ emp.name }}</td>
+        <td>{{ emp.department }}</td>
+        <td>₹ {{ emp.salary }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>
