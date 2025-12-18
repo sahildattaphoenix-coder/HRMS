@@ -1,0 +1,42 @@
+<div class="container-fluid p-0">
+    <div class="mb-4 d-flex justify-content-between align-items-center">
+        <h5 class="text-muted fw-bold m-0">Project / TimeSheet</h5>
+    </div>
+
+    <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+        <div class="card-header bg-white py-3 border-0">
+             <h6 class="m-0 fw-bold">{{ role === 'admin' ? 'All Submitted Timesheets' : 'My Daily Task Log' }}</h6>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0 small text-center">
+                    <thead class="bg-light text-muted">
+                        <tr>
+                            <th class="py-3">Date</th>
+                            <th class="py-3">Task Description</th>
+                            <th class="py-3">Hours Spent</th>
+                            <th class="py-3">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let entry of timesheets">
+                            <td>{{ entry.date }}</td>
+                            <td class="text-start">{{ entry.task }}</td>
+                            <td>{{ entry.hours }} hrs</td>
+                            <td>
+                                <span class="badge rounded-pill" 
+                                      [class.bg-success]="entry.status === 'Approved'"
+                                      [class.bg-warning]="entry.status === 'Pending'">
+                                    {{ entry.status }}
+                                </span>
+                            </td>
+                        </tr>
+                        <tr *ngIf="timesheets.length === 0">
+                            <td colspan="4" class="py-5 text-muted">No timesheet records found.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

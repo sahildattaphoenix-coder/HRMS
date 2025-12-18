@@ -1,0 +1,94 @@
+.header {
+  height: 80px; /* Increased height to match premium look */
+  background: #ffffff;
+  padding: 0 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1001;
+}
+
+.greeting-text {
+  color: #3b82f6;
+  font-weight: 700;
+  font-family: 'Inter', sans-serif;
+  .username {
+    font-weight: 800;
+  }
+}
+
+.search-box {
+  background: #f1f5f9;
+  padding: 0.6rem 1.25rem;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 320px;
+  i { color: #94a3b8; font-size: 0.9rem; }
+  input {
+    border: none;
+    background: transparent;
+    outline: none;
+    font-size: 0.85rem;
+    color: #475569;
+    width: 100%;
+    &::placeholder { color: #94a3b8; }
+  }
+}
+
+.header-date {
+  line-height: 1.2;
+  .day { font-size: 0.85rem; color: #1e293b; }
+  .full-date { font-size: 0.7rem; color: #94a3b8; }
+}
+
+.user-pill {
+    padding: 4px 12px 4px 4px;
+    background: #f8fafc;
+    border-radius: 2rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: 1px solid #e2e8f0;
+    &:hover { background: #f1f5f9; border-color: #cbd5e1; }
+}
+
+.dropdown-menu-custom {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: 0.75rem;
+    min-width: 200px;
+    background: white;
+    box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.1);
+    border-radius: 1rem;
+    overflow: hidden;
+    z-index: 1100;
+    display: block;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(10px);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    
+    &.show {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translateY(0);
+    }
+}
+
+.dropdown-item {
+    padding: 0.75rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #475569;
+    text-decoration: none;
+    transition: all 0.2s;
+    cursor: pointer;
+    &:hover { background: #f8fafc; color: #3b82f6; padding-left: 1.25rem; }
+}
+
+.smallest { font-size: 0.65rem; }
+.shadow-xs { box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); }
+.cursor-pointer { cursor: pointer; }

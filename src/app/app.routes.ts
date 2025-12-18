@@ -1,33 +1,43 @@
 import { Routes } from '@angular/router';
-import { LoginComponent } from './pages/login/login.component';
-import { LayoutComponent } from './pages/layout/layout.component';
-import { DashboardComponent } from './pages/admin/dashboard/dashboard.component';
+import { LayoutComponent } from './layouts/layout.component';
+import { RoleGuard } from './core/guards/role.guard';
 
 export const routes: Routes = [
   {
-    path: 'login',
-    component: LoginComponent,
+    path: 'auth',
+    loadChildren: () => import('./account/auth/auth.module').then(m => m.AuthModule)
   },
   {
-    path: '',
+    path: 'admin',
     component: LayoutComponent,
+    canActivate: [RoleGuard],
+    data: { role: 'admin' },
     children: [
       {
-        path: 'dashboard',
-        component: DashboardComponent,
-      },
-    ],
+        path: '',
+        loadChildren: () => import('./pages/admin/admin.module').then(m => m.AdminModule)
+      }
+    ]
   },
   {
-    path: 'employees',
-    loadComponent: () =>
-      import('./pages/admin/employees/employees.component').then(
-        (m) => m.EmployeesComponent
-      ),
+    path: 'employee',
+    component: LayoutComponent,
+    canActivate: [RoleGuard],
+    data: { role: 'employee' },
+    children: [
+      {
+        path: '',
+        loadChildren: () => import('./pages/employee/employee.module').then(m => m.EmployeeModule)
+      }
+    ]
   },
   {
     path: '',
-    redirectTo: 'login',
     pathMatch: 'full',
+    redirectTo: 'auth/login'
   },
+  {
+    path: '**',
+    redirectTo: 'auth/login'
+  }
 ];

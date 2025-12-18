@@ -1,0 +1,15 @@
+.leave-requests-wrapper { padding: 1rem; }
+.avatar-sm { width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; background: #e0e7ff; color: #4338ca; border-radius: 50%; }
+.status-pill {
+    padding: 0.25rem 0.75rem; border-radius: 50px; font-size: 0.7rem; font-weight: 600;
+    display: inline-block;
+    &.status-pending { background: #fff7ed; color: #ea580c; }
+    &.status-approved { background: #f0fdf4; color: #16a34a; }
+    &.status-rejected { background: #fef2f2; color: #dc2626; }
+}
+.btn-icon-sm { width: 32px; height: 32px; display: inline-flex; align-items: center; justify-content: center; background: white; border: none; transition: all 0.2s; border-radius: 50%; &:hover { background: #f8fafc; } }
+.smallest { font-size: 0.65rem; }
+.shadow-xs { box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+.bg-blue-soft { background: #eff6ff; }
+.transition-all { transition: all 0.2s ease; }
+.italic { font-style: italic; }

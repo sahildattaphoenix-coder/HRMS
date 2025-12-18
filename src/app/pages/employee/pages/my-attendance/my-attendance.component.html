@@ -1,0 +1,61 @@
+<div class="container-fluid p-0">
+    <div class="mb-4 d-flex justify-content-between align-items-center">
+        <h5 class="text-muted fw-bold m-0">Project / Attendance</h5>
+        <div *ngIf="role === 'employee'" class="clock-widget d-flex align-items-center gap-3 bg-white p-2 rounded-pill shadow-sm pe-3">
+             <button [class.btn-success]="!isClockedIn" [class.btn-danger]="isClockedIn" 
+                     class="btn rounded-pill px-4 fw-bold transition-all shadow-none" (click)="toggleClock()">
+                 <i class="bi me-2" [class.bi-play-fill]="!isClockedIn" [class.bi-stop-fill]="isClockedIn"></i>
+                 {{ isClockedIn ? 'Clock Out' : 'Clock In' }}
+             </button>
+             <div class="time-display fw-bold text-primary small" *ngIf="isClockedIn">
+                 Working since: {{ displayClockIn }}
+             </div>
+        </div>
+    </div>
+
+    <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+        <div class="card-header bg-white py-3 border-0">
+             <h6 class="m-0 fw-bold">{{ role === 'admin' ? 'Organization Attendance Report' : 'My Attendance Logs' }}</h6>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0 small text-center">
+                    <thead class="bg-light text-muted">
+                        <tr>
+                            <th *ngIf="role === 'admin'">Employee</th>
+                            <th>Date</th>
+                            <th>Check In</th>
+                            <th>Check Out</th>
+                            <th>Total Hours</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let rec of attendanceRecords">
+                            <td *ngIf="role === 'admin'" class="fw-bold">{{ rec.employeeName }}</td>
+                            <td>{{ rec.date }}</td>
+                            <td>{{ rec.checkIn }}</td>
+                            <td>{{ rec.checkOut }}</td>
+                            <td>{{ rec.hours }} hrs</td>
+                            <td>
+                                <span class="badge rounded-pill" 
+                                      [class.bg-success]="rec.status === 'Present'"
+                                      [class.bg-danger]="rec.status === 'Absent'">
+                                    {{ rec.status }}
+                                </span>
+                            </td>
+                        </tr>
+                        <tr *ngIf="attendanceRecords.length === 0">
+                            <td [attr.colspan]="role === 'admin' ? 6 : 5" class="py-5 text-muted">No attendance records for this period.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.clock-widget { border: 1px solid rgba(0,0,0,0.05); }
+.transition-all { transition: all 0.3s ease; }
+</style>

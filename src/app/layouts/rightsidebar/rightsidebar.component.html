@@ -1,0 +1,131 @@
+<div class="right-sidebar px-4 py-4 bg-white h-100 overflow-auto border-start shadow-sm">
+  
+  <!-- Calendar Widget -->
+  <div class="sidebar-section mb-5">
+      <h6 class="mb-3 text-dark fw-bold small text-capitalize">{{ currentMonthName }}</h6>
+      <table class="table table-sm text-center calendar-table mb-0">
+          <thead>
+              <tr>
+                  <th>Mo</th><th>Tu</th><th>We</th><th>Th</th><th>Fr</th><th>Sa</th><th>Su</th>
+              </tr>
+          </thead>
+          <tbody>
+              <!-- Simplified static calendar for high-parity look, matching the hardcoded design vibe -->
+              <tr><td class="text-muted opacity-50">30</td><td class="text-muted opacity-50">31</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td></tr>
+              <tr><td>6</td><td>7</td><td>8</td><td>9</td><td>10</td><td>11</td><td>12</td></tr>
+              <tr><td>13</td><td>14</td><td>15</td><td>16</td><td>17</td><td>18</td><td>19</td></tr>
+              <tr><td>20</td><td>21</td><td>22</td><td>23</td><td>24</td><td>25</td><td>26</td></tr>
+              <tr><td>27</td><td>28</td><td>29</td><td>30</td><td class="text-muted opacity-50">1</td><td class="text-muted opacity-50">2</td><td class="text-muted opacity-50">3</td></tr>
+          </tbody>
+      </table>
+  </div>
+
+  <!-- Todo List -->
+  <div class="sidebar-section mb-5">
+      <div class="d-flex align-items-center justify-content-between mb-3">
+          <div class="d-flex align-items-center gap-2">
+              <h6 class="m-0 fw-bold small">To do List</h6>
+              <i class="bi bi-journal-text text-muted"></i>
+          </div>
+          <span class="badge rounded-pill bg-light text-primary smaller">{{ todos.length }} tasks</span>
+      </div>
+      
+      <div class="todo-input-group mb-4">
+          <input type="text" placeholder="Add some task ...." [(ngModel)]="newTodoText" (keyup.enter)="addTodo()">
+          <button class="btn btn-primary btn-sm rounded-pill px-3" (click)="addTodo()">Add</button>
+      </div>
+      
+      <div class="todo-items d-flex flex-column gap-2">
+          <div *ngFor="let todo of todos; let i = index" class="todo-card d-flex align-items-center justify-content-between p-2 rounded-2 border">
+              <div class="d-flex align-items-center gap-3 flex-grow-1">
+                  <span class="index text-muted smallest">{{ i + 1 }}</span>
+                  <div class="flex-grow-1">
+                      <input *ngIf="editingTodoId === todo.id" type="text" class="form-control form-control-sm border-0 bg-transparent p-0" 
+                             [(ngModel)]="editTodoText" (keyup.enter)="saveEdit(todo)" (blur)="cancelEdit()" autofocus>
+                      <span *ngIf="editingTodoId !== todo.id" class="task-text small" 
+                            [class.text-decoration-line-through]="todo.completed" (click)="toggleTodo(todo)">
+                          {{ todo.task }}
+                      </span>
+                  </div>
+              </div>
+              <div class="actions d-flex gap-2">
+                  <i class="bi bi-pencil-square text-muted pointer smallest" (click)="startEdit(todo)"></i>
+                  <i class="bi bi-trash text-muted pointer smallest" (click)="deleteTodo(todo.id)"></i>
+              </div>
+          </div>
+          
+          <div *ngIf="todos.length === 0" class="text-center py-4 bg-light rounded-3 text-muted smallest">
+              No tasks for today.
+          </div>
+      </div>
+  </div>
+
+  <!-- Upcoming Holidays Accordion -->
+  <div class="accordion accordion-flush custom-accordion mb-2" id="holidayAccordion">
+    <div class="accordion-item border-none">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed py-3 px-0 fw-bold small shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHolidays">
+          Upcoming Holidays
+        </button>
+      </h2>
+      <div id="collapseHolidays" class="accordion-collapse collapse" data-bs-parent="#holidayAccordion">
+        <div class="accordion-body px-0 py-2 smallest">
+            <div *ngFor="let h of holidays" class="d-flex justify-content-between mb-2 pb-2 border-bottom border-light">
+                <span class="text-dark">{{h.name}}</span>
+                <span class="text-primary fw-semibold">{{h.date | date: 'dd MMM'}}</span>
+            </div>
+            <div *ngIf="holidays.length === 0" class="text-muted py-2">No upcoming holidays.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Notification Section -->
+  <div class="notification-header d-flex align-items-center gap-2 mb-3 mt-4">
+      <h6 class="m-0 fw-bold small">Notification</h6>
+      <i class="bi bi-bell text-muted"></i>
+  </div>
+
+  <div class="accordion accordion-flush custom-accordion" id="notifAccordion">
+    <div class="accordion-item border-none">
+      <button class="accordion-button collapsed py-2 px-0 fw-bold small shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#birthdays">
+        Upcoming Birthdays
+      </button>
+      <div id="birthdays" class="accordion-collapse collapse" data-bs-parent="#notifAccordion">
+        <div class="accordion-body px-0 smallest">
+            <div *ngFor="let b of upcomingBirthdays" class="mb-2">🎉 {{ b.name }} - {{ b.date }}</div>
+            <div *ngIf="upcomingBirthdays.length === 0" class="text-muted">No birthdays this month.</div>
+        </div>
+      </div>
+    </div>
+    <div class="accordion-item border-none">
+      <button class="accordion-button collapsed py-2 px-0 fw-bold small shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#anniversary">
+        Upcoming Anniversary
+      </button>
+      <div id="anniversary" class="accordion-collapse collapse" data-bs-parent="#notifAccordion">
+        <div class="accordion-body px-0 smallest">No anniversaries today.</div>
+      </div>
+    </div>
+    <div class="accordion-item border-none">
+      <button class="accordion-button collapsed py-2 px-0 fw-bold small shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#events">
+        Dyotis Events
+      </button>
+      <div id="events" class="accordion-collapse collapse" data-bs-parent="#notifAccordion">
+        <div class="accordion-body px-0 smallest text-muted">No upcoming events.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.smallest { font-size: 0.65rem; }
+.shadow-xs { box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+.bg-light-blue { background-color: #f0f7ff !important; }
+.todo-item .actions { opacity: 0; transition: opacity 0.2s; }
+.todo-item:hover .actions { opacity: 1; }
+.todo-item:hover { transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.05); }
+.edit-btn:hover { color: #0d6efd !important; }
+.delete-btn:hover { color: #dc3545 !important; }
+.transition-all { transition: all 0.3s ease; }
+.pointer { cursor: pointer; }
+</style>

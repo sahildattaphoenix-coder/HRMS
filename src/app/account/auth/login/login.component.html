@@ -1,0 +1,48 @@
+<div class="login-page d-flex align-items-center justify-content-center vh-100 bg-light">
+    <div class="login-card p-5 bg-white shadow-lg rounded-4" style="width: 100%; max-width: 450px;">
+        <div class="text-center mb-4">
+            <h2 class="text-primary fw-bold text-uppercase">Dyotis</h2>
+            <p class="text-muted">Welcome back! Please login to your account.</p>
+        </div>
+
+        <div *ngIf="error" class="alert alert-danger small py-2 mb-3">
+            {{ error }}
+        </div>
+
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+            <div class="mb-3">
+                <label class="form-label small fw-bold text-secondary">Email address</label>
+                <div class="input-group">
+                    <span class="input-group-text bg-light border-end-0"><i class="bi bi-envelope text-muted"></i></span>
+                    <input type="email" formControlName="email" class="form-control bg-light border-start-0 shadow-none" placeholder="name@company.com">
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label small fw-bold text-secondary">Password</label>
+                <div class="input-group">
+                    <span class="input-group-text bg-light border-end-0"><i class="bi bi-lock text-muted"></i></span>
+                    <input [type]="showPassword ? 'text' : 'password'" formControlName="password" class="form-control bg-light border-start-0 border-end-0 shadow-none" placeholder="Enter your password">
+                    <button type="button" class="input-group-text bg-light border-start-0 text-muted cursor-pointer" (click)="togglePassword()">
+                        <i class="bi" [ngClass]="showPassword ? 'bi-eye-slash' : 'bi-eye'"></i>
+                    </button>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100 py-3 fw-bold rounded-3 shadow-sm mb-3" [disabled]="loading">
+                <span *ngIf="!loading">LOGIN</span>
+                <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
+                <span *ngIf="loading">Logging in...</span>
+            </button>
+
+            <div class="text-center">
+                <a href="#" class="text-decoration-none small text-muted">Forgot password?</a>
+            </div>
+        </form>
+
+        <div class="mt-4 pt-4 border-top text-center small text-muted">
+            <p>Admin: admin&#64;gmail.com / 123456</p>
+            <p>Employee: employee&#64;gmail.com / 123456</p>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,94 @@
+<div class="container-fluid p-0">
+    <div class="mb-4 d-flex justify-content-between align-items-center">
+        <h5 class="text-muted fw-bold m-0">My Project / Leave</h5>
+        <button class="btn btn-primary fw-bold px-4 rounded-3 shadow" (click)="openModal()">
+            <i class="bi bi-plus-lg me-2"></i> Apply Leave
+        </button>
+    </div>
+
+    <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+        <div class="card-header bg-white py-3 border-0">
+             <h6 class="m-0 fw-bold px-2">Leave History</h6>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0 small text-center">
+                    <thead class="bg-light text-muted">
+                        <tr>
+                            <th class="py-3">Leave Type</th>
+                            <th class="py-3">From Date</th>
+                            <th class="py-3">To Date</th>
+                            <th class="py-3">Reason</th>
+                            <th class="py-3">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let req of requests">
+                            <td class="fw-bold">{{req.type}}</td>
+                            <td>{{req.startDate}}</td>
+                            <td>{{req.endDate}}</td>
+                            <td><small class="text-muted truncate d-inline-block" style="max-width: 200px;">{{req.reason}}</small></td>
+                            <td>
+                                <span class="badge rounded-pill" 
+                                      [class.bg-warning]="req.status === 'Pending'"
+                                      [class.bg-success]="req.status === 'Approved'"
+                                      [class.bg-danger]="req.status === 'Rejected'">
+                                    {{req.status}}
+                                </span>
+                            </td>
+                        </tr>
+                        <tr *ngIf="requests && requests.length === 0">
+                            <td colspan="5" class="py-5 text-muted">You haven't applied for any leave yet.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Apply Leave Modal -->
+    <div class="leave-modal-backdrop" *ngIf="showApplyModal" (click)="closeModal()"></div>
+    <div class="leave-modal bg-white rounded-4 shadow-lg p-4" *ngIf="showApplyModal">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h5 class="fw-bold m-0 text-primary">Apply for Leave</h5>
+            <button class="btn-close shadow-none" (click)="closeModal()"></button>
+        </div>
+
+        <form [formGroup]="leaveForm" (ngSubmit)="submitLeave()">
+            <div class="mb-3">
+                <label class="form-label small fw-bold text-muted">Leave Type</label>
+                <select formControlName="type" class="form-select bg-light border-0 py-2 shadow-none">
+                    <option value="Sick Leave">Sick Leave</option>
+                    <option value="Casual Leave">Casual Leave</option>
+                    <option value="Paid Leave">Paid Leave</option>
+                </select>
+            </div>
+            <div class="row g-3 mb-3">
+                <div class="col-md-6">
+                    <label class="form-label small fw-bold text-muted">Start Date</label>
+                    <input type="date" formControlName="startDate" class="form-control bg-light border-0 py-2 shadow-none">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label small fw-bold text-muted">End Date</label>
+                    <input type="date" formControlName="endDate" class="form-control bg-light border-0 py-2 shadow-none">
+                </div>
+            </div>
+            <div class="mb-4">
+                <label class="form-label small fw-bold text-muted">Reason</label>
+                <textarea formControlName="reason" class="form-control bg-light border-0 py-2 shadow-none" rows="3" placeholder="Enter reason for leave..."></textarea>
+            </div>
+
+            <div class="d-flex gap-2">
+                <button type="button" class="btn btn-light w-100 fw-bold py-2 rounded-3" (click)="closeModal()">Cancel</button>
+                <button type="submit" class="btn btn-primary w-100 fw-bold py-2 rounded-3" [disabled]="leaveForm.invalid">Submit Application</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<style>
+.leave-modal-backdrop { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.3); z-index: 1050; backdrop-filter: blur(3px); }
+.leave-modal { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 100%; max-width: 450px; z-index: 1060; }
+.truncate { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.transition-all { transition: all 0.3s ease; }
+</style>

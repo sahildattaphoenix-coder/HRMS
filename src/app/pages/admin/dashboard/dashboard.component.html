@@ -1,87 +1,253 @@
-<div class="dashboard">
-  <!-- HEADER STRIP -->
-  <div class="top-bar">
-    <h4>HRMS Company</h4>
-    <span>Good Afternoon, {{ userName }} 👋</span>
-  </div>
-
-  <!-- TOP CARDS -->
-  <div class="row g-4 mb-4">
-    <div class="col-md-3" *ngFor="let card of stats">
-      <div class="stat-card text-center">
-        <i class="bi" [ngClass]="card.icon"></i>
-        <h6>{{ card.title }}</h6>
-        <h4>{{ card.value }}</h4>
+<div class="dashboard-wrapper">
+  <!-- Stats Row (Admin) -->
+  <div class="row g-3 mb-4">
+    <div class="col-xl-3 col-md-6 col-12">
+      <div class="stat-card shadow-sm border-0">
+        <div class="icon-box bg-red-soft"><i class="bi bi-people"></i></div>
+        <div class="stat-content">
+          <span class="stat-val">{{ adminStats.teamCount }}</span>
+          <span class="stat-label">My Team</span>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-3 col-md-6 col-12">
+      <div class="stat-card shadow-sm border-0">
+        <div class="icon-box bg-blue-pale-soft"><i class="bi bi-person-check"></i></div>
+        <div class="stat-content">
+          <span class="stat-val">{{ adminStats.active }}</span>
+          <span class="stat-label">Active</span>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-3 col-md-6 col-12">
+      <div class="stat-card shadow-sm border-0">
+        <div class="icon-box bg-yellow-soft"><i class="bi bi-house-door"></i></div>
+        <div class="stat-content">
+          <span class="stat-val">{{ adminStats.wfh }}</span>
+          <span class="stat-label">WFH</span>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-3 col-md-6 col-12">
+      <div class="stat-card shadow-sm border-0">
+        <div class="icon-box bg-red-vivid-soft"><i class="bi bi-person-x"></i></div>
+        <div class="stat-content">
+          <span class="stat-val">{{ adminStats.absent }}</span>
+          <span class="stat-label">Absent</span>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- MIDDLE SECTION -->
-  <div class="row g-4 mb-4">
-    <!-- CHART (LEFT - 8 columns) -->
-    <div class="col-lg-8">
-      <div class="box">
-        <h5 class="mb-3">Monthly Overview</h5>
-
+  <!-- Charts Row -->
+  <div class="row g-2 mb-4">
+    <div class="col-lg-5">
+      <div class="chart-container shadow-sm p-4">
+        <h6 class="chart-title mb-4">Attendance Performances</h6>
         <apx-chart
-          *ngIf="isChartReady"
-          [series]="chartOptions.series"
-          [chart]="chartOptions.chart"
-          [xaxis]="chartOptions.xaxis"
-          [plotOptions]="chartOptions.plotOptions"
-          [dataLabels]="chartOptions.dataLabels"
+          [series]="barChartOptions.series"
+          [chart]="barChartOptions.chart"
+          [plotOptions]="barChartOptions.plotOptions"
+          [colors]="barChartOptions.colors"
+          [xaxis]="barChartOptions.xaxis"
+          [dataLabels]="barChartOptions.dataLabels"
+        ></apx-chart>
+        <div class="chart-legend d-flex justify-content-center gap-4 mt-3">
+          <span class="legend-item"
+            ><span class="dot bg-success"></span>Present</span
+          >
+          <span class="legend-item"
+            ><span class="dot bg-grey"></span>Absent</span
+          >
+          <span class="legend-item"
+            ><span class="dot bg-danger"></span>Off</span
+          >
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-7">
+      <div class="chart-container shadow-sm p-4">
+        <h6 class="chart-title mb-4">My Current Project</h6>
+        <div class="d-flex align-items-center flex-wrap gap-2">
+          <div class="pie-wrapper flex-grow-1">
+            <apx-chart
+              [series]="pieChartOptions.series"
+              [chart]="pieChartOptions.chart"
+              [labels]="pieChartOptions.labels"
+              [colors]="pieChartOptions.colors"
+              [responsive]="pieChartOptions.responsive"
+              [legend]="pieChartOptions.legend"
+            ></apx-chart>
+          </div>
+          <div class="project-info-card shadow-sm p-4 rounded-4 text-center">
+            <span class="d-block text-muted small mb-2">Project 1</span>
+            <div class="project-pill bg-white py-2 px-3 rounded shadow-sm">
+              <span class="fw-bold text-primary smallest">HRMS PROJECT</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row g-4 mb-4">
+    <!-- Left: Leave Summary -->
+    <div class="col-lg-3">
+      <div class="content-box shadow-sm p-4 h-100">
+        <h6 class="chart-title mb-4">Leave summery</h6>
+        <div
+          class="d-flex flex-column align-items-center gap-4"
+          *ngIf="leaveSummary"
         >
-        </apx-chart>
+          <div
+            class="leave-card w-100 text-center py-2 bg-light-blue rounded-3"
+          >
+            <span class="d-block text-muted small mb-1">Available leave</span>
+          </div>
+
+          <div
+            class="circle-progress position-relative d-flex align-items-center justify-content-center"
+          >
+            <svg width="120" height="120">
+              <circle
+                cx="60"
+                cy="60"
+                r="54"
+                fill="none"
+                stroke="#e2e8f0"
+                stroke-width="8"
+              ></circle>
+              <circle
+                cx="60"
+                cy="60"
+                r="54"
+                fill="none"
+                stroke="#3b82f6"
+                stroke-width="8"
+                stroke-dasharray="340"
+                [attr.stroke-dashoffset]="
+                  340 - (340 * leaveSummary.balance) / leaveSummary.total
+                "
+              ></circle>
+            </svg>
+            <div class="circle-val fw-bold fs-4">
+              {{ leaveSummary.balance }}
+            </div>
+          </div>
+
+          <div class="w-100 d-flex flex-column gap-2">
+            <div
+              class="summary-pill bg-light text-muted py-2 px-3 rounded-pill small"
+            >
+              Taken leave - {{ leaveSummary.taken }}
+            </div>
+            <div
+              class="summary-pill bg-light text-muted py-2 px-3 rounded-pill small"
+            >
+              Annual leave - {{ leaveSummary.total }}
+            </div>
+          </div>
+        </div>
+        <div *ngIf="!leaveSummary" class="text-center py-5 text-muted small">
+          Loading summary...
+        </div>
       </div>
     </div>
 
-    <!-- LEAVE SUMMARY (RIGHT - 4 columns) -->
-    <div class="col-lg-4">
-      <div class="box">
-        <h5 class="mb-3">Leave Summary</h5>
-        <ul class="leave-list">
-          <li>Leave Taken <span>10</span></li>
-          <li>Total Leave <span>30</span></li>
-          <li>Leave Balance <span>5</span></li>
-          <li>Sick Leave <span>5</span></li>
-        </ul>
+    <!-- Right: Combined Tables -->
+    <div class="col-lg-9">
+      <div class="content-box shadow-sm mb-4 overflow-hidden">
+        <h6 class="chart-title p-4 pb-0 mb-0">Pending Approval by me</h6>
+        <div class="table-responsive p-4">
+          <table class="table text-center align-middle dashboard-table border">
+            <thead>
+              <tr>
+                <th>Sr.No</th>
+                <th>Em.Id</th>
+                <th>Em.Name</th>
+                <th>From Date</th>
+                <th>To Date</th>
+                <th>Leave Type</th>
+                <th>Reasons</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody *ngIf="pendingApprovals.length > 0; else noPending">
+              <tr *ngFor="let leave of pendingApprovals; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{ leave.employeeId }}</td>
+                <td>{{ leave.employeeName }}</td>
+                <td>{{ leave.startDate | date : "dd/MM/yyyy" }}</td>
+                <td>{{ leave.endDate | date : "dd/MM/yyyy" }}</td>
+                <td>{{ leave.type }}</td>
+                <td class="text-muted text-truncate" style="max-width: 100px">
+                  {{ leave.reason }}
+                </td>
+                <td>
+                  <span
+                    class="status-pill status-approved px-4 cursor-pointer"
+                    routerLink="/admin/leave-requests"
+                    >Action</span
+                  >
+                </td>
+              </tr>
+            </tbody>
+            <ng-template #noPending>
+              <tbody>
+                <tr>
+                  <td colspan="9" class="py-4 text-muted small">
+                    No pending approvals.
+                  </td>
+                </tr>
+              </tbody>
+            </ng-template>
+          </table>
+        </div>
+      </div>
+
+      <div class="content-box shadow-sm overflow-hidden">
+        <h6 class="chart-title p-4 pb-0 mb-0">My Pending Request</h6>
+        <div class="table-responsive p-4">
+          <table class="table text-center align-middle dashboard-table border">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Leave Type</th>
+                <th>Name</th>
+                <th>Short Summary</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody *ngIf="myPendingRequests.length > 0; else noMyRequests">
+              <tr *ngFor="let leave of myPendingRequests">
+                <td>{{ leave.id }}</td>
+                <td>{{ leave.type }}</td>
+                <td>{{ leave.employeeName }}</td>
+                <td class="text-muted text-truncate" style="max-width: 150px">
+                  {{ leave.reason }}
+                </td>
+                <td>
+                  <span class="status-pill status-pending px-4">{{
+                    leave.status
+                  }}</span>
+                </td>
+              </tr>
+            </tbody>
+            <ng-template #noMyRequests>
+              <tbody>
+                <tr>
+                  <td colspan="5" class="py-4 text-muted small">
+                    No pending requests.
+                  </td>
+                </tr>
+              </tbody>
+            </ng-template>
+          </table>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- ATTENDANCE TABLE -->
-  <div class="box">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-      <h5>Attendance Summary</h5>
-      <input class="form-control w-25" placeholder="Search..." />
-    </div>
-
-    <table class="table table-bordered">
-      <thead>
-        <tr>
-          <th>Date</th>
-          <th>Day</th>
-          <th>Name</th>
-          <th>Clock In</th>
-          <th>Clock Out</th>
-          <th>Working Hr</th>
-          <th>Overtime</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>21/11/2023</td>
-          <td>Monday</td>
-          <td>User</td>
-          <td>9:30 AM</td>
-          <td>6:30 PM</td>
-          <td>12 hr</td>
-          <td>4 hr</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <!-- FOOTER -->
-  <footer class="footer">© 2023 HRMS. All rights reserved.</footer>
+  <div class="text-center py-4 text-muted small fw-bold">Copyright Dyotis</div>
 </div>
+

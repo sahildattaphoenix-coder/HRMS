@@ -1,0 +1,5 @@
+/* Styles for My Projects */
+.project-card {
+    transition: transform 0.2s;
+    &:hover { transform: translateY(-5px); }
+}

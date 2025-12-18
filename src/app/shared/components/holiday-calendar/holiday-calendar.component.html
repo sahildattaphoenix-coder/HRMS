@@ -1,0 +1,53 @@
+<div class="calendar-container">
+  <div class="calendar-header mb-3">
+    <button class="btn btn-light">Holidays Calendar</button>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6 mb-4" *ngFor="let cal of calendars">
+      <div class="card border-0">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <h5 class="fw-bold text-secondary">{{ cal.month }} {{ cal.year }}</h5>
+            <div>
+              <i class="bi bi-chevron-left me-3 text-muted"></i>
+              <i class="bi bi-chevron-right text-muted"></i>
+            </div>
+          </div>
+
+          <div class="days-grid">
+            <div class="day-name">Mo</div>
+            <div class="day-name">Tu</div>
+            <div class="day-name">We</div>
+            <div class="day-name">Th</div>
+            <div class="day-name">Fr</div>
+            <div class="day-name">Sa</div>
+            <div class="day-name">Su</div>
+
+            <ng-container *ngFor="let day of cal.days">
+               <div class="date-cell" 
+                    [ngClass]="{
+                      'holiday': day.status === 'holiday', 
+                      'absent': day.status === 'absent',
+                      'empty': !day.date
+                    }">
+                 {{ day.date }}
+               </div>
+            </ng-container>
+          </div>
+
+          <div class="legend mt-4 d-flex gap-4">
+            <div class="d-flex align-items-center">
+              <span class="dot holiday-dot"></span>
+              <span class="ms-2 text-muted">Holidays</span>
+            </div>
+            <div class="d-flex align-items-center">
+              <span class="dot absent-dot"></span>
+              <span class="ms-2 text-muted">Absent</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

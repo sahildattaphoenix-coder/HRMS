@@ -1,0 +1,98 @@
+<div class="container-fluid p-0">
+    <div class="mb-4 d-flex justify-content-between align-items-center">
+        <h5 class="text-muted fw-bold m-0"><i class="bi bi-grid-3x3-gap me-2"></i> My project / Current project</h5>
+        <div class="dropdown" *ngIf="projects.length > 1">
+            <button class="btn btn-white bg-white shadow-sm dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                More Project
+            </button>
+            <ul class="dropdown-menu shadow border-0">
+                <li *ngFor="let p of projects"><a class="dropdown-item" (click)="selectProject(p)">{{p.title}}</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="row g-4" *ngIf="selectedProject">
+        <!-- Project Progress & Info Card -->
+        <div class="col-lg-8">
+            <div class="bg-white rounded-4 shadow-sm p-4 h-100">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h6 class="fw-bold m-0">My Current Project</h6>
+                </div>
+                
+                <div class="row align-items-center mb-4">
+                    <div class="col-md-5 text-center">
+                        <!-- Apex Chart Placeholder / Progress Circle -->
+                        <div class="position-relative d-inline-block">
+                             <div class="progress-circle" [style.--value]="selectedProject.progress">
+                                 <h4 class="m-0 fw-bold">{{selectedProject.progress}}%</h4>
+                             </div>
+                        </div>
+                    </div>
+                    <div class="col-md-7">
+                        <div class="project-banner bg-primary bg-opacity-10 border border-primary border-opacity-25 rounded-4 p-4 text-center">
+                            <span class="badge bg-white text-primary px-3 py-2 mb-2 shadow-sm rounded-pill">Project 1</span>
+                            <h4 class="text-primary fw-bold mb-0 text-uppercase">{{selectedProject.title}} PROJECT</h4>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project Team -->
+                <div class="mb-4">
+                    <h6 class="fw-bold mb-3">{{selectedProject.title}} Team</h6>
+                    <div class="d-flex flex-wrap gap-2">
+                        <div *ngFor="let member of selectedProject.team" class="team-member-card bg-light p-2 rounded-3 text-center border" style="width: 100px;">
+                            <img [src]="member.img" class="rounded-circle mb-2 border border-2 border-white shadow-sm" width="45" height="45">
+                            <div class="small fw-bold text-truncate">{{member.name}}</div>
+                            <div class="text-muted" style="font-size: 0.6rem;">UI developer</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project Info Details -->
+                <div class="project-info-section mt-4 pt-4 border-top">
+                    <h6 class="fw-bold mb-3">Project info</h6>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <div class="bg-light p-3 rounded-3 border">
+                                <label class="small text-muted mb-1 d-block">Project Title</label>
+                                <div class="fw-bold">{{selectedProject.title}} PROJECT</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="bg-light p-3 rounded-3 border">
+                                <label class="small text-muted mb-1 d-block">Start Date</label>
+                                <div class="fw-bold">{{selectedProject.startDate}}</div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="bg-light p-3 rounded-3 border">
+                                <label class="small text-muted mb-1 d-block">Project Summary</label>
+                                <div class="fw-bold text-uppercase">{{selectedProject.title}} PROJECT {{selectedProject.title}} PROJECT {{selectedProject.title}} PROJECT</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mx-auto">
+                            <div class="bg-light p-3 rounded-3 border">
+                                <label class="small text-muted mb-1 d-block text-center">End Date</label>
+                                <div class="fw-bold text-center">{{selectedProject.endDate}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.progress-circle {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, white 79%, transparent 80% 100%), conic-gradient(#0d6efd calc(var(--value) * 1%), #e9ecef 0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.transition-all { transition: all 0.3s ease; }
+.team-member-card:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+</style>

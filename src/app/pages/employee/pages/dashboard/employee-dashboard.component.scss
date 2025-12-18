@@ -1,0 +1,58 @@
+.dashboard-wrapper {
+  padding: 1.5rem;
+  background-color: #f8fafc;
+}
+
+.premium-stat-card {
+    border: 1px solid #f1f5f9;
+    &:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05) !important;
+        border-color: #3b82f633;
+    }
+}
+
+.icon-box-premium {
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+}
+
+.bg-success-soft { background: #f0fdf4; }
+.bg-primary-soft { background: #eff6ff; }
+.bg-warning-soft { background: #fffbeb; }
+.bg-info-soft { background: #f0f9ff; }
+
+.status-pill-small {
+    padding: 0.35rem 1rem;
+    border-radius: 50px;
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    &.approved { background: #f0fdf4; color: #16a34a; }
+    &.pending { background: #fffbeb; color: #d97706; }
+    &.rejected { background: #fef2f2; color: #dc2626; }
+}
+
+.transition-all { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+.smallest { font-size: 0.65rem; }
+.cursor-pointer { cursor: pointer; }
+
+/* Customizing ApexCharts inside high-fidelity containers */
+apx-chart {
+    min-height: 250px;
+}
+
+.bg-light { background-color: #f8fafc !important; }
+
+/* Leave Summary Cards at footer */
+.summary-card-footer {
+     &:hover { transform: scale(1.02); }
+}
+
+tr { transition: all 0.2s; }
+tbody tr:hover { background-color: #f8fafc !important; }

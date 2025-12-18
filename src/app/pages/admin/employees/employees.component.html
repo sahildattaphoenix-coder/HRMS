@@ -1,36 +1,146 @@
-<div class="box">
-
-  <div class="d-flex justify-content-between align-items-center mb-3">
-    <h5>Employees</h5>
-    <button class="btn btn-primary btn-sm">
-      + Add Employee
-    </button>
+<div class="employees-wrapper">
+  <!-- Header -->
+  <div class="row align-items-center mb-4">
+    <div class="col-md-4">
+      <h5 class="fw-bold m-0 text-dark">Workforce Management</h5>
+      <small class="text-muted">Manage all your employees in one place</small>
+    </div>
+    <div class="col-md-8 text-md-end mt-3 mt-md-0 d-flex gap-2 justify-content-md-end">
+      <div class="search-box position-relative">
+        <i class="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-3 text-muted small"></i>
+        <input type="text" class="form-control ps-5 border-0 shadow-sm rounded-3" 
+               placeholder="Search Employee..." [(ngModel)]="searchTerm" (input)="applyFilters()">
+      </div>
+      <select class="form-select border-0 shadow-sm rounded-3 w-auto" [(ngModel)]="selectedDept" (change)="applyFilters()">
+        <option *ngFor="let dept of departments" [value]="dept">{{ dept }}</option>
+      </select>
+      <button class="btn btn-primary shadow-sm rounded-pill px-4" (click)="openAddModal()">
+        <i class="bi bi-plus-lg me-2"></i>Add Employee
+      </button>
+    </div>
   </div>
 
-  <!-- LOADING -->
-  <div *ngIf="loading" class="text-center py-5">
-    Loading employees...
+  <!-- Table Container -->
+  <div class="bg-white rounded-4 shadow-sm overflow-hidden">
+    <!-- LOADING -->
+    <div *ngIf="loading" class="text-center py-5">
+      <div class="spinner-border text-primary mb-3"></div>
+      <p class="text-muted small">Loading workforce data...</p>
+    </div>
+
+  <!-- Cards Grid -->
+  <div class="row g-4" *ngIf="!loading">
+    <div class="col-xl-3 col-lg-4 col-md-6" *ngFor="let emp of filteredEmployees; let i = index">
+      <div class="employee-card h-100 bg-white rounded-4 shadow-sm border-0 transition-all p-4 text-center position-relative overflow-hidden">
+        <!-- Status Indicator -->
+        <div class="status-indicator" [ngClass]="emp.status.toLowerCase()"></div>
+        
+        <!-- Actions Dropdown/Menu (Simplified buttons for now) -->
+        <div class="card-actions position-absolute top-0 end-0 p-3 d-flex gap-2">
+           <button class="btn btn-icon-xs rounded-circle bg-light border-0" (click)="openEditModal(emp)">
+              <i class="bi bi-pencil-fill text-primary smallest"></i>
+           </button>
+           <button class="btn btn-icon-xs rounded-circle bg-light border-0" (click)="deleteEmployee(emp.id)">
+              <i class="bi bi-trash-fill text-danger smallest"></i>
+           </button>
+        </div>
+
+        <div class="avatar-box mb-3 mx-auto">
+            <img [src]="emp.img || 'assets/images/users/user-1.jpg'" class="rounded-circle shadow-sm p-1 border" width="80" height="80">
+        </div>
+        
+        <h6 class="fw-bold text-dark mb-1">{{ emp.name }}</h6>
+        <div class="smallest text-muted mb-2 text-uppercase fw-semibold">{{ emp.designation }}</div>
+        
+        <div class="dept-badge mb-3">
+             <span class="badge bg-blue-soft text-primary rounded-pill px-3 py-2 small fw-normal">{{ emp.department }}</span>
+        </div>
+
+        <div class="border-top pt-3 mt-2">
+            <div class="d-flex align-items-center justify-content-center gap-2 mb-1">
+                <i class="bi bi-envelope text-muted smallest"></i>
+                <span class="smallest text-muted text-truncate" style="max-width: 150px;">{{ emp.email }}</span>
+            </div>
+            <div class="d-flex align-items-center justify-content-center gap-2">
+                <i class="bi bi-hash text-muted smallest"></i>
+                <span class="smallest text-muted">ID: {{ emp.empNo }}</span>
+            </div>
+        </div>
+
+        <div class="mt-4">
+             <span class="status-pill-small" [ngClass]="emp.status.toLowerCase()">
+                {{ emp.status }}
+             </span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-12 py-5 text-center" *ngIf="filteredEmployees.length === 0">
+      <div class="text-muted fs-1 mb-2"><i class="bi bi-people"></i></div>
+      <h6 class="text-muted m-0">No employees found matching your criteria.</h6>
+    </div>
+  </div>
   </div>
 
-  <!-- TABLE -->
-  <table *ngIf="!loading" class="table table-hover">
-    <thead>
-      <tr>
-        <th>#</th>
-        <th>Name</th>
-        <th>Department</th>
-        <th>Salary</th>
-      </tr>
-    </thead>
+  <!-- Add/Edit Modal -->
+  <div class="custom-modal-backdrop" *ngIf="showModal" (click)="closeModal()"></div>
+  <div class="custom-modal bg-white rounded-4 shadow-lg p-4" *ngIf="showModal">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h5 class="fw-bold m-0">{{ isEditing ? 'Edit' : 'Add' }} Employee</h5>
+      <button class="btn-close shadow-none" (click)="closeModal()"></button>
+    </div>
 
-    <tbody>
-      <tr *ngFor="let emp of employees; let i = index">
-        <td>{{ i + 1 }}</td>
-        <td>{{ emp.name }}</td>
-        <td>{{ emp.department }}</td>
-        <td>₹ {{ emp.salary }}</td>
-      </tr>
-    </tbody>
-  </table>
+    <form [formGroup]="employeeForm" (ngSubmit)="onSubmit()">
+      <div class="row g-3">
+        <div class="col-md-6 text-start">
+          <label class="form-label smallest fw-bold text-muted text-uppercase">Full Name</label>
+          <input type="text" class="form-control rounded-3" formControlName="name">
+        </div>
+        <div class="col-md-6 text-start">
+          <label class="form-label smallest fw-bold text-muted text-uppercase">Email Address</label>
+          <input type="email" class="form-control rounded-3" formControlName="email">
+        </div>
+        <div class="col-md-6 text-start" *ngIf="!isEditing">
+          <label class="form-label smallest fw-bold text-muted text-uppercase">Password</label>
+          <input type="password" class="form-control rounded-3" formControlName="password">
+        </div>
+        <div class="col-md-6 text-start">
+          <label class="form-label smallest fw-bold text-muted text-uppercase">Employee ID</label>
+          <input type="text" class="form-control rounded-3" formControlName="empNo">
+        </div>
+        <div class="col-md-6 text-start">
+          <label class="form-label smallest fw-bold text-muted text-uppercase">Department</label>
+          <select class="form-select rounded-3" formControlName="department">
+            <option *ngFor="let dept of departments.slice(1)" [value]="dept">{{ dept }}</option>
+          </select>
+        </div>
+        <div class="col-md-6 text-start">
+          <label class="form-label smallest fw-bold text-muted text-uppercase">Designation</label>
+          <input type="text" class="form-control rounded-3" formControlName="designation">
+        </div>
+        <div class="col-md-6 text-start">
+          <label class="form-label smallest fw-bold text-muted text-uppercase">Role</label>
+          <select class="form-select rounded-3" formControlName="role">
+            <option value="employee">Employee</option>
+            <option value="admin">Admin (Manager)</option>
+          </select>
+        </div>
+        <div class="col-md-6 text-start">
+          <label class="form-label smallest fw-bold text-muted text-uppercase">Status</label>
+          <select class="form-select rounded-3" formControlName="status">
+            <option value="Active">Active</option>
+            <option value="Inactive">Inactive</option>
+            <option value="On Leave">On Leave</option>
+          </select>
+        </div>
+      </div>
 
+      <div class="mt-5 text-end">
+        <button type="button" class="btn btn-light rounded-pill px-4 me-2" (click)="closeModal()">Cancel</button>
+        <button type="submit" class="btn btn-primary rounded-pill px-4" [disabled]="employeeForm.invalid">
+          {{ isEditing ? 'Update' : 'Add' }} Employee
+        </button>
+      </div>
+    </form>
+  </div>
 </div>

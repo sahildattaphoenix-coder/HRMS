@@ -1,0 +1,34 @@
+<div class="box">
+
+  <h5 class="mb-3">
+    Attendance
+    <span *ngIf="role === 'employee'" class="text-muted">
+      (My Records)
+    </span>
+  </h5>
+
+  <!-- LOADING -->
+  <div *ngIf="loading" class="text-center py-4">
+    Loading attendance...
+  </div>
+
+  <!-- TABLE -->
+  <table *ngIf="!loading" class="table table-hover">
+    <thead>
+      <tr>
+        <th *ngIf="role === 'admin'">Employee</th>
+        <th>Day</th>
+        <th>Working Hours</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let a of attendance">
+        <td *ngIf="role === 'admin'">{{ a.employeeName }}</td>
+        <td>{{ a.date | date:'mediumDate' }}</td>
+        <td>{{ a.hours || 0 }} hr</td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>

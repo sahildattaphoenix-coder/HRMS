@@ -1,0 +1,287 @@
+<ng-template #emptyState>
+    <div class="text-center p-5 bg-white rounded-4 shadow-sm mt-5 mx-4">
+        <div class="mb-3 text-muted fs-3"><i class="bi bi-person-bounding-box"></i></div>
+        <h5 class="fw-bold">No Profile Record Found</h5>
+        <p class="text-muted small">Please contact HR to set up your detailed employee record.</p>
+    </div>
+</ng-template>
+
+<div class="container-fluid p-0" *ngIf="employeeDetails; else emptyState">
+    <div class="mb-4">
+        <h5 class="text-muted fw-bold">My Profile / Profile</h5>
+    </div>
+
+    <!-- Profile Header Card -->
+    <div class="bg-white rounded-4 shadow-sm p-4 mb-4">
+        <div class="d-flex align-items-center gap-4">
+            <img [src]="user?.img || 'assets/images/users/user-1.jpg'" class="rounded-circle border border-4 border-light shadow-sm" width="100" height="100">
+            <div>
+                <h4 class="fw-bold m-0">{{employeeDetails.name}}</h4>
+                <div class="text-muted small">{{employeeDetails.email}}</div>
+            </div>
+        </div>
+        
+        <div class="mt-4 border-top pt-3 d-flex gap-4">
+            <button class="btn btn-link text-decoration-none fw-bold p-0 pb-1 border-bottom border-2" 
+                    [class.border-primary]="activeTab === 'profile'" [class.text-primary]="activeTab === 'profile'"
+                    [class.text-muted]="activeTab !== 'profile'" [class.border-transparent]="activeTab !== 'profile'"
+                    (click)="setTab('profile')">Profile</button>
+            <button class="btn btn-link text-decoration-none fw-bold p-0 pb-1 border-bottom border-2" 
+                    [class.border-primary]="activeTab === 'contact'" [class.text-primary]="activeTab === 'contact'"
+                    [class.text-muted]="activeTab !== 'contact'" [class.border-transparent]="activeTab !== 'contact'"
+                    (click)="setTab('contact')">Contact Info</button>
+        </div>
+    </div>
+
+    <!-- Info Grid -->
+    <div class="row g-4 mb-4">
+        <!-- Statistics Summary Row (Employee Stats like Image 0 top cards but for Profile) -->
+        <div class="col-md-3">
+             <div class="bg-white rounded-4 shadow-sm p-3 text-center border-bottom border-4 border-danger">
+                 <div class="icon-box bg-danger bg-opacity-10 text-danger rounded-circle mx-auto mb-2" style="width: 50px; height: 50px; display: flex; align-items: center; justify-content: center;">
+                     <i class="bi bi-person-badge"></i>
+                 </div>
+                 <h5 class="fw-bold m-0">{{employeeDetails.empNo}}</h5>
+                 <small class="text-muted text-uppercase" style="font-size: 0.6rem;">Employee NO</small>
+             </div>
+        </div>
+        <div class="col-md-3">
+             <div class="bg-white rounded-4 shadow-sm p-3 text-center border-bottom border-4 border-info">
+                 <div class="icon-box bg-info bg-opacity-10 text-info rounded-circle mx-auto mb-2" style="width: 50px; height: 50px; display: flex; align-items: center; justify-content: center;">
+                     <i class="bi bi-building"></i>
+                 </div>
+                 <h5 class="fw-bold m-0">{{employeeDetails.department}}</h5>
+                 <small class="text-muted text-uppercase" style="font-size: 0.6rem;">Department</small>
+             </div>
+        </div>
+        <div class="col-md-3">
+             <div class="bg-white rounded-4 shadow-sm p-3 text-center border-bottom border-4 border-warning">
+                 <div class="icon-box bg-warning bg-opacity-10 text-warning rounded-circle mx-auto mb-2" style="width: 50px; height: 50px; display: flex; align-items: center; justify-content: center;">
+                     <i class="bi bi-calendar-event"></i>
+                 </div>
+                 <h5 class="fw-bold m-0">{{employeeDetails.joiningDate}}</h5>
+                 <small class="text-muted text-uppercase" style="font-size: 0.6rem;">Joining Date</small>
+             </div>
+        </div>
+        <div class="col-md-3">
+             <div class="bg-white rounded-4 shadow-sm p-3 text-center border-bottom border-4 border-primary">
+                 <div class="icon-box bg-primary bg-opacity-10 text-primary rounded-circle mx-auto mb-2" style="width: 50px; height: 50px; display: flex; align-items: center; justify-content: center;">
+                     <i class="bi bi-briefcase"></i>
+                 </div>
+                 <h5 class="fw-bold m-0">{{employeeDetails.designation}}</h5>
+                 <small class="text-muted text-uppercase" style="font-size: 0.6rem;">Designation</small>
+             </div>
+        </div>
+    </div>
+
+    <!-- Tab Content -->
+    <div class="row g-4 mb-4">
+        <!-- Left Section (Dynamic based on tab) -->
+        <div class="col-lg-5">
+            <div class="bg-white rounded-4 shadow-sm p-4 h-100">
+                <ng-container *ngIf="activeTab === 'profile'">
+                    <h6 class="fw-bold mb-4 bg-light px-3 py-2 rounded d-inline-block">Attendance Performances</h6>
+                    <apx-chart
+                        [series]="barChartOptions.series"
+                        [chart]="barChartOptions.chart"
+                        [xaxis]="barChartOptions.xaxis"
+                        [plotOptions]="barChartOptions.plotOptions"
+                        [colors]="barChartOptions.colors"
+                        [dataLabels]="barChartOptions.dataLabels"
+                    ></apx-chart>
+                    <div class="d-flex justify-content-center gap-3 mt-1 small text-muted">
+                        <span><span class="badge rounded-circle bg-primary p-1"> </span> Present</span>
+                        <span><span class="badge rounded-circle bg-light border p-1"> </span> Absent</span>
+                    </div>
+                </ng-container>
+
+                <ng-container *ngIf="activeTab === 'contact'">
+                    <h6 class="fw-bold mb-4 bg-light px-3 py-2 rounded d-inline-block">Address Information</h6>
+                    <div class="info-list small">
+                        <div class="d-flex justify-content-between mb-3 border-bottom pb-2">
+                            <span class="text-muted">Country</span>
+                            <span class="fw-bold">{{employeeDetails.address.country}}</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-3 border-bottom pb-2">
+                            <span class="text-muted">State</span>
+                            <span class="fw-bold">{{employeeDetails.address.state}}</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-3 border-bottom pb-2">
+                            <span class="text-muted">City</span>
+                            <span class="fw-bold">{{employeeDetails.address.city}}</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-3 border-bottom pb-2">
+                            <span class="text-muted">PinCode</span>
+                            <span class="fw-bold">{{employeeDetails.address.pincode}}</span>
+                        </div>
+                         <div class="d-flex justify-content-between mb-3 border-bottom pb-2">
+                            <span class="text-muted">Street Address</span>
+                            <span class="fw-bold">{{employeeDetails.address.street}}</span>
+                        </div>
+                         <div class="d-flex justify-content-between mb-3 border-bottom pb-2">
+                            <span class="text-muted">Home Number</span>
+                            <span class="fw-bold">{{employeeDetails.address.homeNo}}</span>
+                        </div>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+
+        <!-- Right Section -->
+        <div class="col-lg-7">
+            <div class="bg-white rounded-4 shadow-sm p-4 h-100">
+                <ng-container *ngIf="activeTab === 'profile'">
+                    <h6 class="fw-bold mb-4 bg-light px-3 py-2 rounded d-inline-block">Personal Information</h6>
+                    <div class="info-list small">
+                         <div class="row mb-3">
+                             <div class="col-5 text-muted">Name</div>
+                             <div class="col-7 fw-bold">{{employeeDetails.name}}</div>
+                         </div>
+                         <div class="row mb-3">
+                             <div class="col-5 text-muted">Gender</div>
+                             <div class="col-7 fw-bold">{{employeeDetails.gender}}</div>
+                         </div>
+                         <div class="row mb-3">
+                              <div class="col-5 text-muted">Reporting To</div>
+                              <div class="col-7 fw-bold">{{employeeDetails.reportingTo}}</div>
+                          </div>
+                         <div class="row mb-3">
+                             <div class="col-5 text-muted">Date of Birth</div>
+                             <div class="col-7 fw-bold">{{employeeDetails.dob}}</div>
+                         </div>
+                         <div class="row mb-3">
+                             <div class="col-5 text-muted">Age</div>
+                             <div class="col-7 fw-bold">{{employeeDetails.age}}</div>
+                         </div>
+                         <div class="row mb-3">
+                             <div class="col-5 text-muted">Country</div>
+                             <div class="col-7 fw-bold">{{employeeDetails.country}}</div>
+                         </div>
+                         <div class="row mb-3">
+                             <div class="col-5 text-muted">Mobile Number</div>
+                             <div class="col-7 fw-bold">{{employeeDetails.mobile}}</div>
+                         </div>
+                         <div class="row mb-3">
+                             <div class="col-5 text-muted">Blood Group</div>
+                             <div class="col-7 fw-bold">{{employeeDetails.bloodGroup}}</div>
+                         </div>
+                         <div class="row mb-3">
+                             <div class="col-5 text-muted">Educational Qualification</div>
+                             <div class="col-7 fw-bold">{{employeeDetails.qualification}}</div>
+                         </div>
+                    </div>
+                </ng-container>
+
+                <ng-container *ngIf="activeTab === 'contact'">
+                    <h6 class="fw-bold mb-4 bg-light px-3 py-2 rounded d-inline-block">Bank Information</h6>
+                    <div class="info-list small px-4">
+                         <div class="row mb-4">
+                             <div class="col-5 text-muted text-end">Bank Name</div>
+                             <div class="col-7 fw-bold">{{employeeDetails.bank.name}}</div>
+                         </div>
+                         <div class="row mb-4">
+                             <div class="col-5 text-muted text-end">Account No</div>
+                             <div class="col-7 fw-bold">{{employeeDetails.bank.accountNo}}</div>
+                         </div>
+                         <div class="row mb-4">
+                             <div class="col-5 text-muted text-end">Ifsc code</div>
+                             <div class="col-7 fw-bold">{{employeeDetails.bank.ifsc}}</div>
+                         </div>
+                         <div class="row mb-4">
+                             <div class="col-5 text-muted text-end">PinCode</div>
+                             <div class="col-7 fw-bold">{{employeeDetails.bank.pincode}}</div>
+                         </div>
+                         <div class="row mb-4">
+                             <div class="col-5 text-muted text-end">Bank Location</div>
+                             <div class="col-7 fw-bold">{{employeeDetails.bank.location}}</div>
+                         </div>
+                         <div class="row mb-4">
+                             <div class="col-5 text-muted text-end">Aadhar No</div>
+                             <div class="col-7 fw-bold">{{employeeDetails.bank.aadhar}}</div>
+                         </div>
+                         <div class="row mb-4">
+                             <div class="col-5 text-muted text-end">PanCrd No</div>
+                             <div class="col-7 fw-bold">{{employeeDetails.bank.pan}}</div>
+                         </div>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+
+    <!-- Leave Summary (Bottom Cards) -->
+    <div class="mb-4">
+         <h6 class="fw-bold mb-3 bg-light px-3 py-2 rounded d-inline-block">Leave Summary</h6>
+         <div class="row g-4" *ngIf="leaveSummary">
+              <div class="col-md-3">
+                  <div class="bg-white rounded-4 shadow-sm p-4 text-center border-bottom border-4 border-danger border-opacity-50">
+                      <div class="mb-2"><i class="bi bi-calendar-x fs-2 text-danger"></i></div>
+                      <h4 class="fw-bold m-0">{{leaveSummary.taken}}</h4>
+                      <div class="text-muted small">Leave Taken</div>
+                  </div>
+              </div>
+              <div class="col-md-3">
+                  <div class="bg-white rounded-4 shadow-sm p-4 text-center border-bottom border-4 border-primary border-opacity-50">
+                      <div class="mb-2"><i class="bi bi-calendar-plus fs-2 text-primary"></i></div>
+                      <h4 class="fw-bold m-0">{{leaveSummary.total}}</h4>
+                      <div class="text-muted small">Total Leave</div>
+                  </div>
+              </div>
+              <div class="col-md-3">
+                  <div class="bg-white rounded-4 shadow-sm p-4 text-center border-bottom border-4 border-info border-opacity-50">
+                      <div class="mb-2"><i class="bi bi-calendar-check fs-2 text-info"></i></div>
+                      <h4 class="fw-bold m-0">{{leaveSummary.balance}}</h4>
+                      <div class="text-muted small">Leave Balance</div>
+                  </div>
+              </div>
+              <div class="col-md-3">
+                  <div class="bg-white rounded-4 shadow-sm p-4 text-center border-bottom border-4 border-warning border-opacity-50">
+                      <div class="mb-2"><i class="bi bi-emoji-frown fs-2 text-warning"></i></div>
+                      <h4 class="fw-bold m-0">{{leaveSummary.sick}}</h4>
+                      <div class="text-muted small">Sick leave</div>
+                  </div>
+              </div>
+         </div>
+    <!-- Additional Info Sections -->
+    <div class="row g-4 mb-4">
+        <div class="col-lg-6">
+            <div class="bg-white rounded-4 shadow-sm p-4 h-100">
+                <h6 class="fw-bold mb-4 bg-light px-3 py-2 rounded d-inline-block">Work Experience</h6>
+                <div class="experience-timeline ps-3 border-start position-relative" *ngIf="employeeDetails.experience?.length; else noExperience">
+                    <div class="exp-item mb-4 position-relative" *ngFor="let exp of employeeDetails.experience; let last = last" [class.mb-0]="last">
+                        <div class="dot bg-primary position-absolute translate-middle-x" style="left: -17px; top: 10px; width: 10px; height: 10px; border-radius: 50%;"></div>
+                        <div class="fw-bold small">{{ exp.role }}</div>
+                        <div class="text-primary smallest fw-semibold">{{ exp.company }}</div>
+                        <div class="text-muted smallest mb-2">{{ exp.duration }}</div>
+                        <p class="smallest text-muted m-0">{{ exp.description }}</p>
+                    </div>
+                </div>
+                <ng-template #noExperience>
+                    <div class="text-center py-4 text-muted small">No experience records found.</div>
+                </ng-template>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="bg-white rounded-4 shadow-sm p-4 h-100">
+                <h6 class="fw-bold mb-4 bg-light px-3 py-2 rounded d-inline-block">Educational Qualification</h6>
+                <div class="row g-3" *ngIf="employeeDetails.education?.length; else noEducation">
+                    <div class="col-12" *ngFor="let edu of employeeDetails.education">
+                        <div class="d-flex align-items-center gap-3 p-3 bg-light rounded-3">
+                            <i class="bi bi-mortarboard fs-3 text-primary" *ngIf="edu.degree.includes('Degree') || edu.degree.includes('B.') || edu.degree.includes('M.')"></i>
+                            <i class="bi bi-book fs-3 text-info" *ngIf="!edu.degree.includes('Degree') && !edu.degree.includes('B.') && !edu.degree.includes('M.')"></i>
+                            <div>
+                                <div class="fw-bold small">{{ edu.degree }}</div>
+                                <div class="text-muted smallest">{{ edu.school }} ({{ edu.year }})</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <ng-template #noEducation>
+                    <div class="text-center py-4 text-muted small">No education records found.</div>
+                </ng-template>
+            </div>
+        </div>
+    </div>
+</div>
+
+

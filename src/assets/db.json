@@ -1,0 +1,316 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "email": "admin@gmail.com",
+      "password": "123456",
+      "role": "admin",
+      "name": "Sahil Datta",
+      "designation": "Manager",
+      "img": "assets/images/users/user-1.jpg"
+    },
+    {
+      "id": "2",
+      "email": "employee@gmail.com",
+      "password": "123456",
+      "role": "employee",
+      "name": "Rahul",
+      "designation": "UI / Ux designer",
+      "img": "assets/images/users/user-2.jpg"
+    }
+  ],
+  "stats": {
+    "totalProjects": 10,
+    "workingProjects": 6,
+    "completedProjects": 3,
+    "pendingProjects": 1
+  },
+  "projects": [
+    {
+      "id": "101",
+      "title": "HRMS",
+      "manager": "Rohit sir",
+      "category": "Saas Project",
+      "state": "Active",
+      "startDate": "01/Nov/2023",
+      "endDate": "10/Dec/2023",
+      "deadline": "04/Dec/2023",
+      "progress": 75,
+      "team": [
+        {
+          "id": 1,
+          "name": "Krishna",
+          "img": "assets/images/users/user-1.jpg"
+        },
+        {
+          "id": 2,
+          "name": "Rahul",
+          "img": "assets/images/users/user-2.jpg"
+        }
+      ]
+    },
+    {
+      "id": "102",
+      "title": "E-Commerce App",
+      "manager": "Anjali ma'am",
+      "category": "Mobile App",
+      "state": "Pending",
+      "startDate": "15/Nov/2023",
+      "endDate": "20/Jan/2024",
+      "deadline": "15/Jan/2024",
+      "progress": 20,
+      "team": [
+        {
+          "id": 2,
+          "name": "Rahul",
+          "img": "assets/images/users/user-2.jpg"
+        }
+      ]
+    }
+  ],
+  "leaveRequests": [
+    {
+      "id": "1",
+      "employeeId": 2,
+      "employeeName": "Rahul",
+      "type": "Sick Leave",
+      "startDate": "2023-11-20",
+      "endDate": "2023-11-22",
+      "reason": "Viral Fever",
+      "status": "Rejected"
+    },
+    {
+      "id": "2",
+      "employeeId": 2,
+      "employeeName": "Rahul",
+      "type": "Casual Leave",
+      "startDate": "2023-12-01",
+      "endDate": "2023-12-02",
+      "reason": "Personal work",
+      "status": "Approved"
+    }
+  ],
+  "employees": [
+    {
+      "id": "101",
+      "userId": "1",
+      "name": "Sahil Datta",
+      "department": "Management",
+      "designation": "HR Manager",
+      "joiningDate": "01/Jan/2022",
+      "email": "admin@gmail.com",
+      "mobile": "9999999999",
+      "gender": "Male",
+      "dob": "01/01/1990",
+      "age": 33,
+      "country": "India",
+      "bloodGroup": "AB+",
+      "qualification": "MBA",
+      "reportingTo": "Director",
+      "status": "Active",
+      "img": "assets/images/users/user-1.jpg",
+      "address": { "country": "India", "state": "NCT", "city": "Delhi", "pincode": "110001", "street": "Rajpath", "homeNo": "1" },
+      "bank": { "name": "SBI", "accountNo": "123456789", "ifsc": "SBIN0000001", "pincode": "110001", "location": "Delhi", "aadhar": "0000-0000-0000", "pan": "AAAAA0000A" },
+      "experience": [
+        { "role": "HR Manager", "company": "Dyotis", "duration": "Jan 2022 - Present", "description": "Managing overall HR operations and talent acquisition." }
+      ],
+      "education": [
+        { "degree": "MBA", "school": "FMS Delhi", "year": "2012 - 2014" }
+      ]
+    },
+    {
+      "id": "102",
+      "userId": "2",
+      "name": "Rahul",
+      "department": "Engineering",
+      "designation": "Software Engineer",
+      "joiningDate": "15/Jan/2023",
+      "email": "employee@gmail.com",
+      "mobile": "9876543210",
+      "gender": "Male",
+      "dob": "20/05/1995",
+      "age": 28,
+      "country": "India",
+      "bloodGroup": "O+",
+      "qualification": "B.Tech",
+      "reportingTo": "Sahil Datta",
+      "status": "Active",
+      "img": "assets/images/users/user-2.jpg",
+      "address": { "country": "India", "state": "Uttar Pradesh", "city": "Noida", "pincode": "201301", "street": "Sector 62", "homeNo": "Flat 402" },
+      "bank": { "name": "HDFC Bank", "accountNo": "501002345678", "ifsc": "HDFC0001234", "pincode": "201301", "location": "Noida", "aadhar": "1234-5678-9012", "pan": "ABCDE1234F" },
+      "experience": [
+        { "role": "Senior Software Engineer", "company": "Dyotis (Current)", "duration": "Jan 2023 - Present", "description": "Leading the frontend development team and maintaining quality standards." },
+        { "role": "Junior Developer", "company": "TechCorp Solutions", "duration": "Jun 2020 - Dec 2022", "description": "Assisted in building scalable backend services and API design." }
+      ],
+      "education": [
+        { "degree": "B.Tech in Computer Science", "school": "IIT Delhi", "year": "2016 - 2020" },
+        { "degree": "Higher Secondary (12th)", "school": "CBSE Board", "year": "2014 - 2016" }
+      ]
+    },
+    {
+      "id": "103",
+      "userId": "3",
+      "name": "Neha Singh",
+      "department": "Design",
+      "designation": "UI/UX Designer",
+      "joiningDate": "10/Mar/2023",
+      "email": "neha@gmail.com",
+      "mobile": "9876543211",
+      "gender": "Female",
+      "dob": "15/08/1997",
+      "age": 26,
+      "country": "India",
+      "bloodGroup": "A+",
+      "qualification": "B.Des",
+      "reportingTo": "Sahil Datta",
+      "status": "Active",
+      "img": "assets/images/users/user-3.jpg",
+      "address": { "country": "India", "state": "Delhi", "city": "New Delhi", "pincode": "110001", "street": "Connaught Place", "homeNo": "H-12" },
+      "bank": { "name": "ICICI Bank", "accountNo": "602002345678", "ifsc": "ICIC0005678", "pincode": "110001", "location": "Delhi", "aadhar": "2345-6789-0123", "pan": "FGHIJ5678K" },
+      "experience": [
+        { "role": "UI/UX Designer", "company": "Dyotis", "duration": "Mar 2023 - Present", "description": "Designing intuitive user interfaces and conducting user research." }
+      ],
+      "education": [
+        { "degree": "B.Des", "school": "NID Delhi", "year": "2017 - 2021" }
+      ]
+    }
+  ],
+  "payroll": [
+    {
+      "id": "1",
+      "employeeId": 101,
+      "month": "March",
+      "year": 2023,
+      "basic": 15000,
+      "hra": 8000,
+      "allowance": 2000,
+      "deduction": 1000,
+      "netSalary": 24000
+    },
+    {
+      "id": "2",
+      "employeeId": 101,
+      "month": "February",
+      "year": 2023,
+      "basic": 15000,
+      "hra": 8000,
+      "allowance": 2000,
+      "deduction": 1000,
+      "netSalary": 24000
+    }
+  ],
+  "todos": [
+    {
+      "id": "1",
+      "task": "I have to work on hrms project",
+      "completed": false
+    },
+    {
+      "id": "2",
+      "task": "Submit timesheet",
+      "completed": false
+    },
+    {
+      "id": "3",
+      "task": "Team meeting at 4 PM",
+      "completed": false
+    }
+  ],
+  "attendance": [
+    {
+      "id": "1",
+      "employeeId": "2",
+      "employeeName": "Rahul",
+      "date": "2023-11-01",
+      "checkIn": "09:00 AM",
+      "checkOut": "06:00 PM",
+      "hours": 9,
+      "status": "Present"
+    },
+    {
+      "id": "2",
+      "employeeId": "2",
+      "employeeName": "Rahul",
+      "date": "2023-11-02",
+      "checkIn": "09:15 AM",
+      "checkOut": "06:10 PM",
+      "hours": 8.5,
+      "status": "Present"
+    },
+    {
+      "id": "3",
+      "employeeId": "1",
+      "employeeName": "Sahil Datta",
+      "date": "2023-11-01",
+      "checkIn": "10:00 AM",
+      "checkOut": "07:00 PM",
+      "hours": 9,
+      "status": "Present"
+    }
+  ],
+  "timesheets": [
+    {
+      "id": "1",
+      "employeeId": "2",
+      "date": "2023-11-18",
+      "task": "UI Design for Login",
+      "hours": 4,
+      "status": "Approved"
+    },
+    {
+      "id": "2",
+      "employeeId": "2",
+      "date": "2023-11-18",
+      "task": "Sidebar responsive fixes",
+      "hours": 4,
+      "status": "Approved"
+    }
+  ],
+  "hrPolicies": [
+    {
+      "id": "1",
+      "title": "Leave Policy",
+      "content": "Employees are entitled to 12 sick leaves and 15 casual leaves per year. Notice period for resignation is 3 months.",
+      "icon": "bi-person-x"
+    },
+    {
+      "id": "2",
+      "title": "Code of Conduct",
+      "content": "Professional behavior and respect towards colleagues is mandatory. Company assets should be used responsibly.",
+      "icon": "bi-shield-check"
+    },
+    {
+      "id": "3",
+      "title": "Work from Home",
+      "content": "Hybrid model: 3 days office, 2 days remote. Requests must be approved by the manager.",
+      "icon": "bi-house-heart"
+    }
+  ],
+  "leaveSummary": {
+    "taken": 10,
+    "total": 30,
+    "balance": 5,
+    "sick": 5
+  },
+  "holidays": [
+    {
+      "date": "2023-11-12",
+      "name": "Diwali",
+      "id": "4775"
+    },
+    {
+      "date": "2023-12-25",
+      "name": "Christmas",
+      "id": "cd61"
+    }
+  ],
+  "events": {
+    "birthdays": [
+      {
+        "name": "Ravi Kumar",
+        "date": "2023-11-20"
+      }
+    ],
+    "anniversaries": []
+  }
+}

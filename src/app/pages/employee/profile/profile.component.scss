@@ -1,0 +1,16 @@
+.border-transparent { border-color: transparent !important; }
+.transition-all { transition: all 0.2s ease; }
+.smallest { font-size: 0.65rem; }
+.avatar-sm { width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; }
+.bg-blue-soft { background: #eff6ff; }
+.dot { border-radius: 50%; }
+.experience-timeline::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 2px;
+    background: #e2e8f0;
+}
+.exp-item { padding-left: 20px; }
