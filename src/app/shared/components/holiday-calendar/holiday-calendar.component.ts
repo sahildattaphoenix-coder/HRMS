@@ -8,35 +8,42 @@ import { CommonModule } from '@angular/common';
   standalone: false
 })
 export class HolidayCalendarComponent {
-  calendars = [
-    {
-      month: 'November',
-      year: 2023,
-      days: this.generateDays(30, 3), // Starts Wed (30 - 1 = 29...) - Mocking start day
-      // 1st Nov 2023 was Wednesday.
-    },
-    {
-      month: 'December',
-      year: 2023,
-      days: this.generateDays(31, 5) // 1st Dec 2023 was Friday
-    }
-  ];
+  calendars: any[] = [];
 
-  generateDays(totalDays: number, startDayOffset: number) {
+  constructor() {
+    this.generateCurrentMonth();
+  }
+
+  generateCurrentMonth() {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = today.getMonth(); // 0-indexed
+    const monthName = today.toLocaleString('default', { month: 'long' });
+    
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+    const firstDayIndex = new Date(year, month, 1).getDay(); // 0 = Sun, 1 = Mon...
+    
+    // Adjust logic if calendar starts on Monday? Usually standard is Sun=0.
+    // My generateDays logic used offset.
+    
+    this.calendars = [{
+      month: monthName,
+      year: year,
+      days: this.generateDays(daysInMonth, firstDayIndex, today.getDate())
+    }];
+  }
+
+  generateDays(totalDays: number, startDayOffset: number, currentDay: number) {
     const days = [];
     for (let i = 0; i < startDayOffset; i++) {
-        // Previous month filler or empty
         days.push({ date: null });
     }
     for (let i = 1; i <= totalDays; i++) {
       let status = '';
-      // Mocking specific holidays/absents from image
-      if (i === 2 || i === 7 || i === 22 || i === 24 || i === 5) status = 'holiday'; // 2, 7, 22, 24, 5 (green in image)
-      if (i === 4 || i === 11 || i === 18 || i === 25 || i === 2 || i === 9 || i === 10) status = 'absent'; // Light blue in image (Sat/Sun maybe?)
+      const isWeekend = (startDayOffset + i - 1) % 7 === 0 || (startDayOffset + i - 1) % 7 === 6;
       
-      // Overriding for visual match of Image 2 (Nov)
-      // Green: 2, 7, 22, 24, 5 (in bottom)
-      // Blue: 4, 11, 18, 25, 2, 3, 9, 10 (Saturdays/Sundays + others)
+      if (isWeekend) status = 'absent'; // Mark weekends blue
+      if (i === currentDay) status = 'holiday'; // Mark TODAY as green (using 'holiday' class for now)
        
       days.push({ date: i, status });
     }

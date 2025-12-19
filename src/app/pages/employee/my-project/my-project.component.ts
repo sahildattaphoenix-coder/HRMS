@@ -33,4 +33,51 @@ export class MyProjectComponent implements OnInit {
   selectProject(project: Project) {
     this.selectedProject = project;
   }
+
+  // Task Management
+  newTask: string = '';
+  
+  addTask() {
+    if (!this.newTask.trim() || !this.selectedProject) return;
+    
+    if (!this.selectedProject.tasks) {
+      this.selectedProject.tasks = [];
+    }
+
+    this.selectedProject.tasks.push({
+      id: Date.now(),
+      text: this.newTask,
+      completed: false
+    });
+    this.newTask = '';
+    this.updateProgress();
+  }
+
+  toggleTask(task: any) {
+    task.completed = !task.completed;
+    this.updateProgress();
+  }
+
+  deleteTask(taskId: any) {
+    if (!this.selectedProject || !this.selectedProject.tasks) return;
+    this.selectedProject.tasks = this.selectedProject.tasks.filter(t => t.id !== taskId);
+    this.updateProgress();
+  }
+
+  updateProgress() {
+    if (!this.selectedProject || !this.selectedProject.tasks || this.selectedProject.tasks.length === 0) {
+      if (this.selectedProject) this.selectedProject.progress = 0;
+      return;
+    }
+
+    const completed = this.selectedProject.tasks.filter(t => t.completed).length;
+    const total = this.selectedProject.tasks.length;
+    this.selectedProject.progress = Math.round((completed / total) * 100);
+
+    // Persist changes
+    this.projectService.updateProject(this.selectedProject.id, { 
+      tasks: this.selectedProject.tasks,
+      progress: this.selectedProject.progress 
+    }).subscribe();
+  }
 }

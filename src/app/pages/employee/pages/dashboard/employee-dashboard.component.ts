@@ -94,22 +94,86 @@ export class EmployeeDashboardComponent implements OnInit {
     });
   }
 
+
+
+  timerInterval: any;
+  workDuration: string = '00:00:00';
+
+  ngOnDestroy() {
+    if (this.timerInterval) {
+      clearInterval(this.timerInterval);
+    }
+  }
+
   loadDashboardData(userId: string) {
     this.leaveService.getLeaveSummaryByUserId(userId).subscribe(summary => this.leaveSummary = summary);
     this.leaveService.getMyLeaveRequests(userId).subscribe(leaves => this.leaveRequests = leaves.slice(0, 5));
     
-    this.attendanceService.getTodayAttendance(userId).subscribe(record => {
+    this.attendanceService.getActiveAttendance(userId).subscribe(record => {
       this.todayRecord = record;
       if (record) {
         this.clockInTime = record.checkIn;
-        this.clockOutTime = record.checkOut || '--:--';
-        this.isClockedIn = !record.checkOut;
+        this.clockOutTime = '--:--'; // Active means no clockout yet
+        this.isClockedIn = true;
+        this.startTimer();
       } else {
-        this.clockInTime = '--:--';
-        this.clockOutTime = '--:--';
-        this.isClockedIn = false;
+        // If no active record, fetch today's completed one or reset
+        this.attendanceService.getTodayAttendance(userId).subscribe(today => {
+          if (today) {
+             this.clockInTime = today.checkIn;
+             this.clockOutTime = today.checkOut || '--:--';
+             this.isClockedIn = false;
+          } else {
+             this.clockInTime = '--:--';
+             this.clockOutTime = '--:--';
+             this.isClockedIn = false;
+          }
+          this.stopTimer();
+        });
       }
     });
+  }
+
+  startTimer() {
+    this.stopTimer(); // specific safety
+    if (!this.clockInTime || this.clockInTime === '--:--') return;
+
+    // Parse clockInTime (HH:mm AM/PM) to Date object for today
+    const [time, modifier] = this.clockInTime.split(' ');
+    let [hours, minutes] = time.split(':').map(Number);
+    
+    if (hours === 12) {
+      hours = 0;
+    }
+    if (modifier === 'PM') {
+      hours = hours + 12;
+    }
+
+    const startTime = new Date();
+    startTime.setHours(hours, minutes, 0, 0);
+
+    this.timerInterval = setInterval(() => {
+      const now = new Date();
+      const diff = now.getTime() - startTime.getTime();
+      
+      if (diff >= 0) {
+        const h = Math.floor(diff / 3600000);
+        const m = Math.floor((diff % 3600000) / 60000);
+        const s = Math.floor((diff % 60000) / 1000);
+        this.workDuration = `${this.pad(h)}:${this.pad(m)}:${this.pad(s)}`;
+      }
+    }, 1000);
+  }
+
+  stopTimer() {
+    if (this.timerInterval) {
+      clearInterval(this.timerInterval);
+      this.timerInterval = null;
+    }
+  }
+
+  pad(n: number): string {
+    return n < 10 ? '0' + n : '' + n;
   }
 
   clockIn() {
@@ -131,12 +195,30 @@ export class EmployeeDashboardComponent implements OnInit {
     if (!this.todayRecord || !this.todayRecord.id) return;
     
     const checkOut = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    // Simplified hours calculation
-    const hours = 8.5; 
+    this.stopTimer();
+    
+    // Calculate actual hours
+    const hours = this.calculateHours(this.todayRecord.checkIn, checkOut);
 
     this.attendanceService.clockOut(this.todayRecord.id, checkOut, hours).subscribe(() => {
       this.loadDashboardData(this.todayRecord!.employeeId);
     });
+  }
+
+  calculateHours(checkIn: string, checkOut: string): number {
+    const parseTime = (timeStr: string) => {
+      const [time, modifier] = timeStr.split(' ');
+      let [hours, minutes] = time.split(':').map(Number);
+      if (hours === 12 && modifier === 'AM') hours = 0;
+      if (hours !== 12 && modifier === 'PM') hours += 12;
+      return hours * 60 + minutes;
+    };
+
+    const start = parseTime(checkIn);
+    const end = parseTime(checkOut);
+    const diffMins = end - start;
+    
+    return Number((diffMins / 60).toFixed(2));
   }
 
   addTodo() {

@@ -36,17 +36,19 @@ export class MyAttendanceComponent implements OnInit {
   loadAttendance(userId: string, role: string) {
     this.attendanceService.getAttendanceByEmployee(userId).subscribe(data => {
       this.attendanceRecords = data;
-      // Check for active (non-checkout) record
-      const active = data.find(a => !a.checkOut);
-      if (active) {
-        this.isClockedIn = true;
-        this.clockInTime = active.checkIn;
-        this.displayClockIn = active.checkIn;
-      } else {
-        this.isClockedIn = false;
-        this.clockInTime = null;
-        this.displayClockIn = null;
-      }
+      
+      // Check for active via service or local filter? Service for consistency.
+      this.attendanceService.getActiveAttendance(userId).subscribe(active => {
+          if (active) {
+            this.isClockedIn = true;
+            this.clockInTime = active.checkIn;
+            this.displayClockIn = active.checkIn;
+          } else {
+            this.isClockedIn = false;
+            this.clockInTime = null;
+            this.displayClockIn = null;
+          }
+      });
     });
   }
 
@@ -66,14 +68,32 @@ export class MyAttendanceComponent implements OnInit {
       this.attendanceService.clockIn(record).subscribe(() => this.loadAttendance(user.id, user.role));
     } else {
       // Clock Out
-      this.attendanceService.getTodayAttendance(user.id).subscribe(record => {
+      this.attendanceService.getActiveAttendance(user.id).subscribe(record => {
         if (record && record.id) {
           const checkOut = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-          this.attendanceService.clockOut(record.id, checkOut, 8.5).subscribe(() => {
+          const hours = this.calculateHours(record.checkIn, checkOut);
+          
+          this.attendanceService.clockOut(record.id, checkOut, hours).subscribe(() => {
             this.loadAttendance(user.id, user.role);
           });
         }
       });
     }
+  }
+
+  calculateHours(checkIn: string, checkOut: string): number {
+    const parseTime = (timeStr: string) => {
+      const [time, modifier] = timeStr.split(' ');
+      let [hours, minutes] = time.split(':').map(Number);
+      if (hours === 12 && modifier === 'AM') hours = 0;
+      if (hours !== 12 && modifier === 'PM') hours += 12;
+      return hours * 60 + minutes;
+    };
+
+    const start = parseTime(checkIn);
+    const end = parseTime(checkOut);
+    const diffMins = end - start;
+    
+    return Number((diffMins / 60).toFixed(2));
   }
 }

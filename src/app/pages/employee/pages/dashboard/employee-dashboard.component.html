@@ -9,6 +9,9 @@
         <div class="flex-grow-1">
           <span class="d-block smallest text-muted text-uppercase fw-bold">Clock In</span>
           <h4 class="fw-bold m-0 text-dark">{{ clockInTime }}</h4>
+          <small *ngIf="isClockedIn" class="text-success fw-bold d-block mt-1">
+            <i class="bi bi-stopwatch me-1"></i>{{ workDuration }}
+          </small>
         </div>
         <button *ngIf="clockInTime === '--:--'" class="btn btn-success btn-sm rounded-pill px-3 py-1 smallest" (click)="clockIn()">IN</button>
       </div>

@@ -40,7 +40,12 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit() {
-    if (this.loginForm.invalid) return;
+    if (this.loginForm.invalid) {
+      this.loginForm.markAllAsTouched();
+      return;
+    }
+
+    if (this.loading) return; // Prevent double submission
 
     this.loading = true;
     this.error = '';
@@ -50,14 +55,16 @@ export class LoginComponent implements OnInit {
     this.authService.login(email, password).subscribe({
       next: (user) => {
         if (user) {
+          // Success: loading stays true until redirect causes component destroy
           this.redirectUser(user.role);
         } else {
           this.error = 'Invalid email or password';
+          this.loading = false;
         }
-        this.loading = false;
       },
       error: (err) => {
-        this.error = 'Something went wrong. Please try again.';
+        console.error('Login error:', err);
+        this.error = 'Something went wrong. Please check your connection.';
         this.loading = false;
       }
     });

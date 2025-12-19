@@ -33,4 +33,10 @@ export class AttendanceService {
       map(list => list.filter(a => a.employeeId == employeeId))
     );
   }
+
+  getActiveAttendance(employeeId: string): Observable<Attendance | null> {
+    return this.apiService.get<Attendance>('attendance').pipe(
+        map(list => list.find(a => a.employeeId == employeeId && !a.checkOut) || null)
+    );
+  }
 }

@@ -102,7 +102,12 @@
         </div>
         <div class="col-md-6 text-start" *ngIf="!isEditing">
           <label class="form-label smallest fw-bold text-muted text-uppercase">Password</label>
-          <input type="password" class="form-control rounded-3" formControlName="password">
+          <div class="input-group">
+            <input [type]="showPassword ? 'text' : 'password'" class="form-control rounded-start-3 border-end-0" formControlName="password">
+            <button type="button" class="input-group-text bg-white border-start-0 rounded-end-3" (click)="togglePassword()">
+               <i class="bi" [ngClass]="showPassword ? 'bi-eye-slash' : 'bi-eye'"></i>
+            </button>
+          </div>
         </div>
         <div class="col-md-6 text-start">
           <label class="form-label smallest fw-bold text-muted text-uppercase">Employee ID</label>

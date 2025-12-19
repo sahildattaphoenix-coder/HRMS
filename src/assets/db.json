@@ -35,7 +35,7 @@
       "startDate": "01/Nov/2023",
       "endDate": "10/Dec/2023",
       "deadline": "04/Dec/2023",
-      "progress": 75,
+      "progress": 14,
       "team": [
         {
           "id": 1,
@@ -46,6 +46,43 @@
           "id": 2,
           "name": "Rahul",
           "img": "assets/images/users/user-2.jpg"
+        }
+      ],
+      "tasks": [
+        {
+          "id": 1766134660409,
+          "text": "work on layout",
+          "completed": true
+        },
+        {
+          "id": 1766134953521,
+          "text": "do this",
+          "completed": false
+        },
+        {
+          "id": 1766134964241,
+          "text": "do that",
+          "completed": false
+        },
+        {
+          "id": 1766134978666,
+          "text": "do further",
+          "completed": false
+        },
+        {
+          "id": 1766134982349,
+          "text": "do whatever",
+          "completed": false
+        },
+        {
+          "id": 1766134986375,
+          "text": "etc etc",
+          "completed": false
+        },
+        {
+          "id": 1766134994900,
+          "text": "blah blah blah",
+          "completed": false
         }
       ]
     },
@@ -88,6 +125,17 @@
       "endDate": "2023-12-02",
       "reason": "Personal work",
       "status": "Approved"
+    },
+    {
+      "id": "a356",
+      "type": "Casual Leave",
+      "startDate": "2025-12-19",
+      "endDate": "2025-12-20",
+      "reason": "test",
+      "employeeId": "2",
+      "employeeName": "Rahul",
+      "status": "Pending",
+      "appliedDate": "2025-12-19T08:58:12.923Z"
     }
   ],
   "employees": [
@@ -109,14 +157,41 @@
       "reportingTo": "Director",
       "status": "Active",
       "img": "assets/images/users/user-1.jpg",
-      "address": { "country": "India", "state": "NCT", "city": "Delhi", "pincode": "110001", "street": "Rajpath", "homeNo": "1" },
-      "bank": { "name": "SBI", "accountNo": "123456789", "ifsc": "SBIN0000001", "pincode": "110001", "location": "Delhi", "aadhar": "0000-0000-0000", "pan": "AAAAA0000A" },
+      "address": {
+        "country": "India",
+        "state": "NCT",
+        "city": "Delhi",
+        "pincode": "110001",
+        "street": "Rajpath",
+        "homeNo": "1"
+      },
+      "bank": {
+        "name": "SBI",
+        "accountNo": "123456789",
+        "ifsc": "SBIN0000001",
+        "pincode": "110001",
+        "location": "Delhi",
+        "aadhar": "0000-0000-0000",
+        "pan": "AAAAA0000A"
+      },
       "experience": [
-        { "role": "HR Manager", "company": "Dyotis", "duration": "Jan 2022 - Present", "description": "Managing overall HR operations and talent acquisition." }
+        {
+          "role": "HR Manager",
+          "company": "Dyotis",
+          "duration": "Jan 2022 - Present",
+          "description": "Managing overall HR operations and talent acquisition."
+        }
       ],
       "education": [
-        { "degree": "MBA", "school": "FMS Delhi", "year": "2012 - 2014" }
-      ]
+        {
+          "degree": "MBA",
+          "school": "FMS Delhi",
+          "year": "2012 - 2014"
+        }
+      ],
+      "password": "****",
+      "empNo": "01",
+      "role": "employee"
     },
     {
       "id": "102",
@@ -136,16 +211,52 @@
       "reportingTo": "Sahil Datta",
       "status": "Active",
       "img": "assets/images/users/user-2.jpg",
-      "address": { "country": "India", "state": "Uttar Pradesh", "city": "Noida", "pincode": "201301", "street": "Sector 62", "homeNo": "Flat 402" },
-      "bank": { "name": "HDFC Bank", "accountNo": "501002345678", "ifsc": "HDFC0001234", "pincode": "201301", "location": "Noida", "aadhar": "1234-5678-9012", "pan": "ABCDE1234F" },
+      "address": {
+        "country": "India",
+        "state": "Uttar Pradesh",
+        "city": "Noida",
+        "pincode": "201301",
+        "street": "Sector 62",
+        "homeNo": "Flat 402"
+      },
+      "bank": {
+        "name": "HDFC Bank",
+        "accountNo": "501002345678",
+        "ifsc": "HDFC0001234",
+        "pincode": "201301",
+        "location": "Noida",
+        "aadhar": "1234-5678-9012",
+        "pan": "ABCDE1234F"
+      },
       "experience": [
-        { "role": "Senior Software Engineer", "company": "Dyotis (Current)", "duration": "Jan 2023 - Present", "description": "Leading the frontend development team and maintaining quality standards." },
-        { "role": "Junior Developer", "company": "TechCorp Solutions", "duration": "Jun 2020 - Dec 2022", "description": "Assisted in building scalable backend services and API design." }
+        {
+          "role": "Senior Software Engineer",
+          "company": "Phoenix (Current)",
+          "duration": "Jan 2023 - Present",
+          "description": "Leading the frontend development team and maintaining quality standards."
+        },
+        {
+          "role": "Junior Developer",
+          "company": "TechCorp Solutions",
+          "duration": "Jun 2020 - Dec 2022",
+          "description": "Assisted in building scalable backend services and API design."
+        }
       ],
       "education": [
-        { "degree": "B.Tech in Computer Science", "school": "IIT Delhi", "year": "2016 - 2020" },
-        { "degree": "Higher Secondary (12th)", "school": "CBSE Board", "year": "2014 - 2016" }
-      ]
+        {
+          "degree": "B.Tech in Computer Science",
+          "school": "IIT Delhi",
+          "year": "2016 - 2020"
+        },
+        {
+          "degree": "Higher Secondary (12th)",
+          "school": "CBSE Board",
+          "year": "2014 - 2016"
+        }
+      ],
+      "password": "****",
+      "empNo": "02",
+      "role": "employee"
     },
     {
       "id": "103",
@@ -163,16 +274,43 @@
       "bloodGroup": "A+",
       "qualification": "B.Des",
       "reportingTo": "Sahil Datta",
-      "status": "Active",
+      "status": "Inactive",
       "img": "assets/images/users/user-3.jpg",
-      "address": { "country": "India", "state": "Delhi", "city": "New Delhi", "pincode": "110001", "street": "Connaught Place", "homeNo": "H-12" },
-      "bank": { "name": "ICICI Bank", "accountNo": "602002345678", "ifsc": "ICIC0005678", "pincode": "110001", "location": "Delhi", "aadhar": "2345-6789-0123", "pan": "FGHIJ5678K" },
+      "address": {
+        "country": "India",
+        "state": "Delhi",
+        "city": "New Delhi",
+        "pincode": "110001",
+        "street": "Connaught Place",
+        "homeNo": "H-12"
+      },
+      "bank": {
+        "name": "ICICI Bank",
+        "accountNo": "602002345678",
+        "ifsc": "ICIC0005678",
+        "pincode": "110001",
+        "location": "Delhi",
+        "aadhar": "2345-6789-0123",
+        "pan": "FGHIJ5678K"
+      },
       "experience": [
-        { "role": "UI/UX Designer", "company": "Dyotis", "duration": "Mar 2023 - Present", "description": "Designing intuitive user interfaces and conducting user research." }
+        {
+          "role": "UI/UX Designer",
+          "company": "Dyotis",
+          "duration": "Mar 2023 - Present",
+          "description": "Designing intuitive user interfaces and conducting user research."
+        }
       ],
       "education": [
-        { "degree": "B.Des", "school": "NID Delhi", "year": "2017 - 2021" }
-      ]
+        {
+          "degree": "B.Des",
+          "school": "NID Delhi",
+          "year": "2017 - 2021"
+        }
+      ],
+      "password": "****",
+      "empNo": "03",
+      "role": "employee"
     }
   ],
   "payroll": [
@@ -197,6 +335,17 @@
       "allowance": 2000,
       "deduction": 1000,
       "netSalary": 24000
+    },
+    {
+      "id": "3",
+      "employeeId": 102,
+      "month": "December",
+      "year": 2025,
+      "basic": 20000,
+      "hra": 10000,
+      "allowance": 5000,
+      "deduction": 2000,
+      "netSalary": 33000
     }
   ],
   "todos": [
@@ -246,6 +395,26 @@
       "checkOut": "07:00 PM",
       "hours": 9,
       "status": "Present"
+    },
+    {
+      "id": "67d8",
+      "employeeId": "2",
+      "employeeName": "Rahul",
+      "date": "2025-12-19",
+      "checkIn": "10:24 AM",
+      "status": "Present",
+      "checkOut": "02:36 PM",
+      "hours": 4.2
+    },
+    {
+      "id": "2842",
+      "employeeId": "2",
+      "employeeName": "Rahul",
+      "date": "2025-12-19",
+      "checkIn": "02:28 PM",
+      "status": "Present",
+      "checkOut": "02:43 PM",
+      "hours": 0.25
     }
   ],
   "timesheets": [
@@ -286,12 +455,22 @@
       "icon": "bi-house-heart"
     }
   ],
-  "leaveSummary": {
-    "taken": 10,
-    "total": 30,
-    "balance": 5,
-    "sick": 5
-  },
+  "leaveSummaries": [
+    {
+      "id": "1",
+      "taken": 12,
+      "total": 30,
+      "balance": 18,
+      "sick": 5
+    },
+    {
+      "id": "2",
+      "taken": 10,
+      "total": 30,
+      "balance": 20,
+      "sick": 2
+    }
+  ],
   "holidays": [
     {
       "date": "2023-11-12",

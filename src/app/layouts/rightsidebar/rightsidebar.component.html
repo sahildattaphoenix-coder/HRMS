@@ -1,6 +1,5 @@
 <div class="right-sidebar px-4 py-4 bg-white h-100 overflow-auto border-start shadow-sm">
   
-  <!-- Calendar Widget -->
   <div class="sidebar-section mb-5">
       <h6 class="mb-3 text-dark fw-bold small text-capitalize">{{ currentMonthName }}</h6>
       <table class="table table-sm text-center calendar-table mb-0">
@@ -10,7 +9,7 @@
               </tr>
           </thead>
           <tbody>
-              <!-- Simplified static calendar for high-parity look, matching the hardcoded design vibe -->
+
               <tr><td class="text-muted opacity-50">30</td><td class="text-muted opacity-50">31</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td></tr>
               <tr><td>6</td><td>7</td><td>8</td><td>9</td><td>10</td><td>11</td><td>12</td></tr>
               <tr><td>13</td><td>14</td><td>15</td><td>16</td><td>17</td><td>18</td><td>19</td></tr>
@@ -20,7 +19,6 @@
       </table>
   </div>
 
-  <!-- Todo List -->
   <div class="sidebar-section mb-5">
       <div class="d-flex align-items-center justify-content-between mb-3">
           <div class="d-flex align-items-center gap-2">
@@ -60,7 +58,6 @@
       </div>
   </div>
 
-  <!-- Upcoming Holidays Accordion -->
   <div class="accordion accordion-flush custom-accordion mb-2" id="holidayAccordion">
     <div class="accordion-item border-none">
       <h2 class="accordion-header">
@@ -80,7 +77,6 @@
     </div>
   </div>
 
-  <!-- Notification Section -->
   <div class="notification-header d-flex align-items-center gap-2 mb-3 mt-4">
       <h6 class="m-0 fw-bold small">Notification</h6>
       <i class="bi bi-bell text-muted"></i>
@@ -108,7 +104,7 @@
     </div>
     <div class="accordion-item border-none">
       <button class="accordion-button collapsed py-2 px-0 fw-bold small shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#events">
-        Dyotis Events
+        Events
       </button>
       <div id="events" class="accordion-collapse collapse" data-bs-parent="#notifAccordion">
         <div class="accordion-body px-0 smallest text-muted">No upcoming events.</div>

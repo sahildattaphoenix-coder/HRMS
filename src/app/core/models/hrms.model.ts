@@ -46,6 +46,7 @@ export interface Project {
   deadline: string;
   progress: number;
   team: ProjectMember[];
+  tasks?: { id: number; text: string; completed: boolean }[];
 }
 
 export interface ProjectMember {

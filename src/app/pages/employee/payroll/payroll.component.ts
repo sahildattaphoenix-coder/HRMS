@@ -9,7 +9,7 @@ import { Payroll } from '../../../core/models/hrms.model';
   selector: 'app-payroll',
   templateUrl: './payroll.component.html',
   styleUrls: ['./payroll.component.scss'],
-  standalone: false
+  standalone: false,
 })
 export class PayrollComponent implements OnInit {
   employee: Employee | null = null;
@@ -25,21 +25,57 @@ export class PayrollComponent implements OnInit {
     const user = this.authService.currentUserValue;
     if (user) {
       // Fetch full employee details for the summary card
-      this.apiService.get<Employee>('employees').subscribe(employees => {
-        this.employee = employees.find(e => e.userId == user.id) || null;
-      });
-
-      this.payrollService.getPayrollByEmployee(user.id).subscribe(data => {
-        this.payrollList = data;
+      this.apiService.get<Employee>('employees').subscribe((employees) => {
+        this.employee = employees.find((e) => e.userId == user.id) || null;
+        
+        if (this.employee && this.employee.id) {
+            this.payrollService.getPayrollByEmployee(this.employee.id).subscribe((data) => {
+                this.payrollList = data;
+            });
+        }
       });
     }
   }
 
-  downloadSlip(id: any) {
-    alert('Downloading Pay Slip for ID: ' + id);
+  downloadSlip(pay: any) {
+    if (!this.employee) return;
+    
+    const content = `
+    PAY SLIP - Phoenix HRMS
+    ----------------------
+    Employee: ${this.employee.name}
+    Period: ${pay.month} ${pay.year}
+    ----------------------
+    Basic Salary: ${pay.basic}
+    HRA: ${pay.hra}
+    Allowances: ${pay.allowance}
+    Deductions: ${pay.deduction}
+    ----------------------
+    NET PAY: ${pay.netPay}
+    ----------------------
+    Generated on: ${new Date().toLocaleDateString()}
+    `;
+
+    const blob = new Blob([content], { type: 'text/plain' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `Payslip_${this.employee.empNo}_${pay.month}_${pay.year}.txt`;
+    a.click();
+    window.URL.revokeObjectURL(url);
   }
 
-  viewSlip(id: any) {
-    alert('Viewing salary structure for ID: ' + id);
+  viewSlip(pay: Payroll) {
+    this.selectedPayroll = pay;
+    this.showModal = true;
   }
+
+  closeModal() {
+    this.showModal = false;
+    this.selectedPayroll = null;
+  }
+
+  // Modal State
+  showModal = false;
+  selectedPayroll: Payroll | null = null;
 }

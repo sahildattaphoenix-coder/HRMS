@@ -16,6 +16,11 @@ export class EmployeesComponent implements OnInit {
   loading = true;
   searchTerm: string = '';
   selectedDept: string = 'All';
+  showPassword = false;
+
+  togglePassword() {
+    this.showPassword = !this.showPassword;
+  }
 
   showModal = false;
   isEditing = false;
