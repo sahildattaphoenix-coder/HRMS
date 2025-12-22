@@ -4,176 +4,293 @@
       <div class="dashboard-wrapper">
         <!-- Top Stats Row -->
         <div class="row g-4 mb-4">
-          <div class="col-xl-3 col-md-6 col-12">
-      <div class="premium-stat-card bg-white rounded-4 shadow-sm p-4 d-flex align-items-center gap-3 transition-all">
-        <div class="icon-box-premium bg-success-soft text-success">
-          <i class="bi bi-clock-history"></i>
-        </div>
-        <div class="flex-grow-1">
-          <span class="d-block smallest text-muted text-uppercase fw-bold">Clock In</span>
-          <h4 class="fw-bold m-0 text-dark">{{ clockInTime }}</h4>
-          <small *ngIf="isClockedIn" class="text-success fw-bold d-block mt-1">
-            <i class="bi bi-stopwatch me-1"></i>{{ workDuration }}
-          </small>
-        </div>
-        <button *ngIf="clockInTime === '--:--'" class="btn btn-success btn-sm rounded-pill px-3 py-1 smallest" (click)="clockIn()">IN</button>
-      </div>
-    </div>
-    <div class="col-xl-3 col-md-6 col-12">
-      <div class="premium-stat-card bg-white rounded-4 shadow-sm p-4 d-flex align-items-center gap-3 transition-all">
-        <div class="icon-box-premium bg-primary-soft text-primary">
-          <i class="bi bi-clock"></i>
-        </div>
-        <div class="flex-grow-1">
-          <span class="d-block smallest text-muted text-uppercase fw-bold">Clock Out</span>
-          <h4 class="fw-bold m-0 text-dark">{{ clockOutTime }}</h4>
-        </div>
-        <button *ngIf="isClockedIn" class="btn btn-primary btn-sm rounded-pill px-3 py-1 smallest" (click)="clockOut()">OUT</button>
-      </div>
-    </div>
-    <div class="col-xl-3 col-md-6 col-12">
-      <div class="premium-stat-card bg-white rounded-4 shadow-sm p-4 d-flex align-items-center gap-3 transition-all cursor-pointer" routerLink="/employee/leave">
-        <div class="icon-box-premium bg-warning-soft text-warning">
-          <i class="bi bi-person-plus-fill"></i>
-        </div>
-        <div>
-          <span class="d-block smallest text-muted text-uppercase fw-bold">Quick Action</span>
-          <h5 class="fw-bold m-0 text-dark">Apply Leave</h5>
-        </div>
-      </div>
-    </div>
-    <div class="col-xl-3 col-md-6 col-12">
-      <div class="premium-stat-card bg-white rounded-4 shadow-sm p-4 d-flex align-items-center gap-3 transition-all cursor-pointer" routerLink="/employee/attendance">
-        <div class="icon-box-premium bg-info-soft text-info">
-          <i class="bi bi-calendar-check-fill"></i>
-        </div>
-        <div>
-          <span class="d-block smallest text-muted text-uppercase fw-bold">Daily Track</span>
-          <h5 class="fw-bold m-0 text-dark">My Attendance</h5>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Charts Row -->
-  <div class="row g-4 mb-4">
-    <div class="col-lg-5 col-12">
-      <div class="bg-white rounded-4 shadow-sm p-4 h-100">
-        <h6 class="fw-bold text-muted smallest text-uppercase mb-4">Attendance Performance</h6>
-        <apx-chart
-          [series]="barChartOptions.series"
-          [chart]="barChartOptions.chart"
-          [plotOptions]="barChartOptions.plotOptions"
-          [colors]="barChartOptions.colors"
-          [xaxis]="barChartOptions.xaxis"
-          [dataLabels]="barChartOptions.dataLabels"
-        ></apx-chart>
-        <div class="d-flex justify-content-center gap-3 mt-2 small text-muted">
-          <span><span class="badge rounded-circle bg-success p-1"> </span> Present</span>
-          <span><span class="badge rounded-circle bg-light border p-1"> </span> Absent</span>
-        </div>
-      </div>
-    </div>
-    <div class="col-lg-7 col-12">
-      <div class="bg-white rounded-4 shadow-sm p-4 h-100">
-        <h6 class="fw-bold text-muted smallest text-uppercase mb-4">Project Progress</h6>
-        <div class="row align-items-center">
-            <div class="col-md-7">
-                <apx-chart
-                  [series]="pieChartOptions.series"
-                  [chart]="pieChartOptions.chart"
-                  [labels]="pieChartOptions.labels"
-                  [colors]="pieChartOptions.colors"
-                  [responsive]="pieChartOptions.responsive"
-                  [legend]="pieChartOptions.legend"
-                ></apx-chart>
+          <div class="col-xl-3 col-md-6 col-12 w-auto">
+            <div
+              class="premium-stat-card bg-white rounded-4 shadow-sm p-4 d-flex align-items-center gap-3 transition-all"
+            >
+              <div class="icon-box-premium bg-success-soft text-success">
+                <i class="bi bi-clock-history"></i>
+              </div>
+              <div class="flex-grow-1">
+                <span class="d-block smallest text-muted text-uppercase fw-bold"
+                  >Clock In</span
+                >
+                <h4 class="fw-bold m-0 text-dark">{{ clockInTime }}</h4>
+                <small
+                  *ngIf="isClockedIn"
+                  class="text-success fw-bold d-block mt-1"
+                >
+                  <i class="bi bi-stopwatch me-1"></i>{{ workDuration }}
+                </small>
+              </div>
+              <button
+                *ngIf="clockInTime === '--:--'"
+                class="btn btn-success btn-sm rounded-pill px-3 py-1 smallest"
+                (click)="clockIn()"
+              >
+                IN
+              </button>
             </div>
-            <div class="col-md-5">
-                <div class="bg-light p-4 rounded-4 text-center border">
-                    <div class="smallest text-muted text-uppercase mb-2 fw-bold">Current Active</div>
-                    <div class="fw-bold text-primary mb-1">HRMS PROJECT</div>
-                    <div class="progress rounded-pill" style="height: 6px;">
-                        <div class="progress-bar bg-primary" style="width: 65%;"></div>
-                    </div>
-                    <div class="text-end smallest text-muted mt-1">65% Done</div>
+          </div>
+          <div class="col-xl-3 col-md-6 col-12 w-auto">
+            <div
+              class="premium-stat-card bg-white rounded-4 shadow-sm p-4 d-flex align-items-center gap-3 transition-all"
+            >
+              <div class="icon-box-premium bg-primary-soft text-primary">
+                <i class="bi bi-clock"></i>
+              </div>
+              <div class="flex-grow-1">
+                <span class="d-block smallest text-muted text-uppercase fw-bold"
+                  >Clock Out</span
+                >
+                <h4 class="fw-bold m-0 text-dark">{{ clockOutTime }}</h4>
+              </div>
+              <button
+                *ngIf="isClockedIn"
+                class="btn btn-primary btn-sm rounded-pill px-3 py-1 smallest"
+                (click)="clockOut()"
+              >
+                OUT
+              </button>
+            </div>
+          </div>
+          <div class="col-xl-3 col-md-6 col-12 w-auto">
+            <div
+              class="premium-stat-card bg-white rounded-4 shadow-sm p-4 d-flex align-items-center gap-3 transition-all cursor-pointer"
+              routerLink="/employee/leave"
+            >
+              <div class="icon-box-premium bg-warning-soft text-warning">
+                <i class="bi bi-person-plus-fill"></i>
+              </div>
+              <div>
+                <span class="d-block smallest text-muted text-uppercase fw-bold"
+                  >Quick Action</span
+                >
+                <h5 class="fw-bold m-0 text-dark">Apply Leave</h5>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-3 col-md-6 col-12 w-auto">
+            <div
+              class="premium-stat-card bg-white rounded-4 shadow-sm p-4 d-flex align-items-center gap-3 transition-all cursor-pointer"
+              routerLink="/employee/attendance"
+            >
+              <div class="icon-box-premium bg-info-soft text-info p-1">
+                <i class="bi bi-calendar-check-fill"></i>
+              </div>
+              <div class="">
+                <span class="d-block smallest text-muted text-uppercase fw-bold"
+                  >Daily Track</span
+                >
+                <h5 class="fw-bold text-dark">My Attendance</h5>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Charts Row -->
+        <div class="row g-4 mb-4">
+          <div class="col-lg-5 col-12">
+            <div class="bg-white rounded-4 shadow-sm p-4 h-100">
+              <h6 class="fw-bold text-muted smallest text-uppercase mb-4">
+                Attendance Performance
+              </h6>
+              <apx-chart
+                [series]="barChartOptions.series"
+                [chart]="barChartOptions.chart"
+                [plotOptions]="barChartOptions.plotOptions"
+                [colors]="barChartOptions.colors"
+                [xaxis]="barChartOptions.xaxis"
+                [dataLabels]="barChartOptions.dataLabels"
+              ></apx-chart>
+              <div
+                class="d-flex justify-content-center gap-3 mt-2 small text-muted"
+              >
+                <span
+                  ><span class="badge rounded-circle bg-success p-1"> </span>
+                  Present</span
+                >
+                <span
+                  ><span class="badge rounded-circle bg-light border p-1">
+                  </span>
+                  Absent</span
+                >
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-7 col-12">
+            <div class="bg-white rounded-4 shadow-sm p-4 h-100">
+              <h6 class="fw-bold text-muted smallest text-uppercase mb-4">
+                Project Progress
+              </h6>
+              <div class="row align-items-center">
+                <div class="col-md-7">
+                  <apx-chart
+                    [series]="pieChartOptions.series"
+                    [chart]="pieChartOptions.chart"
+                    [labels]="pieChartOptions.labels"
+                    [colors]="pieChartOptions.colors"
+                    [responsive]="pieChartOptions.responsive"
+                    [legend]="pieChartOptions.legend"
+                  ></apx-chart>
                 </div>
+                <div class="col-md-5">
+                  <div class="bg-light p-4 rounded-4 text-center border">
+                    <div
+                      class="smallest text-muted text-uppercase mb-2 fw-bold"
+                    >
+                      Current Active
+                    </div>
+                    <div class="fw-bold text-primary mb-1">HRMS PROJECT</div>
+                    <div class="progress rounded-pill" style="height: 6px">
+                      <div
+                        class="progress-bar bg-primary"
+                        style="width: 65%"
+                      ></div>
+                    </div>
+                    <div class="text-end smallest text-muted mt-1">
+                      65% Done
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
+          </div>
         </div>
-      </div>
-    </div>
-  </div>
 
-  <!-- Leave Requests Table -->
-  <div class="bg-white rounded-4 shadow-sm overflow-hidden mb-4">
-    <div class="p-4 border-bottom d-flex justify-content-between align-items-center">
-      <h6 class="fw-bold m-0 text-dark">Recent Leave Requests</h6>
-      <button class="btn btn-link text-primary text-decoration-none smallest fw-bold" routerLink="/employee/leave">VIEW ALL</button>
-    </div>
-    <div class="table-responsive">
-      <table class="table align-middle table-hover mb-0">
-        <thead class="bg-light">
-          <tr>
-            <th class="ps-4 py-3 text-uppercase text-muted smallest fw-bold border-0">Leave Type</th>
-            <th class="py-3 text-uppercase text-muted smallest fw-bold border-0">Duration</th>
-            <th class="py-3 text-uppercase text-muted smallest fw-bold border-0">Reason</th>
-            <th class="py-3 text-uppercase text-muted smallest fw-bold border-0 text-center">Status</th>
-          </tr>
-        </thead>
-        <tbody *ngIf="leaveRequests.length > 0; else noLeaves">
-          <tr *ngFor="let leave of leaveRequests">
-            <td class="ps-4">
-                <div class="fw-bold text-dark small">{{ leave.type }}</div>
-            </td>
-            <td>
-              <div class="small text-dark fw-semibold">{{ leave.startDate | date:'mediumDate' }}</div>
-              <div class="smallest text-muted">to {{ leave.endDate | date:'mediumDate' }}</div>
-            </td>
-            <td class="text-muted smallest text-truncate" style="max-width: 200px;">{{ leave.reason }}</td>
-            <td class="text-center">
-              <span class="status-pill-small" [ngClass]="leave.status.toLowerCase()">
-                {{ leave.status }}
-              </span>
-            </td>
-          </tr>
-        </tbody>
-        <ng-template #noLeaves>
-            <tbody><tr><td colspan="4" class="py-5 text-center text-muted small italic">No leave requests found.</td></tr></tbody>
-        </ng-template>
-      </table>
-    </div>
-  </div>
+        <!-- Leave Requests Table -->
+        <div class="bg-white rounded-4 shadow-sm overflow-hidden mb-4">
+          <div
+            class="p-4 border-bottom d-flex justify-content-between align-items-center"
+          >
+            <h6 class="fw-bold m-0 text-dark">Recent Leave Requests</h6>
+            <button
+              class="btn btn-link text-primary text-decoration-none smallest fw-bold"
+              routerLink="/employee/leave"
+            >
+              VIEW ALL
+            </button>
+          </div>
+          <div class="table-responsive">
+            <table class="table align-middle table-hover mb-0">
+              <thead class="bg-light">
+                <tr>
+                  <th
+                    class="ps-4 py-3 text-uppercase text-muted smallest fw-bold border-0"
+                  >
+                    Leave Type
+                  </th>
+                  <th
+                    class="py-3 text-uppercase text-muted smallest fw-bold border-0"
+                  >
+                    Duration
+                  </th>
+                  <th
+                    class="py-3 text-uppercase text-muted smallest fw-bold border-0"
+                  >
+                    Reason
+                  </th>
+                  <th
+                    class="py-3 text-uppercase text-muted smallest fw-bold border-0 text-center"
+                  >
+                    Status
+                  </th>
+                </tr>
+              </thead>
+              <tbody *ngIf="leaveRequests.length > 0; else noLeaves">
+                <tr *ngFor="let leave of leaveRequests">
+                  <td class="ps-4">
+                    <div class="fw-bold text-dark small">{{ leave.type }}</div>
+                  </td>
+                  <td>
+                    <div class="small text-dark fw-semibold">
+                      {{ leave.startDate | date : "mediumDate" }}
+                    </div>
+                    <div class="smallest text-muted">
+                      to {{ leave.endDate | date : "mediumDate" }}
+                    </div>
+                  </td>
+                  <td
+                    class="text-muted smallest text-truncate"
+                    style="max-width: 200px"
+                  >
+                    {{ leave.reason }}
+                  </td>
+                  <td class="text-center">
+                    <span
+                      class="status-pill-small"
+                      [ngClass]="leave.status.toLowerCase()"
+                    >
+                      {{ leave.status }}
+                    </span>
+                  </td>
+                </tr>
+              </tbody>
+              <ng-template #noLeaves>
+                <tbody>
+                  <tr>
+                    <td
+                      colspan="4"
+                      class="py-5 text-center text-muted small italic"
+                    >
+                      No leave requests found.
+                    </td>
+                  </tr>
+                </tbody>
+              </ng-template>
+            </table>
+          </div>
+        </div>
 
-  <!-- Leave Summary Footer -->
-  <div class="row g-4 pb-4" *ngIf="leaveSummary">
-    <div class="col-md-3 col-6">
-        <div class="bg-white p-4 rounded-4 shadow-sm border-bottom border-4 border-danger border-opacity-50 text-center transition-all">
-            <i class="bi bi-calendar-x fs-2 text-danger mb-2 d-block"></i>
-            <h4 class="fw-bold m-0">{{ leaveSummary.taken }}</h4>
-            <div class="smallest text-muted text-uppercase mt-1 fw-bold">Leave Taken</div>
+        <!-- Leave Summary Footer -->
+        <div class="row g-4 pb-4" *ngIf="leaveSummary">
+          <div class="col-md-3 col-6">
+            <div
+              class="bg-white p-4 rounded-4 shadow-sm border-bottom border-4 border-danger border-opacity-50 text-center transition-all"
+            >
+              <i class="bi bi-calendar-x fs-2 text-danger mb-2 d-block"></i>
+              <h4 class="fw-bold m-0">{{ leaveSummary.taken }}</h4>
+              <div class="smallest text-muted text-uppercase mt-1 fw-bold">
+                Leave Taken
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 col-6">
+            <div
+              class="bg-white p-4 rounded-4 shadow-sm border-bottom border-4 border-primary border-opacity-50 text-center transition-all"
+            >
+              <i class="bi bi-calendar-plus fs-2 text-primary mb-2 d-block"></i>
+              <h4 class="fw-bold m-0">{{ leaveSummary.total }}</h4>
+              <div class="smallest text-muted text-uppercase mt-1 fw-bold">
+                Total Leave
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 col-6">
+            <div
+              class="bg-white p-4 rounded-4 shadow-sm border-bottom border-4 border-success border-opacity-50 text-center transition-all"
+            >
+              <i
+                class="bi bi-calendar-check fs-2 text-success mb-2 d-block"
+              ></i>
+              <h4 class="fw-bold m-0">{{ leaveSummary.balance }}</h4>
+              <div class="smallest text-muted text-uppercase mt-1 fw-bold">
+                Leave Balance
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 col-6">
+            <div
+              class="bg-white p-4 rounded-4 shadow-sm border-bottom border-4 border-warning border-opacity-50 text-center transition-all"
+            >
+              <i class="bi bi-emoji-smile fs-2 text-warning mb-2 d-block"></i>
+              <h4 class="fw-bold m-0">{{ leaveSummary.sick || 0 }}</h4>
+              <div class="smallest text-muted text-uppercase mt-1 fw-bold">
+                Sick Leave
+              </div>
+            </div>
+          </div>
         </div>
-    </div>
-    <div class="col-md-3 col-6">
-        <div class="bg-white p-4 rounded-4 shadow-sm border-bottom border-4 border-primary border-opacity-50 text-center transition-all">
-            <i class="bi bi-calendar-plus fs-2 text-primary mb-2 d-block"></i>
-            <h4 class="fw-bold m-0">{{ leaveSummary.total }}</h4>
-            <div class="smallest text-muted text-uppercase mt-1 fw-bold">Total Leave</div>
-        </div>
-    </div>
-    <div class="col-md-3 col-6">
-        <div class="bg-white p-4 rounded-4 shadow-sm border-bottom border-4 border-success border-opacity-50 text-center transition-all">
-            <i class="bi bi-calendar-check fs-2 text-success mb-2 d-block"></i>
-            <h4 class="fw-bold m-0">{{ leaveSummary.balance }}</h4>
-            <div class="smallest text-muted text-uppercase mt-1 fw-bold">Leave Balance</div>
-        </div>
-    </div>
-    <div class="col-md-3 col-6">
-        <div class="bg-white p-4 rounded-4 shadow-sm border-bottom border-4 border-warning border-opacity-50 text-center transition-all">
-            <i class="bi bi-emoji-smile fs-2 text-warning mb-2 d-block"></i>
-            <h4 class="fw-bold m-0">{{ leaveSummary.sick || 0 }}</h4>
-            <div class="smallest text-muted text-uppercase mt-1 fw-bold">Sick Leave</div>
-        </div>
-    </div>
-  </div>
       </div>
     </div>
   </div>
