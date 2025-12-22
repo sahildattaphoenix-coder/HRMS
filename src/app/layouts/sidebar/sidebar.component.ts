@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { AuthService } from '../../core/services/auth.service';
 
 @Component({
@@ -9,6 +9,8 @@ import { AuthService } from '../../core/services/auth.service';
 })
 export class SidebarComponent implements OnInit {
   role: string = 'employee';
+  
+  @Output() closeSidebar = new EventEmitter<void>();
   
   adminLinks = [
     { path: '/admin/dashboard', label: 'Dashboard', icon: 'bi-grid-fill' },
@@ -40,5 +42,9 @@ export class SidebarComponent implements OnInit {
         this.role = user.role;
       }
     });
+  }
+  
+  onLinkClick() {
+    this.closeSidebar.emit();
   }
 }

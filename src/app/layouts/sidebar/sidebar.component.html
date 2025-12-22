@@ -1,7 +1,7 @@
 <div class="sidebar-top px-2 py-3">
   <div class="user-block text-center mb-4" *ngIf="authService.currentUser$ | async as user">
-    <div class="avatar-wrapper mx-auto mb-3">
-      <img [src]="user.img || 'assets/images/users/user-1.jpg'" class="rounded-circle shadow-sm" width="80" height="80" />
+    <div class="avatar-wrapper mx-auto mb-3 text-center">
+      <app-avatar [name]="user.name" [imageUrl]="user.img" [size]="80" [fontSize]="'2rem'" styleClass="rounded-circle mx-auto"></app-avatar>
     </div>
     <h6 class="m-0 fw-bold user-name">{{ user.name }}</h6>
     <div class="smallest text-muted text-uppercase mt-1">{{ role }}</div>
@@ -11,7 +11,7 @@
     <ul class="nav flex-column gap-1">
       <li class="nav-item" *ngFor="let link of role === 'admin' ? adminLinks : employeeLinks">
         <a class="nav-link d-flex align-items-center justify-content-between py-3 px-3 rounded-3"
-           [routerLink]="link.path" routerLinkActive="active">
+           [routerLink]="link.path" routerLinkActive="active" (click)="onLinkClick()">
           <div class="d-flex align-items-center gap-3">
             <i class="bi" [class]="link.icon"></i>
             <span class="fw-semibold">{{ link.label }}</span>

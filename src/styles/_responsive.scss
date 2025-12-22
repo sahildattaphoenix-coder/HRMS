@@ -1,0 +1,192 @@
+/**
+ * Responsive Utilities
+ * Mobile-first responsive breakpoints and utilities
+ */
+
+// ===== RESPONSIVE BREAKPOINTS =====
+// Mobile: < 576px
+// Tablet: 576px - 991px
+// Desktop: >= 992px
+
+// ===== SIDEBAR RESPONSIVE =====
+@media (max-width: 991px) {
+  .sidebar {
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 1050;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+
+    &.show {
+      transform: translateX(0);
+    }
+  }
+
+  .sidebar-backdrop {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1040;
+
+    &.show {
+      display: block;
+    }
+  }
+
+  .main-content {
+    margin-left: 0 !important;
+  }
+}
+
+// ===== MOBILE MENU TOGGLE =====
+.mobile-menu-toggle {
+  display: none;
+  
+  @media (max-width: 991px) {
+    display: inline-block;
+  }
+}
+
+// ===== RESPONSIVE TABLES =====
+.table-responsive {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+@media (max-width: 767px) {
+  .table {
+    font-size: 0.875rem;
+    
+    th, td {
+      padding: 0.5rem;
+    }
+  }
+}
+
+// ===== RESPONSIVE CARDS =====
+@media (max-width: 767px) {
+  .card {
+    margin-bottom: 1rem;
+  }
+
+  .card-body {
+    padding: 1rem;
+  }
+}
+
+// ===== RESPONSIVE TYPOGRAPHY =====
+@media (max-width: 767px) {
+  h1, .h1 {
+    font-size: 1.75rem;
+  }
+
+  h2, .h2 {
+    font-size: 1.5rem;
+  }
+
+  h3, .h3 {
+    font-size: 1.25rem;
+  }
+
+  h4, .h4 {
+    font-size: 1.125rem;
+  }
+
+  h5, .h5 {
+    font-size: 1rem;
+  }
+}
+
+// ===== RESPONSIVE BUTTONS =====
+@media (max-width: 575px) {
+  .btn {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+  }
+
+  .btn-sm {
+    padding: 0.375rem 0.75rem;
+    font-size: 0.8125rem;
+  }
+}
+
+// ===== RESPONSIVE SPACING =====
+@media (max-width: 767px) {
+  .container-fluid {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .row {
+    margin-left: -0.5rem;
+    margin-right: -0.5rem;
+  }
+
+  .row > * {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+}
+
+// ===== RESPONSIVE MODALS =====
+@media (max-width: 575px) {
+  .custom-modal {
+    max-width: calc(100% - 2rem) !important;
+    margin: 1rem;
+  }
+
+  .modal-body {
+    padding: 1rem;
+  }
+}
+
+// ===== RESPONSIVE FORMS =====
+@media (max-width: 575px) {
+  .form-control,
+  .form-select {
+    font-size: 1rem; // Prevent zoom on iOS
+  }
+
+  .form-label {
+    font-size: 0.875rem;
+  }
+}
+
+// ===== UTILITY CLASSES =====
+.d-mobile-none {
+  @media (max-width: 767px) {
+    display: none !important;
+  }
+}
+
+.d-mobile-block {
+  display: none;
+  
+  @media (max-width: 767px) {
+    display: block !important;
+  }
+}
+
+.text-mobile-center {
+  @media (max-width: 767px) {
+    text-align: center !important;
+  }
+}
+
+// ===== RESPONSIVE IMAGES =====
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+.img-fluid {
+  max-width: 100%;
+  height: auto;
+}

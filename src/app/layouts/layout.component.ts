@@ -11,5 +11,13 @@ import { RightsidebarComponent } from './rightsidebar/rightsidebar.component';
   standalone: false
 })
 export class LayoutComponent {
-
+  sidebarOpen = false;
+  
+  toggleSidebar() {
+    this.sidebarOpen = !this.sidebarOpen;
+  }
+  
+  closeSidebar() {
+    this.sidebarOpen = false;
+  }
 }

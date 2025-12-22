@@ -1,0 +1,136 @@
+/**
+ * Global UI Polish - Micro-Animations and Transitions
+ * Non-destructive enhancements to existing UI
+ */
+
+/* ===== CARD ANIMATIONS ===== */
+.card,
+.bg-white,
+.employee-card,
+.project-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1) !important;
+  }
+}
+
+/* ===== BUTTON ANIMATIONS ===== */
+.btn {
+  transition: all 0.2s ease;
+  
+  &:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(0);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+/* ===== ICON ANIMATIONS ===== */
+.bi {
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+a:hover .bi,
+button:hover .bi {
+  transform: scale(1.1);
+}
+
+/* ===== INPUT FOCUS STATES ===== */
+.form-control,
+.form-select {
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+  &:focus {
+    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.15);
+  }
+}
+
+/* ===== DROPDOWN ANIMATIONS ===== */
+.dropdown-menu,
+.dropdown-menu-custom {
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===== MODAL ANIMATIONS ===== */
+.custom-modal {
+  animation: modalSlideIn 0.3s ease;
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ===== LINK HOVER STATES ===== */
+a:not(.btn) {
+  transition: color 0.2s ease;
+}
+
+/* ===== BADGE ANIMATIONS ===== */
+.badge {
+  transition: transform 0.2s ease;
+  
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+
+/* ===== TABLE ROW HOVER ===== */
+.table tbody tr {
+  transition: background-color 0.15s ease;
+}
+
+/* ===== SMOOTH SCROLLING ===== */
+html {
+  scroll-behavior: smooth;
+}
+
+/* ===== FOCUS VISIBLE (Accessibility) ===== */
+*:focus-visible {
+  outline: 2px solid #0d6efd;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ===== LOADING SHIMMER ===== */
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.skeleton {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite;
+}

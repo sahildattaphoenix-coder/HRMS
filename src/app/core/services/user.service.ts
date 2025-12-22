@@ -9,7 +9,7 @@ export class UserService {
     return this.authService.currentUserValue;
   }
 
-  get role(): 'admin' | 'employee' | undefined {
+  get role(): string | undefined {
     return this.user?.role;
   }
 

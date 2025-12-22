@@ -5,12 +5,16 @@ import { FormsModule } from '@angular/forms';
 import { HolidayCalendarComponent } from './components/holiday-calendar/holiday-calendar.component';
 import { UnderConstructionComponent } from './components/under-construction/under-construction.component';
 import { AttendanceComponent } from './components/attendance/attendance.component';
+import { AvatarComponent } from './components/avatar/avatar.component';
+import { ToastContainerComponent } from './components/toast-container/toast-container.component';
 
 @NgModule({
   declarations: [
     HolidayCalendarComponent,
     UnderConstructionComponent,
     AttendanceComponent,
+    AvatarComponent,
+    ToastContainerComponent,
   ],
   imports: [
     CommonModule,
@@ -21,6 +25,8 @@ import { AttendanceComponent } from './components/attendance/attendance.componen
     HolidayCalendarComponent,
     UnderConstructionComponent,
     AttendanceComponent,
+    AvatarComponent,
+    ToastContainerComponent,
     CommonModule,
     RouterModule, 
     FormsModule

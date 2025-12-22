@@ -2,7 +2,7 @@ export interface User {
   id: string;
   email: string;
   password?: string;
-  role: 'admin' | 'employee';
+  role: string; // 'admin' | 'employee' - allowing string for API flexibility
   name: string;
   designation?: string;
   img?: string;

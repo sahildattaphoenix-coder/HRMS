@@ -1,7 +1,10 @@
-<div class="dashboard-wrapper">
-  <!-- Top Stats Row -->
-  <div class="row g-4 mb-4">
-    <div class="col-xl-3 col-md-6">
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12">
+      <div class="dashboard-wrapper">
+        <!-- Top Stats Row -->
+        <div class="row g-4 mb-4">
+          <div class="col-xl-3 col-md-6 col-12">
       <div class="premium-stat-card bg-white rounded-4 shadow-sm p-4 d-flex align-items-center gap-3 transition-all">
         <div class="icon-box-premium bg-success-soft text-success">
           <i class="bi bi-clock-history"></i>
@@ -16,7 +19,7 @@
         <button *ngIf="clockInTime === '--:--'" class="btn btn-success btn-sm rounded-pill px-3 py-1 smallest" (click)="clockIn()">IN</button>
       </div>
     </div>
-    <div class="col-xl-3 col-md-6">
+    <div class="col-xl-3 col-md-6 col-12">
       <div class="premium-stat-card bg-white rounded-4 shadow-sm p-4 d-flex align-items-center gap-3 transition-all">
         <div class="icon-box-premium bg-primary-soft text-primary">
           <i class="bi bi-clock"></i>
@@ -28,7 +31,7 @@
         <button *ngIf="isClockedIn" class="btn btn-primary btn-sm rounded-pill px-3 py-1 smallest" (click)="clockOut()">OUT</button>
       </div>
     </div>
-    <div class="col-xl-3 col-md-6">
+    <div class="col-xl-3 col-md-6 col-12">
       <div class="premium-stat-card bg-white rounded-4 shadow-sm p-4 d-flex align-items-center gap-3 transition-all cursor-pointer" routerLink="/employee/leave">
         <div class="icon-box-premium bg-warning-soft text-warning">
           <i class="bi bi-person-plus-fill"></i>
@@ -39,7 +42,7 @@
         </div>
       </div>
     </div>
-    <div class="col-xl-3 col-md-6">
+    <div class="col-xl-3 col-md-6 col-12">
       <div class="premium-stat-card bg-white rounded-4 shadow-sm p-4 d-flex align-items-center gap-3 transition-all cursor-pointer" routerLink="/employee/attendance">
         <div class="icon-box-premium bg-info-soft text-info">
           <i class="bi bi-calendar-check-fill"></i>
@@ -54,7 +57,7 @@
 
   <!-- Charts Row -->
   <div class="row g-4 mb-4">
-    <div class="col-lg-5">
+    <div class="col-lg-5 col-12">
       <div class="bg-white rounded-4 shadow-sm p-4 h-100">
         <h6 class="fw-bold text-muted smallest text-uppercase mb-4">Attendance Performance</h6>
         <apx-chart
@@ -71,7 +74,7 @@
         </div>
       </div>
     </div>
-    <div class="col-lg-7">
+    <div class="col-lg-7 col-12">
       <div class="bg-white rounded-4 shadow-sm p-4 h-100">
         <h6 class="fw-bold text-muted smallest text-uppercase mb-4">Project Progress</h6>
         <div class="row align-items-center">
@@ -142,33 +145,36 @@
 
   <!-- Leave Summary Footer -->
   <div class="row g-4 pb-4" *ngIf="leaveSummary">
-    <div class="col-md-3">
+    <div class="col-md-3 col-6">
         <div class="bg-white p-4 rounded-4 shadow-sm border-bottom border-4 border-danger border-opacity-50 text-center transition-all">
             <i class="bi bi-calendar-x fs-2 text-danger mb-2 d-block"></i>
             <h4 class="fw-bold m-0">{{ leaveSummary.taken }}</h4>
             <div class="smallest text-muted text-uppercase mt-1 fw-bold">Leave Taken</div>
         </div>
     </div>
-    <div class="col-md-3">
+    <div class="col-md-3 col-6">
         <div class="bg-white p-4 rounded-4 shadow-sm border-bottom border-4 border-primary border-opacity-50 text-center transition-all">
             <i class="bi bi-calendar-plus fs-2 text-primary mb-2 d-block"></i>
             <h4 class="fw-bold m-0">{{ leaveSummary.total }}</h4>
             <div class="smallest text-muted text-uppercase mt-1 fw-bold">Total Leave</div>
         </div>
     </div>
-    <div class="col-md-3">
+    <div class="col-md-3 col-6">
         <div class="bg-white p-4 rounded-4 shadow-sm border-bottom border-4 border-success border-opacity-50 text-center transition-all">
             <i class="bi bi-calendar-check fs-2 text-success mb-2 d-block"></i>
             <h4 class="fw-bold m-0">{{ leaveSummary.balance }}</h4>
             <div class="smallest text-muted text-uppercase mt-1 fw-bold">Leave Balance</div>
         </div>
     </div>
-    <div class="col-md-3">
+    <div class="col-md-3 col-6">
         <div class="bg-white p-4 rounded-4 shadow-sm border-bottom border-4 border-warning border-opacity-50 text-center transition-all">
             <i class="bi bi-emoji-smile fs-2 text-warning mb-2 d-block"></i>
             <h4 class="fw-bold m-0">{{ leaveSummary.sick || 0 }}</h4>
             <div class="smallest text-muted text-uppercase mt-1 fw-bold">Sick Leave</div>
         </div>
+    </div>
+  </div>
+      </div>
     </div>
   </div>
 </div>

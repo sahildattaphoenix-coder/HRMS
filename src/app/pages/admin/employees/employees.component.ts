@@ -46,6 +46,7 @@ export class EmployeesComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.showModal = false;
     this.loadEmployees();
   }
 
@@ -54,6 +55,9 @@ export class EmployeesComponent implements OnInit {
     this.apiService.get<Employee>('employees').subscribe(data => {
       this.employees = data;
       this.applyFilters();
+      this.loading = false;
+    }, (error) => {
+      console.error('Error loading employees:', error);
       this.loading = false;
     });
   }
@@ -114,7 +118,7 @@ export class EmployeesComponent implements OnInit {
           name: formData.name,
           role: formData.role,
           designation: formData.designation,
-          img: 'assets/images/users/user-1.jpg'
+          img: '', // Default to empty string for AvatarComponent
         };
 
         this.apiService.post<User>('users', newUser).pipe(
@@ -127,7 +131,7 @@ export class EmployeesComponent implements OnInit {
               department: formData.department,
               designation: formData.designation,
               status: formData.status,
-              img: user.img || 'assets/images/users/user-1.jpg',
+              img: user.img || '', // Use user image or empty
               age: 25,
               joiningDate: new Date().toISOString().split('T')[0],
               address: { country: 'India', state: '', city: '', pincode: '', street: '', homeNo: '' },

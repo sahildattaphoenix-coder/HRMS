@@ -50,7 +50,7 @@
                      [class.border-primary]="isMember(emp.id)"
                      [class.bg-blue-soft]="isMember(emp.id)"
                      (click)="toggleTeamMember(emp)">
-                    <img [src]="emp.img || 'assets/images/users/user-1.jpg'" class="rounded-circle" width="24" height="24">
+                    <app-avatar [name]="emp.name" [imageUrl]="emp.img" [size]="24" [fontSize]="'0.6rem'" styleClass="rounded-circle"></app-avatar>
                     <span class="smallest fw-bold">{{ emp.name }}</span>
                     <i class="bi bi-check-circle-fill text-primary ms-1" *ngIf="isMember(emp.id)"></i>
                 </div>

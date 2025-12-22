@@ -2,16 +2,34 @@
     padding: 1rem;
 }
 
-.search-box input {
-    background-color: #f8fafc;
-    min-width: 250px;
-    height: 45px;
-    &:focus { background-color: white; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+.search-box {
+    width: 100%;
+    max-width: 250px;
+    
+    input {
+        background-color: #f8fafc;
+        width: 100%;
+        height: 45px;
+        &:focus { background-color: white; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+    }
 }
 
 .form-select {
     background-color: #f8fafc;
     height: 45px;
+    width: 100%;
+    max-width: 200px;
+}
+
+// Responsive adjustments for header controls
+@media (max-width: 575px) {
+    .search-box {
+        max-width: 100%;
+    }
+    
+    .form-select {
+        max-width: 100%;
+    }
 }
 
 .employee-card {

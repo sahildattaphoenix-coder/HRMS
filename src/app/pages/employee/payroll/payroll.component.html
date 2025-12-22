@@ -1,11 +1,13 @@
-<div class="container-fluid p-0">
-    <div class="mb-4">
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12">
+      <div class="mb-4">
         <h5 class="text-muted fw-bold">My Payroll</h5>
-    </div>
+      </div>
 
-    <div class="row g-4 mb-4" *ngIf="employee">
+      <div class="row g-4 mb-4" *ngIf="employee">
         <!-- Employee Info Card -->
-        <div class="col-lg-5">
+        <div class="col-lg-5 col-12">
             <div class="bg-white rounded-4 shadow-sm p-4 h-100 position-relative border-top border-4 border-primary">
                 <h6 class="fw-bold mb-4 text-muted small text-uppercase">Employee Info</h6>
                 <div class="row g-3 small">
@@ -38,7 +40,7 @@
         </div>
 
         <!-- Salary Info Table Card -->
-        <div class="col-lg-7">
+        <div class="col-lg-7 col-12">
             <div class="bg-white rounded-4 shadow-sm p-4 h-100 border-top border-4 border-info">
                  <div class="d-flex justify-content-between align-items-center mb-4">
                     <h6 class="fw-bold m-0 text-muted small text-uppercase">Salary Info</h6>
@@ -68,7 +70,7 @@
                                     <button class="btn btn-sm btn-success bg-opacity-75 border-0 text-white px-3" (click)="viewSlip(pay)">View</button>
                                 </td>
                                 <td>
-                                    <button class="btn btn-link text-decoration-none text-muted p-0 small" (click)="downloadSlip(pay.id)">Download Slip</button>
+                                    <button class="btn btn-link text-decoration-none text-muted p-0 small" (click)="downloadSlip(pay)">Download Slip</button>
                                 </td>
                             </tr>
                             <!-- Skeleton rows if needed -->
@@ -131,5 +133,6 @@
         <button class="btn btn-primary rounded-pill px-4" (click)="downloadSlip(selectedPayroll!)">
             <i class="bi bi-download me-2"></i>Download
         </button>
+    </div>
     </div>
 </div>

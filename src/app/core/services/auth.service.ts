@@ -1,8 +1,13 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, map, filter, take } from 'rxjs';
+import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
+import { map, catchError, tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import { ApiService } from './api.service';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 import { User } from '../models/employee.model';
+import { LoginRequest, LoginResponse } from '../models/auth.model';
+import { StorageKeys } from '../constants/storage-keys';
+import { ApiEndpoints } from '../constants/api-endpoints';
 
 @Injectable({
   providedIn: 'root'
@@ -12,56 +17,109 @@ export class AuthService {
   public currentUser$ = this.currentUserSubject.asObservable();
 
   constructor(
-    private apiService: ApiService, 
+    private http: HttpClient,
     private router: Router
   ) {
-    const storedUser = localStorage.getItem('currentUser');
+    this.loadUserFromStorage();
+  }
+
+  /**
+   * Load user from localStorage on service initialization
+   */
+  private loadUserFromStorage(): void {
+    const storedUser = localStorage.getItem(StorageKeys.CURRENT_USER);
     if (storedUser) {
       try {
-        this.currentUserSubject.next(JSON.parse(storedUser));
-      } catch (e) {
-        localStorage.removeItem('currentUser');
+        const user = JSON.parse(storedUser);
+        this.currentUserSubject.next(user);
+      } catch (error) {
+        console.error('Failed to parse stored user', error);
+        localStorage.removeItem(StorageKeys.CURRENT_USER);
       }
     }
   }
 
+  /**
+   * Authenticate user with server-side validation
+   * SECURITY: Never fetches all users, credentials validated server-side
+   */
   login(email: string, password: string): Observable<User | null> {
-    return this.apiService.get<User>('users').pipe(
-      filter(users => users && users.length > 0),
-      take(1),
-      map(users => {
-        const user = users.find((u: any) => u.email === email && String(u.password) === String(password));
-        if (user) {
-          const { password, ...userWithoutPassword } = user;
-          localStorage.setItem('currentUser', JSON.stringify(userWithoutPassword));
-          this.currentUserSubject.next(userWithoutPassword as User);
-          return userWithoutPassword as User;
+    const loginRequest: LoginRequest = { email, password };
+
+    return this.http.post<LoginResponse>(`${environment.apiUrl}/${ApiEndpoints.AUTH.LOGIN}`, loginRequest).pipe(
+      map(response => {
+        if (response && response.user) {
+          // Store token
+          if (response.token) {
+            localStorage.setItem(StorageKeys.AUTH_TOKEN, response.token);
+          }
+
+          // Store sanitized user (no password)
+          const user: User = {
+            id: response.user.id,
+            email: response.user.email,
+            name: response.user.name,
+            role: response.user.role,
+            designation: response.user.designation,
+            img: response.user.img
+          };
+
+          localStorage.setItem(StorageKeys.CURRENT_USER, JSON.stringify(user));
+          this.currentUserSubject.next(user);
+          return user;
         }
         return null;
+      }),
+      catchError(error => {
+        console.error('Login failed', error);
+        return of(null);
       })
     );
   }
 
-  logout() {
-    localStorage.removeItem('currentUser');
+  /**
+   * Logout user and clear session
+   */
+  logout(): void {
+    localStorage.removeItem(StorageKeys.CURRENT_USER);
+    localStorage.removeItem(StorageKeys.AUTH_TOKEN);
     this.currentUserSubject.next(null);
     this.router.navigate(['/auth/login']);
   }
 
+  /**
+   * Get current user value synchronously
+   */
   get currentUserValue(): User | null {
     return this.currentUserSubject.value;
   }
 
+  /**
+   * Check if user has specific role
+   */
   hasRole(role: string): boolean {
     const user = this.currentUserValue;
     return user ? user.role === role : false;
   }
 
+  /**
+   * Check if current user is admin
+   */
   get isAdmin(): boolean {
     return this.hasRole('admin');
   }
 
+  /**
+   * Check if current user is employee
+   */
   get isEmployee(): boolean {
     return this.hasRole('employee');
+  }
+
+  /**
+   * Check if user is authenticated
+   */
+  get isAuthenticated(): boolean {
+    return this.currentUserValue !== null;
   }
 }

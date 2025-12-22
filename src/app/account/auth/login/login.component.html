@@ -1,5 +1,8 @@
 <div class="login-page d-flex align-items-center justify-content-center vh-100 bg-light">
-    <div class="login-card p-5 bg-white shadow-lg rounded-4" style="width: 100%; max-width: 450px;">
+    <div class="container-fluid">
+      <div class="row justify-content-center">
+        <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5">
+          <div class="login-card p-4 p-md-5 bg-white shadow-lg rounded-4">
         <div class="text-center mb-4">
             <h2 class="text-primary fw-bold text-uppercase">Phoenix</h2>
             <p class="text-muted">Welcome back! Please login to your account.</p>
@@ -14,7 +17,14 @@
                 <label class="form-label small fw-bold text-secondary">Email address</label>
                 <div class="input-group">
                     <span class="input-group-text bg-light border-end-0"><i class="bi bi-envelope text-muted"></i></span>
-                    <input type="email" formControlName="email" class="form-control bg-light border-start-0 shadow-none" placeholder="name@company.com">
+                    <input type="email" formControlName="email" 
+                           class="form-control bg-light border-start-0 shadow-none"
+                           [class.is-invalid]="loginForm.get('email')?.invalid && loginForm.get('email')?.touched"
+                           placeholder="name@company.com">
+                </div>
+                <div class="invalid-feedback d-block" *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
+                  <small *ngIf="loginForm.get('email')?.errors?.['required']">Email is required</small>
+                  <small *ngIf="loginForm.get('email')?.errors?.['email']">Please enter a valid email address</small>
                 </div>
             </div>
 
@@ -22,10 +32,16 @@
                 <label class="form-label small fw-bold text-secondary">Password</label>
                 <div class="input-group">
                     <span class="input-group-text bg-light border-end-0"><i class="bi bi-lock text-muted"></i></span>
-                    <input [type]="showPassword ? 'text' : 'password'" formControlName="password" class="form-control bg-light border-start-0 border-end-0 shadow-none" placeholder="Enter your password">
+                    <input [type]="showPassword ? 'text' : 'password'" formControlName="password" 
+                           class="form-control bg-light border-start-0 border-end-0 shadow-none"
+                           [class.is-invalid]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched"
+                           placeholder="Enter your password">
                     <button type="button" class="input-group-text bg-light border-start-0 text-muted cursor-pointer" (click)="togglePassword()">
                         <i class="bi" [ngClass]="showPassword ? 'bi-eye-slash' : 'bi-eye'"></i>
                     </button>
+                </div>
+                <div class="invalid-feedback d-block" *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+                  <small *ngIf="loginForm.get('password')?.errors?.['required']">Password is required</small>
                 </div>
             </div>
 
@@ -44,5 +60,8 @@
             <p>Admin: admin&#64;gmail.com / 123456</p>
             <p>Employee: employee&#64;gmail.com / 123456</p>
         </div>
+          </div>
+        </div>
+      </div>
     </div>
 </div>

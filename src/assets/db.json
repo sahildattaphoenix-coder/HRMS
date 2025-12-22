@@ -7,7 +7,7 @@
       "role": "admin",
       "name": "Sahil Datta",
       "designation": "Manager",
-      "img": "assets/images/users/user-1.jpg"
+      "img": ""
     },
     {
       "id": "2",
@@ -17,6 +17,24 @@
       "name": "Rahul",
       "designation": "UI / Ux designer",
       "img": "assets/images/users/user-2.jpg"
+    },
+    {
+      "id": "0f68",
+      "email": "sujal@gmail.com",
+      "password": "123456",
+      "name": "sujal",
+      "role": "employee",
+      "designation": "test",
+      "img": ""
+    },
+    {
+      "id": "2289",
+      "email": "test@gmail.com",
+      "password": "123456",
+      "name": "test",
+      "role": "employee",
+      "designation": "test",
+      "img": ""
     }
   ],
   "stats": {
@@ -35,12 +53,12 @@
       "startDate": "01/Nov/2023",
       "endDate": "10/Dec/2023",
       "deadline": "04/Dec/2023",
-      "progress": 14,
+      "progress": 29,
       "team": [
         {
           "id": 1,
           "name": "Krishna",
-          "img": "assets/images/users/user-1.jpg"
+          "img": ""
         },
         {
           "id": 2,
@@ -57,7 +75,7 @@
         {
           "id": 1766134953521,
           "text": "do this",
-          "completed": false
+          "completed": true
         },
         {
           "id": 1766134964241,
@@ -134,7 +152,7 @@
       "reason": "test",
       "employeeId": "2",
       "employeeName": "Rahul",
-      "status": "Pending",
+      "status": "Approved",
       "appliedDate": "2025-12-19T08:58:12.923Z"
     }
   ],
@@ -156,7 +174,7 @@
       "qualification": "MBA",
       "reportingTo": "Director",
       "status": "Active",
-      "img": "assets/images/users/user-1.jpg",
+      "img": "",
       "address": {
         "country": "India",
         "state": "NCT",
@@ -311,6 +329,66 @@
       "password": "****",
       "empNo": "03",
       "role": "employee"
+    },
+    {
+      "id": "2048",
+      "userId": "0f68",
+      "name": "sujal",
+      "email": "sujal@gmail.com",
+      "empNo": "04",
+      "department": "Engineering",
+      "designation": "test",
+      "status": "Active",
+      "img": "",
+      "age": 25,
+      "joiningDate": "2025-12-19",
+      "address": {
+        "country": "India",
+        "state": "",
+        "city": "",
+        "pincode": "",
+        "street": "",
+        "homeNo": ""
+      },
+      "bank": {
+        "name": "",
+        "accountNo": "",
+        "ifsc": "",
+        "pincode": "",
+        "location": "",
+        "aadhar": "",
+        "pan": ""
+      }
+    },
+    {
+      "id": "c757",
+      "userId": "2289",
+      "name": "test",
+      "email": "test@gmail.com",
+      "empNo": "05",
+      "department": "Engineering",
+      "designation": "test",
+      "status": "Active",
+      "img": "assets/images/users/user-1.jpg",
+      "age": 25,
+      "joiningDate": "2025-12-19",
+      "address": {
+        "country": "India",
+        "state": "",
+        "city": "",
+        "pincode": "",
+        "street": "",
+        "homeNo": ""
+      },
+      "bank": {
+        "name": "",
+        "accountNo": "",
+        "ifsc": "",
+        "pincode": "",
+        "location": "",
+        "aadhar": "",
+        "pan": ""
+      }
     }
   ],
   "payroll": [
@@ -415,6 +493,26 @@
       "status": "Present",
       "checkOut": "02:43 PM",
       "hours": 0.25
+    },
+    {
+      "employeeId": "2",
+      "employeeName": "Rahul",
+      "date": "2025-12-22",
+      "checkIn": "12:36 PM",
+      "status": "Present",
+      "id": "eR086WO",
+      "checkOut": "12:37 PM",
+      "hours": 0.02
+    },
+    {
+      "employeeId": "2",
+      "employeeName": "Rahul",
+      "date": "2025-12-22",
+      "checkIn": "02:48 PM",
+      "status": "Present",
+      "id": "Bug0-DO",
+      "checkOut": "02:48 PM",
+      "hours": 0
     }
   ],
   "timesheets": [

@@ -4,16 +4,44 @@
     height: 100%;
     background: white;
     border-right: 1px solid #e2e8f0;
+    overflow: hidden;
 }
 
 .sidebar-top {
     flex: 1;
     overflow-y: auto;
+    overflow-x: hidden;
+    
+    // Custom scrollbar styling
+    &::-webkit-scrollbar {
+        width: 6px;
+    }
+    
+    &::-webkit-scrollbar-track {
+        background: #f1f5f9;
+    }
+    
+    &::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 3px;
+        
+        &:hover {
+            background: #94a3b8;
+        }
+    }
 }
 
 .sidebar-bottom {
+    flex-shrink: 0;
     background: #ffffff;
     border-top: 1px solid #f1f5f9;
+    
+    // Ensure logout is always visible on mobile
+    @media (max-width: 991px) {
+        position: sticky;
+        bottom: 60px;
+        z-index: 10;
+    }
 }
 
 .logo-text { color: #1e293b; font-family: 'Outfit', sans-serif; }

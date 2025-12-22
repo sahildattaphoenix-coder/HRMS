@@ -1,24 +1,29 @@
 <header class="header d-flex justify-content-between align-items-center px-4 py-3 bg-white">
-  <div class="left d-flex align-items-center">
+  <div class="left d-flex align-items-center gap-3">
+    <!-- Hamburger Menu Button (Mobile/Tablet Only) -->
+    <button class="btn btn-link p-0 mobile-menu-toggle text-dark" (click)="onToggleSidebar()" aria-label="Toggle Menu">
+      <i class="bi bi-list"></i>
+    </button>
+    
     <h4 class="greeting-text m-0" *ngIf="authService.currentUser$ | async as user">
         {{ getGreeting() }}, <span class="username">{{ user.name.split(' ')[0].toLowerCase() }}</span>
     </h4>
   </div>
 
   <div class="right d-flex align-items-center gap-4">
-    <div class="search-box">
+    <div class="search-box d-none d-md-flex">
         <i class="bi bi-search"></i>
         <input type="text" placeholder="Search anythinks">
     </div>
 
-    <div class="header-date d-flex flex-column text-end">
+    <div class="header-date d-none d-sm-flex flex-column text-end">
         <span class="day fw-bold small text-dark">{{ currentDate | date: 'EEEE' }}</span>
         <span class="full-date smallest text-muted">{{ currentDate | date: 'dd/MMM/yyyy' }}</span>
     </div>
 
     <div class="user-pill d-flex align-items-center gap-2 cursor-pointer position-relative" 
          *ngIf="authService.currentUser$ | async as user" (click)="toggleDropdown($event)">
-        <img [src]="user.img || 'assets/images/users/user-1.jpg'" class="rounded-circle shadow-xs" width="35" height="35">
+        <app-avatar [name]="user.name" [imageUrl]="user.img" [size]="35" styleClass="rounded-circle shadow-xs cursor-pointer"></app-avatar>
         <i class="bi bi-chevron-down small text-muted"></i>
 
         <!-- Dropdown Menu -->
