@@ -8,13 +8,15 @@ import { LayoutComponent } from './layout.component';
 import { TopbarComponent } from './topbar/topbar.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { RightsidebarComponent } from './rightsidebar/rightsidebar.component';
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
   declarations: [
     LayoutComponent,
     TopbarComponent,
     SidebarComponent,
-    RightsidebarComponent
+    RightsidebarComponent,
+    FooterComponent
   ],
   imports: [
     CommonModule,
