@@ -1,35 +1,61 @@
 .footer {
   width: 100%;
-  padding: 2rem 0;
-  background-color: transparent; // Or a very soft neutral if preferred, transparent requested
+  padding: 1.5rem 0; 
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(20px); 
+  -webkit-backdrop-filter: blur(10px); 
+  border-top: 1px solid rgba(255, 255, 255, 0.3); 
   text-align: center;
-  margin-top: auto; // Pushes it to the bottom if flex container allows
+  margin-top: auto;
+  transition: all 0.3s ease; 
+  z-index: 1000; 
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.05); 
+    transform: translateY(-2px); 
+  }
 
   .footer-content {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: space-evenly;
     gap: 0.5rem;
   }
 
   .main-line {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem; 
+    flex-wrap: wrap;
     font-size: 1rem;
     font-weight: 500;
-    color: #495057; // Soft dark gray
+    color: #495057;
     margin: 0;
-    line-height: 1.5;
     
+    .divider {
+      color: #ced4da; 
+      font-weight: 300;
+    }
+
     // Responsive adjustment
     @media (max-width: 576px) {
+      gap: 0.5rem;
       font-size: 0.9rem;
       padding: 0 1rem;
+      flex-direction: column; 
+      
+      .divider {
+        display: none; 
+      }
     }
   }
 
   .sub-line {
     font-size: 0.75rem;
-    color: #adb5bd; // Lighter gray for secondary text
+    color: #9ca6b0; 
     margin: 0;
     font-weight: 400;
   }

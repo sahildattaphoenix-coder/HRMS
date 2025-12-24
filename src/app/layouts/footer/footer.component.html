@@ -1,8 +1,12 @@
 <footer class="footer">
   <div class="footer-content">
-    <p class="main-line">
-      {{ greeting }}, {{ userName$ | async }} 👋 • {{ weekday }} • {{ message }}
-    </p>
+    <div class="main-line">
+      <span>{{ greeting }}, {{ userName$ | async }} 👋</span>
+      <span class="divider">|</span>
+      <span>{{ weekday }}</span>
+      <span class="divider">|</span>
+      <span>{{ message }}</span>
+    </div>
     <p class="sub-line">
       Developed by Phoenix Code Crafters
     </p>
