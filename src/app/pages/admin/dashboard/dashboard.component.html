@@ -100,70 +100,8 @@
 
   <div class="row g-4 mb-4">
     <!-- Left: Leave Summary -->
-    <div class="col-lg-3 col-12">
-      <div class="content-box shadow-sm p-4 h-100">
-        <h6 class="chart-title mb-4">Leave summery</h6>
-        <div
-          class="d-flex flex-column align-items-center gap-4"
-          *ngIf="leaveSummary"
-        >
-          <div
-            class="leave-card w-100 text-center py-2 bg-light-blue rounded-3"
-          >
-            <span class="d-block text-muted small mb-1">Available leave</span>
-          </div>
-
-          <div
-            class="circle-progress position-relative d-flex align-items-center justify-content-center"
-          >
-            <svg width="120" height="120">
-              <circle
-                cx="60"
-                cy="60"
-                r="54"
-                fill="none"
-                stroke="#e2e8f0"
-                stroke-width="8"
-              ></circle>
-              <circle
-                cx="60"
-                cy="60"
-                r="54"
-                fill="none"
-                stroke="#3b82f6"
-                stroke-width="8"
-                stroke-dasharray="340"
-                [attr.stroke-dashoffset]="
-                  340 - (340 * leaveSummary.balance) / leaveSummary.total
-                "
-              ></circle>
-            </svg>
-            <div class="circle-val fw-bold fs-4">
-              {{ leaveSummary.balance }}
-            </div>
-          </div>
-
-          <div class="w-100 d-flex flex-column gap-2">
-            <div
-              class="summary-pill bg-light text-muted py-2 px-3 rounded-pill small"
-            >
-              Taken leave - {{ leaveSummary.taken }}
-            </div>
-            <div
-              class="summary-pill bg-light text-muted py-2 px-3 rounded-pill small"
-            >
-              Annual leave - {{ leaveSummary.total }}
-            </div>
-          </div>
-        </div>
-        <div *ngIf="!leaveSummary" class="text-center py-5 text-muted small">
-          Loading summary...
-        </div>
-      </div>
-    </div>
-
     <!-- Right: Combined Tables -->
-    <div class="col-lg-9 col-12">
+    <div class="col-12">
       <div class="content-box shadow-sm mb-4 overflow-hidden">
         <h6 class="chart-title p-4 pb-0 mb-0">Pending Approval by me</h6>
         <div class="table-responsive p-4">

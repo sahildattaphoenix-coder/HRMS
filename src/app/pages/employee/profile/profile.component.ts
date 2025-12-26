@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../../core/services/auth.service';
 import { ApiService } from '../../../core/services/api.service';
 import { AttendanceService } from '../../../core/services/attendance.service';
+import { LeaveService } from '../../../core/services/leave.service';
 import { Employee } from '../../../core/models/employee.model';
 import {
   ApexAxisChartSeries,
@@ -36,7 +37,8 @@ export class ProfileComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private apiService: ApiService,
-    private attendanceService: AttendanceService
+    private attendanceService: AttendanceService,
+    private leaveService: LeaveService
   ) {
     this.initChart();
   }
@@ -51,8 +53,8 @@ export class ProfileComponent implements OnInit {
         });
 
         // Fetch user-specific leave summary
-        this.apiService.getById<any>('leaveSummaries', user.id).subscribe(data => {
-          this.leaveSummary = data || { taken: 0, total: 24, balance: 24, sick: 0 };
+        this.leaveService.getLeaveSummaryByUserId(user.id).subscribe(data => {
+          this.leaveSummary = data;
         });
       }
     });

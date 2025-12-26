@@ -7,7 +7,7 @@ import { LeaveRequest } from '../models/hrms.model';
   providedIn: 'root'
 })
 export class LeaveService {
-  constructor(private apiService: ApiService) {}
+  constructor(private apiService: ApiService) { }
 
   getAllLeaveRequests(): Observable<LeaveRequest[]> {
     return this.apiService.get<LeaveRequest>('leaveRequests');
@@ -37,9 +37,43 @@ export class LeaveService {
   }
 
   getLeaveSummaryByUserId(userId: string | number): Observable<any> {
-    // Implementing the specific leave summaries logic if it's in a map
-    return this.apiService.getById<any>('leaveSummaries', userId).pipe(
-      map(summary => summary || { taken: 0, total: 24, balance: 24, sick: 0 })
+    return this.getMyLeaveRequests(userId).pipe(
+      map(requests => {
+        const approvedLeaves = requests.filter(r => r.status === 'Approved');
+
+        let taken = 0;
+        let sick = 0;
+
+        approvedLeaves.forEach(leave => {
+          const days = this.calculateDays(leave.startDate, leave.endDate);
+          taken += days;
+          if (leave.type === 'Sick Leave') {
+            sick += days;
+          }
+        });
+
+        const total = 30; // Standard entitlement
+        return {
+          taken,
+          total,
+          balance: total - taken,
+          sick
+        };
+      })
     );
+  }
+
+  private calculateDays(start: string, end: string): number {
+    const startDate = new Date(start);
+    const endDate = new Date(end);
+
+    // Normalize to midnight to ensure correct day difference
+    startDate.setHours(0, 0, 0, 0);
+    endDate.setHours(0, 0, 0, 0);
+
+    const diffTime = Math.abs(endDate.getTime() - startDate.getTime());
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+    return diffDays + 1; // Inclusive
   }
 }
