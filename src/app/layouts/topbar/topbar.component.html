@@ -1,8 +1,8 @@
 <header class="header d-flex justify-content-between align-items-center px-4 py-3 bg-white">
   <div class="left d-flex align-items-center gap-3">
-    <!-- Hamburger Menu Button (Mobile/Tablet Only) -->
-    <button class="btn btn-link p-0 mobile-menu-toggle text-dark" (click)="onToggleSidebar()" aria-label="Toggle Menu">
-      <i class="bi bi-list"></i>
+    <!-- Sidebar Toggle Button -->
+    <button class="btn btn-link p-0 me-2 text-dark d-flex align-items-center justify-content-center" (click)="onToggleSidebar()" style="width: 32px; height: 32px;" aria-label="Toggle Menu">
+      <i class="bi fs-4" [class.bi-list]="!isCollapsed" [class.bi-arrow-right]="isCollapsed"></i>
     </button>
     
     <h4 class="greeting-text m-0" *ngIf="authService.currentUser$ | async as user">

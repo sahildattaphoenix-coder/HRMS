@@ -9,6 +9,7 @@ import { SharedService } from '../../../../core/services/shared.service';
 })
 export class HrPolicyComponent implements OnInit {
   policies: any[] = [];
+  selectedPolicy: any = null;
 
   constructor(private sharedService: SharedService) {}
 
@@ -16,5 +17,13 @@ export class HrPolicyComponent implements OnInit {
     this.sharedService.getHrPolicies().subscribe((data: any) => {
       this.policies = data;
     });
+  }
+
+  openModal(policy: any) {
+    this.selectedPolicy = policy;
+  }
+
+  closeModal() {
+    this.selectedPolicy = null;
   }
 }

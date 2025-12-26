@@ -16,7 +16,11 @@ export class LayoutComponent {
   isRightSidebarCollapsed = false;
   
   toggleSidebar() {
-    this.sidebarOpen = !this.sidebarOpen;
+    if (window.innerWidth > 991) {
+      this.toggleLeftSidebar();
+    } else {
+      this.sidebarOpen = !this.sidebarOpen;
+    }
   }
 
   toggleLeftSidebar() {

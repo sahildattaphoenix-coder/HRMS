@@ -1,32 +1,30 @@
-<div class="sidebar-top px-2 py-3">
-  <div class="user-block text-center mb-4" *ngIf="authService.currentUser$ | async as user">
-    <div class="avatar-wrapper mx-auto mb-3 text-center">
-      <app-avatar [name]="user.name" [imageUrl]="user.img" [size]="collapsed ? 32 : 80" [fontSize]="collapsed ? '1rem' : '2rem'" styleClass="rounded-circle mx-auto"></app-avatar>
-    </div>
-    <h6 class="m-0 fw-bold user-name">{{ user.name }}</h6>
-    <div class="smallest text-muted text-uppercase mt-1">{{ role }}</div>
-  </div>
-
-  <nav class="sidebar-nav">
-    <ul class="nav flex-column gap-1">
-      <li class="nav-item position-relative" *ngFor="let link of role === 'admin' ? adminLinks : employeeLinks">
-        <a class="nav-link d-flex align-items-center justify-content-between py-3 px-3 rounded-3"
-           [routerLink]="link.path" routerLinkActive="active" (click)="onLinkClick()"
-           [attr.data-title]="link.label">
-          <div class="d-flex align-items-center gap-3">
-            <i class="bi" [class]="link.icon"></i>
-            <span class="fw-semibold">{{ link.label }}</span>
-          </div>
-
-        </a>
-      </li>
-    </ul>
-  </nav>
+<div class="sidebar-header">
+  <h4 class="logo-text">Phoenix</h4>
+  <p class="small text-muted hide-on-collapse">Dashboard</p>
 </div>
 
-<div class="sidebar-bottom px-3 py-3 border-top mt-auto">
-    <a class="nav-link d-flex align-items-center gap-3 text-danger cursor-pointer p-3 rounded-3" (click)="authService.logout()">
-        <i class="bi bi-box-arrow-left fs-5"></i>
-        <span class="fw-bold">Logout</span>
+<nav class="sidebar-nav">
+  <div class="nav flex-column">
+    <a *ngFor="let link of role === 'admin' ? adminLinks : employeeLinks"
+       class="nav-link"
+       [routerLink]="link.path"
+       routerLinkActive="active"
+       (click)="onLinkClick()"
+       [attr.data-title]="link.label"> <!-- data-title for tooltip if needed -->
+      <i class="bi" [class]="link.icon"></i>
+      <span class="hide-on-collapse">{{ link.label }}</span>
     </a>
+  </div>
+</nav>
+
+<div class="sidebar-bottom">
+  <div class="user-block" *ngIf="authService.currentUser$ | async as user">
+    <div class="avatar-wrapper">
+      <app-avatar [name]="user.name" [imageUrl]="user.img" [size]="40" fontSize="1rem" styleClass="rounded-circle"></app-avatar>
+    </div>
+    <div class="profile-info hide-on-collapse">
+      <h6>{{ user.name }}</h6>
+      <small>{{ role | titlecase }}</small>
+    </div>
+  </div>
 </div>

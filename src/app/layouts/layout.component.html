@@ -1,17 +1,12 @@
 <div class="app-layout-grid">
   <!-- Header: Spans full width or just content area depending on design. Usually full width -->
   <header class="app-header">
-    <app-topbar (toggleSidebar)="toggleSidebar()"></app-topbar>
+    <app-topbar [isCollapsed]="isLeftSidebarCollapsed" (toggleSidebar)="toggleSidebar()"></app-topbar>
   </header>
 
   <!-- Left Sidebar Area -->
   <aside class="app-sidebar" [class.collapsed]="isLeftSidebarCollapsed" [class.mobile-show]="sidebarOpen">
     <app-sidebar [class.collapsed]="isLeftSidebarCollapsed" [collapsed]="isLeftSidebarCollapsed" (closeSidebar)="closeSidebar()"></app-sidebar>
-    
-    <!-- Toggle Button positioned relative to this cell or absolute in the cell -->
-    <div class="sidebar-toggle-btn left-toggle d-none d-lg-flex" [class.collapsed]="isLeftSidebarCollapsed" (click)="toggleLeftSidebar()">
-        <i class="bi" [class.bi-chevron-left]="!isLeftSidebarCollapsed" [class.bi-chevron-right]="isLeftSidebarCollapsed"></i>
-    </div>
   </aside>
 
   <!-- Mobile Backdrop -->

@@ -273,19 +273,31 @@
       "id": "1",
       "title": "Leave Policy",
       "content": "Employees are entitled to 12 sick leaves and 15 casual leaves per year. Notice period for resignation is 3 months.",
-      "icon": "bi-person-x"
+      "fullDetails": "Our Leave Policy is designed to promote work-life balance. \n\n1. **Casual Leave (CL)**: 15 days per year. Can be taken for personal matters. Max 3 consecutive days allowed.\n2. **Sick Leave (SL)**: 12 days per year. Medical certificate required for more than 2 consecutive days.\n3. **Earned Leave (EL)**: 1 day for every 20 days worked. Can be accumulated up to 300 days.\n4. **Maternity/Paternity Leave**: As per statutory norms.\n\nAll leaves must be applied for in advance via the HRMS portal, except in emergencies.\n\n**Encashment:**\nUnutilized EL can be encashed at the end of the financial year. Basic salary is used for calculation.\n\n**Loss of Pay (LOP)**:\nAny unauthorized absence or leave beyond the accrued balance will be treated as LOP and deducted from the month's salary.",
+      "icon": "bi-person-x",
+      "version": "v2.4",
+      "effectiveDate": "01 Jan 2024",
+      "department": "Human Resources"
     },
     {
       "id": "2",
       "title": "Code of Conduct",
       "content": "Professional behavior and respect towards colleagues is mandatory. Company assets should be used responsibly.",
-      "icon": "bi-shield-check"
+      "fullDetails": "This Code of Conduct outlines the standards of behavior expected from all employees.\n\n1. **Professional Integrity**: Employees must act with honesty and integrity in all business dealings.\n2. **Respect & Inclusion**: We are committed to a harassment-free workplace. Discrimination or bullying of any kind is strictly prohibited.\n3. **Confidentiality**: Employees must protect the company's confidential information and intellectual property.\n4. **Company Assets**: Computers, internet access, and other resources are for business use only.\n\nViolations may lead to disciplinary action, up to and including termination.\n\n**Conflict of Interest**:\nEmployees must avoid any situation that involves a conflict between their personal interests and the interests of the Company.\n\n**Gifts & Entertainment**:\nEmployees may not accept gifts, gratuities, or entertainment that could influence their business decisions.",
+      "icon": "bi-shield-check",
+      "version": "v1.1",
+      "effectiveDate": "15 Mar 2023",
+      "department": "Legal & Compliance"
     },
     {
       "id": "3",
       "title": "Work from Home",
       "content": "Hybrid model: 3 days office, 2 days remote. Requests must be approved by the manager.",
-      "icon": "bi-house-heart"
+      "fullDetails": "Our Hybrid Work Policy offers flexibility while ensuring collaboration.\n\n1. **Eligibility**: All full-time employees after probation period.\n2. **Schedule**: Mandatory in-office days are Tuesday, Wednesday, and Thursday. Monday and Friday can be remote.\n3. **Availability**: Employees must be available on Slack/Teams during core working hours (10 AM - 4 PM) regardless of location.\n4. **Equipment**: The company provides laptops and secure VPN access. Employees must ensure a stable internet connection at home.\n\nManager approval is required for any deviation from the standard schedule.\n\n**Data Security**:\nRemote employees must ensure they are working on a secure network. Use of public Wi-Fi without VPN is strictly prohibited.\n\n**Dependent Care**:\nArrangements for dependent care should be made during working hours to ensure focus and productivity.",
+      "icon": "bi-house-heart",
+      "version": "v3.0",
+      "effectiveDate": "01 Apr 2024",
+      "department": "Operations"
     }
   ],
   "leaveSummaries": [

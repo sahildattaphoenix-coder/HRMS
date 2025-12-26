@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, HostListener, Output, EventEmitter, Input } from '@angular/core';
 import { AuthService } from '../../core/services/auth.service';
 
 @Component({
@@ -11,6 +11,7 @@ export class TopbarComponent implements OnInit {
   currentDate = new Date();
   showDropdown = false;
   
+  @Input() isCollapsed: boolean = false;
   @Output() toggleSidebar = new EventEmitter<void>();
 
   constructor(public authService: AuthService) {}

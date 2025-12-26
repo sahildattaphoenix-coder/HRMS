@@ -116,11 +116,6 @@ app-footer {
   // Default Width
   width: 300px;
   
-  // Span grid rows if needed, but grid-area handles it. 
-  // Note: if we want sidebar to go all the way down, we need to span rows.
-  // Sidebar is "sidebar" area. In template "sidebar main rightsidebar" / "sidebar footer rightsidebar"
-  // It spans 2 rows automatically if the area name is same.
-  
   &.collapsed {
     width: 0;
     overflow: visible; // Allow toggle button to be seen!
@@ -173,7 +168,7 @@ app-footer {
   width: 32px; // Bigger click area
   height: 32px;
   background: #ffffff;
-  border: 1px solid #e2e8f0;
+  border: 1px solid #d3d4d4;
   border-radius: 50%; // Circle
   display: flex;
   align-items: center;
@@ -193,11 +188,11 @@ app-footer {
   }
 
   &.left-toggle {
-    right: -16px; // Center on border
+    right: -35px; // Center on border
   }
 
   &.right-toggle {
-    left: -20px; // Stick out more into content
+    left: -35px; // Stick out more into content
   }
 
   i {
