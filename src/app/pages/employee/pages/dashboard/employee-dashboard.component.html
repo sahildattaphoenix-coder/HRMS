@@ -141,16 +141,24 @@
                     >
                       Current Active
                     </div>
-                    <div class="fw-bold text-primary mb-1">HRMS PROJECT</div>
-                    <div class="progress rounded-pill" style="height: 6px">
-                      <div
-                        class="progress-bar bg-primary"
-                        style="width: 65%"
-                      ></div>
+                    
+                    <div *ngIf="currentProject; else noActiveProject">
+                        <div class="fw-bold text-primary mb-1">{{ currentProject.title }}</div>
+                        <div class="progress rounded-pill bg-white" style="height: 8px">
+                          <div
+                            class="progress-bar bg-primary"
+                            [style.width.%]="currentProject.progress || 0"
+                          ></div>
+                        </div>
+                        <div class="text-end smallest text-muted mt-1">
+                          {{ currentProject.progress || 0 }}% Done
+                        </div>
                     </div>
-                    <div class="text-end smallest text-muted mt-1">
-                      65% Done
-                    </div>
+
+                    <ng-template #noActiveProject>
+                        <div class="text-muted small py-2">No active project.</div>
+                    </ng-template>
+
                   </div>
                 </div>
               </div>

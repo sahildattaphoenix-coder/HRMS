@@ -121,6 +121,8 @@ export class DashboardComponent implements OnInit {
       this.adminStats.active = todayAttendance.filter(a => a.checkIn && !a.checkOut).length;
       this.adminStats.wfh = employees.filter(e => e.workMode === 'WFH' || e.workMode === 'Remote').length;
       this.adminStats.absent = employees.length - todayAttendance.length;
+      
+      this.calculateWeeklyHours(attendance); // Update Chart
     });
   }
 
@@ -142,7 +144,7 @@ export class DashboardComponent implements OnInit {
 
   initCharts() {
     this.barChartOptions = {
-      series: [{ name: 'Hours', data: [450, 420, 480, 500, 460, 200, 150] }],
+      series: [{ name: 'Hours', data: [] }], // Initialize empty
       chart: { type: 'bar', height: 250, toolbar: { show: false } },
       plotOptions: { bar: { columnWidth: '40%', distributed: true, borderRadius: 4 } },
       colors: ['#a7f3d0', '#a7f3d0', '#a7f3d0', '#a7f3d0', '#a7f3d0', '#f1f5f9', '#f1f5f9'],
@@ -158,6 +160,38 @@ export class DashboardComponent implements OnInit {
       responsive: [{ breakpoint: 480, options: { chart: { width: 200 }, legend: { show: false } } }],
       legend: { show: true, position: 'bottom' }
     };
+  }
+
+  calculateWeeklyHours(attendance: Attendance[]) {
+      const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+      const hoursPerDay = new Array(7).fill(0);
+      
+      const today = new Date();
+      // Get start of the week (Monday)
+      const startOfWeek = new Date(today);
+      const day = startOfWeek.getDay() || 7; // Get current day number, converting Sun (0) to 7
+      if (day !== 1) startOfWeek.setHours(-24 * (day - 1)); 
+      else startOfWeek.setHours(0,0,0,0);
+
+      attendance.forEach(record => {
+          const recordDate = new Date(record.date);
+          // Check if record is in current week
+          if (recordDate >= startOfWeek) {
+              const dayIndex = recordDate.getDay() || 7; // 1 (Mon) - 7 (Sun)
+              // Map to 0-6 array index
+              const arrayIndex = dayIndex - 1;
+              
+              if (record.totalHours) {
+                  hoursPerDay[arrayIndex] += record.totalHours;
+              }
+          }
+      });
+
+      // Update Chart
+      this.barChartOptions.series = [{
+          name: 'Total Hours',
+          data: hoursPerDay.map(h => Number(h.toFixed(1)))
+      }];
   }
 
   loadEmployees() {

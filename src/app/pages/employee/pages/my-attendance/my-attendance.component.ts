@@ -58,11 +58,13 @@ export class MyAttendanceComponent implements OnInit {
 
     if (!this.isClockedIn) {
       // Clock In
+      const now = new Date();
       const record: any = {
         employeeId: user.id,
         employeeName: user.name,
-        date: new Date().toISOString().split('T')[0],
-        checkIn: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        date: now.toISOString().split('T')[0],
+        checkIn: now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        checkInISO: now.toISOString(), // Store exact time
         status: 'Present'
       };
       this.attendanceService.clockIn(record).subscribe(() => this.loadAttendance(user.id, user.role));
@@ -70,8 +72,20 @@ export class MyAttendanceComponent implements OnInit {
       // Clock Out
       this.attendanceService.getActiveAttendance(user.id).subscribe(record => {
         if (record && record.id) {
-          const checkOut = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-          const hours = this.calculateHours(record.checkIn, checkOut);
+          const now = new Date();
+          const checkOut = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+          
+          let hours = 0;
+          if (record.checkInISO) {
+             // Robust calculation using ISO
+             const start = new Date(record.checkInISO).getTime();
+             const end = now.getTime();
+             const diffMins = (end - start) / (1000 * 60);
+             hours = Number((diffMins / 60).toFixed(2));
+          } else {
+             // Fallback for legacy records
+             hours = this.calculateHoursLegacy(record.checkIn, checkOut);
+          }
           
           this.attendanceService.clockOut(record.id, checkOut, hours).subscribe(() => {
             this.loadAttendance(user.id, user.role);
@@ -81,7 +95,8 @@ export class MyAttendanceComponent implements OnInit {
     }
   }
 
-  calculateHours(checkIn: string, checkOut: string): number {
+  // Fallback for old data without checkInISO
+  calculateHoursLegacy(checkIn: string, checkOut: string): number {
     const parseTime = (timeStr: string) => {
       const [time, modifier] = timeStr.split(' ');
       let [hours, minutes] = time.split(':').map(Number);
@@ -90,10 +105,13 @@ export class MyAttendanceComponent implements OnInit {
       return hours * 60 + minutes;
     };
 
-    const start = parseTime(checkIn);
-    const end = parseTime(checkOut);
-    const diffMins = end - start;
-    
-    return Number((diffMins / 60).toFixed(2));
+    try {
+        const start = parseTime(checkIn);
+        const end = parseTime(checkOut);
+        const diffMins = end - start;
+        return Number((diffMins / 60).toFixed(2));
+    } catch (e) {
+        return 0;
+    }
   }
 }

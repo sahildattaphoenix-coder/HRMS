@@ -4,8 +4,10 @@ export interface Attendance {
   employeeName: string;
   date: string;
   checkIn: string;
+  checkInISO?: string; // Added for robust time calculation
   checkOut?: string;
   hours?: number;
+  totalHours?: number; // Added for chart aggregation
   status: 'Present' | 'Absent' | 'Late' | 'Half Day';
 }
 

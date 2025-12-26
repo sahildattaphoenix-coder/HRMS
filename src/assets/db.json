@@ -62,7 +62,19 @@
       "id": "yzQMAHN"
     }
   ],
-  "leaveRequests": [],
+  "leaveRequests": [
+    {
+      "type": "Casual Leave",
+      "startDate": "2025-12-26",
+      "endDate": "2025-12-27",
+      "reason": "casual leave",
+      "employeeId": "2",
+      "employeeName": "Rahul",
+      "status": "Approved",
+      "appliedDate": "2025-12-26T08:43:05.878Z",
+      "id": 1
+    }
+  ],
   "employees": [
     {
       "id": "101",
@@ -266,7 +278,19 @@
       "completed": false
     }
   ],
-  "attendance": [],
+  "attendance": [
+    {
+      "employeeId": "2",
+      "employeeName": "Rahul",
+      "date": "2025-12-26",
+      "checkIn": "02:12 PM",
+      "checkInISO": "2025-12-26T08:42:24.196Z",
+      "status": "Present",
+      "id": 1,
+      "checkOut": "02:13 PM",
+      "hours": 0.02
+    }
+  ],
   "timesheets": [],
   "hrPolicies": [
     {
