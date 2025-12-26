@@ -19,143 +19,50 @@
       "img": "assets/images/users/user-2.jpg"
     },
     {
-      "id": "0f68",
-      "email": "sujal@gmail.com",
-      "password": "123456",
-      "name": "sujal",
-      "role": "employee",
-      "designation": "test",
-      "img": ""
-    },
-    {
-      "id": "2289",
       "email": "test@gmail.com",
       "password": "123456",
       "name": "test",
       "role": "employee",
-      "designation": "test",
-      "img": ""
+      "designation": "BDE",
+      "img": "",
+      "id": "FTRVnIT"
     }
   ],
-  "stats": {
-    "totalProjects": 10,
-    "workingProjects": 6,
-    "completedProjects": 3,
-    "pendingProjects": 1
-  },
   "projects": [
     {
-      "id": "101",
-      "title": "HRMS",
-      "manager": "Rohit sir",
-      "category": "Saas Project",
+      "title": "Phoenix",
+      "manager": "Sahil",
+      "category": "Internal",
+      "startDate": "2025-12-24",
+      "deadline": "2025-12-31",
       "state": "Active",
-      "startDate": "01/Nov/2023",
-      "endDate": "10/Dec/2023",
-      "deadline": "04/Dec/2023",
-      "progress": 29,
-      "team": [
-        {
-          "id": 1,
-          "name": "Krishna",
-          "img": ""
-        },
-        {
-          "id": 2,
-          "name": "Rahul",
-          "img": "assets/images/users/user-2.jpg"
-        }
-      ],
-      "tasks": [
-        {
-          "id": 1766134660409,
-          "text": "work on layout",
-          "completed": true
-        },
-        {
-          "id": 1766134953521,
-          "text": "do this",
-          "completed": true
-        },
-        {
-          "id": 1766134964241,
-          "text": "do that",
-          "completed": false
-        },
-        {
-          "id": 1766134978666,
-          "text": "do further",
-          "completed": false
-        },
-        {
-          "id": 1766134982349,
-          "text": "do whatever",
-          "completed": false
-        },
-        {
-          "id": 1766134986375,
-          "text": "etc etc",
-          "completed": false
-        },
-        {
-          "id": 1766134994900,
-          "text": "blah blah blah",
-          "completed": false
-        }
-      ]
-    },
-    {
-      "id": "102",
-      "title": "E-Commerce App",
-      "manager": "Anjali ma'am",
-      "category": "Mobile App",
-      "state": "Pending",
-      "startDate": "15/Nov/2023",
-      "endDate": "20/Jan/2024",
-      "deadline": "15/Jan/2024",
       "progress": 20,
       "team": [
         {
+          "id": "101",
+          "name": "Sahil Datta",
+          "img": "assets/images/user/default.jpg"
+        },
+        {
+          "id": "102",
+          "name": "Rahul",
+          "img": "assets/images/users/user-2.jpg"
+        },
+        {
           "id": 2,
           "name": "Rahul",
           "img": "assets/images/users/user-2.jpg"
+        },
+        {
+          "id": "FTRVnIT",
+          "name": "test",
+          "img": "assets/images/user/default.jpg"
         }
-      ]
+      ],
+      "id": "yzQMAHN"
     }
   ],
-  "leaveRequests": [
-    {
-      "id": "1",
-      "employeeId": 2,
-      "employeeName": "Rahul",
-      "type": "Sick Leave",
-      "startDate": "2023-11-20",
-      "endDate": "2023-11-22",
-      "reason": "Viral Fever",
-      "status": "Rejected"
-    },
-    {
-      "id": "2",
-      "employeeId": 2,
-      "employeeName": "Rahul",
-      "type": "Casual Leave",
-      "startDate": "2023-12-01",
-      "endDate": "2023-12-02",
-      "reason": "Personal work",
-      "status": "Approved"
-    },
-    {
-      "id": "a356",
-      "type": "Casual Leave",
-      "startDate": "2025-12-19",
-      "endDate": "2025-12-20",
-      "reason": "test",
-      "employeeId": "2",
-      "employeeName": "Rahul",
-      "status": "Approved",
-      "appliedDate": "2025-12-19T08:58:12.923Z"
-    }
-  ],
+  "leaveRequests": [],
   "employees": [
     {
       "id": "101",
@@ -277,71 +184,16 @@
       "role": "employee"
     },
     {
-      "id": "103",
-      "userId": "3",
-      "name": "Neha Singh",
-      "department": "Design",
-      "designation": "UI/UX Designer",
-      "joiningDate": "10/Mar/2023",
-      "email": "neha@gmail.com",
-      "mobile": "9876543211",
-      "gender": "Female",
-      "dob": "15/08/1997",
-      "age": 26,
-      "country": "India",
-      "bloodGroup": "A+",
-      "qualification": "B.Des",
-      "reportingTo": "Sahil Datta",
-      "status": "Inactive",
-      "img": "assets/images/users/user-3.jpg",
-      "address": {
-        "country": "India",
-        "state": "Delhi",
-        "city": "New Delhi",
-        "pincode": "110001",
-        "street": "Connaught Place",
-        "homeNo": "H-12"
-      },
-      "bank": {
-        "name": "ICICI Bank",
-        "accountNo": "602002345678",
-        "ifsc": "ICIC0005678",
-        "pincode": "110001",
-        "location": "Delhi",
-        "aadhar": "2345-6789-0123",
-        "pan": "FGHIJ5678K"
-      },
-      "experience": [
-        {
-          "role": "UI/UX Designer",
-          "company": "Dyotis",
-          "duration": "Mar 2023 - Present",
-          "description": "Designing intuitive user interfaces and conducting user research."
-        }
-      ],
-      "education": [
-        {
-          "degree": "B.Des",
-          "school": "NID Delhi",
-          "year": "2017 - 2021"
-        }
-      ],
-      "password": "****",
+      "userId": "FTRVnIT",
+      "name": "test",
+      "email": "test@gmail.com",
       "empNo": "03",
-      "role": "employee"
-    },
-    {
-      "id": "2048",
-      "userId": "0f68",
-      "name": "sujal",
-      "email": "sujal@gmail.com",
-      "empNo": "04",
-      "department": "Engineering",
-      "designation": "test",
+      "department": "Sales",
+      "designation": "BDE",
       "status": "Active",
       "img": "",
       "age": 25,
-      "joiningDate": "2025-12-19",
+      "joiningDate": "2025-12-24",
       "address": {
         "country": "India",
         "state": "",
@@ -358,37 +210,8 @@
         "location": "",
         "aadhar": "",
         "pan": ""
-      }
-    },
-    {
-      "id": "c757",
-      "userId": "2289",
-      "name": "test",
-      "email": "test@gmail.com",
-      "empNo": "05",
-      "department": "Engineering",
-      "designation": "test",
-      "status": "Active",
-      "img": "assets/images/users/user-1.jpg",
-      "age": 25,
-      "joiningDate": "2025-12-19",
-      "address": {
-        "country": "India",
-        "state": "",
-        "city": "",
-        "pincode": "",
-        "street": "",
-        "homeNo": ""
       },
-      "bank": {
-        "name": "",
-        "accountNo": "",
-        "ifsc": "",
-        "pincode": "",
-        "location": "",
-        "aadhar": "",
-        "pan": ""
-      }
+      "id": "Ws4afdg"
     }
   ],
   "payroll": [
@@ -443,96 +266,8 @@
       "completed": false
     }
   ],
-  "attendance": [
-    {
-      "id": "1",
-      "employeeId": "2",
-      "employeeName": "Rahul",
-      "date": "2023-11-01",
-      "checkIn": "09:00 AM",
-      "checkOut": "06:00 PM",
-      "hours": 9,
-      "status": "Present"
-    },
-    {
-      "id": "2",
-      "employeeId": "2",
-      "employeeName": "Rahul",
-      "date": "2023-11-02",
-      "checkIn": "09:15 AM",
-      "checkOut": "06:10 PM",
-      "hours": 8.5,
-      "status": "Present"
-    },
-    {
-      "id": "3",
-      "employeeId": "1",
-      "employeeName": "Sahil Datta",
-      "date": "2023-11-01",
-      "checkIn": "10:00 AM",
-      "checkOut": "07:00 PM",
-      "hours": 9,
-      "status": "Present"
-    },
-    {
-      "id": "67d8",
-      "employeeId": "2",
-      "employeeName": "Rahul",
-      "date": "2025-12-19",
-      "checkIn": "10:24 AM",
-      "status": "Present",
-      "checkOut": "02:36 PM",
-      "hours": 4.2
-    },
-    {
-      "id": "2842",
-      "employeeId": "2",
-      "employeeName": "Rahul",
-      "date": "2025-12-19",
-      "checkIn": "02:28 PM",
-      "status": "Present",
-      "checkOut": "02:43 PM",
-      "hours": 0.25
-    },
-    {
-      "employeeId": "2",
-      "employeeName": "Rahul",
-      "date": "2025-12-22",
-      "checkIn": "12:36 PM",
-      "status": "Present",
-      "id": "eR086WO",
-      "checkOut": "12:37 PM",
-      "hours": 0.02
-    },
-    {
-      "employeeId": "2",
-      "employeeName": "Rahul",
-      "date": "2025-12-22",
-      "checkIn": "02:48 PM",
-      "status": "Present",
-      "id": "Bug0-DO",
-      "checkOut": "02:48 PM",
-      "hours": 0
-    }
-  ],
-  "timesheets": [
-    {
-      "id": "1",
-      "employeeId": "2",
-      "date": "2023-11-18",
-      "task": "UI Design for Login",
-      "hours": 4,
-      "status": "Approved"
-    },
-    {
-      "id": "2",
-      "employeeId": "2",
-      "date": "2023-11-18",
-      "task": "Sidebar responsive fixes",
-      "hours": 4,
-      "status": "Approved"
-    }
-  ],
+  "attendance": [],
+  "timesheets": [],
   "hrPolicies": [
     {
       "id": "1",

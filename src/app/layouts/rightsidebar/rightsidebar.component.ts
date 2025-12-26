@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { SharedService } from '../../core/services/shared.service';
 
 @Component({
@@ -8,11 +8,13 @@ import { SharedService } from '../../core/services/shared.service';
   standalone: false
 })
 export class RightsidebarComponent implements OnInit {
+  @Input() collapsed: boolean = false;
   todos: any[] = [];
   holidays: any[] = [];
   upcomingBirthdays: any[] = [];
   newTodoText: string = '';
   currentMonthName: string = '';
+  currentDay: number = new Date().getDate();
   editingTodoId: string | null = null;
   editTodoText: string = '';
 

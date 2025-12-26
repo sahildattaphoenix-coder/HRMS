@@ -1,126 +1,206 @@
 :host {
   display: block;
   height: 100vh;
-}
-
-.layout {
-  display: flex;
-  height: calc(100vh - 80px);
   overflow: hidden;
-  background-color: #f8f9fa;
-  
-  @media (max-width: 767px) {
-    height: calc(100vh - 70px);
-  }
 }
 
-app-sidebar {
-  width: 280px;
-  flex-shrink: 0;
-  border-right: 1px solid rgba(0,0,0,0.05);
+.app-layout-grid {
+  display: grid;
+  height: 100vh;
+  width: 100vw;
+  // Grid Areas: Header on top, then Sidebars and Main content, then footer
+  grid-template-areas:
+    "header header header"
+    "sidebar main rightsidebar"
+    "sidebar footer rightsidebar";
+
+  // Columns: Sidebar width (auto fits content/transition) | Main Content (takes remaining) | Right Sidebar width
+  grid-template-columns: auto 1fr auto;
+
+  // Rows: Header height | Main Content height | Footer height
+  grid-template-rows: auto 1fr auto;
+
+  background-color: #f8f9fa;
+  overflow: hidden;
+}
+
+// --- Area: Header ---
+.app-header {
+  grid-area: header;
+  position: relative;
+  z-index: 1000;
+  // Box shadow to separate header
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+// --- Area: Left Sidebar ---
+.app-sidebar {
+  grid-area: sidebar;
+  display: flex;
+  position: relative;
   background: white;
-  z-index: 100;
-  transition: transform 0.3s ease;
-  
+  z-index: 900;
+  border-right: 1px solid rgba(0, 0, 0, 0.05);
+  transition: width 0.3s ease;
+
+  // Default Width
+  width: 250px;
+
+  &.collapsed {
+    width: 70px;
+  }
+
+  // Ensure internal sidebar component fills valid space
+  app-sidebar {
+    width: 100%;
+    height: 100%;
+    overflow: visible; // Let the component handle its own internal scrolling
+  }
+
   @media (max-width: 991px) {
     position: fixed;
     top: 80px;
-    left: 0;
     bottom: 0;
-    z-index: 1050;
+    left: 0;
+    width: 250px;
     transform: translateX(-100%);
     box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
-    
-    &.show {
+    z-index: 1050;
+
+    &.mobile-show {
       transform: translateX(0);
     }
   }
-  
-  @media (max-width: 767px) {
-    top: 70px;
-  }
 }
 
-.sidebar-backdrop {
-  display: none;
-  position: fixed;
-  top: 80px;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
-  z-index: 1040;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  pointer-events: none;
-  
-  &.show {
-    display: block;
-    opacity: 1;
-    pointer-events: auto;
-  }
-  
-  @media (max-width: 767px) {
-    top: 70px;
-  }
-  
-  @media (min-width: 992px) {
-    display: none !important;
-  }
+// --- Area: Footer ---
+app-footer {
+  grid-area: footer;
+  position: relative;
+  z-index: 100;
+  display: block;
 }
 
-.center-layout {
-  flex: 1;
+// --- Area: Main Content ---
+.app-main {
+  grid-area: main;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
-  height: 100%;
-}
-
-.content {
-  flex: 1;
-  padding: 3rem;
-  overflow-y: auto;
+  position: relative;
+  height: 100%; 
+  min-height: 0; 
+  overflow-y: auto; 
   overflow-x: hidden;
-  
-  @media (max-width: 991px) {
-    margin-left: 0;
-  }
-  
-  @media (max-width: 767px) {
-    padding: 1.5rem 1rem;
+
+  .content-wrapper {
+    flex: 1;
+    width: 100%;
+    padding: 0.5rem;
+    
+    @media (max-width: 767px) {
+      padding: 1rem;
+    }
   }
 }
 
-app-rightsidebar {
-  width: 320px;
-  flex-shrink: 0;
-  border-left: 1px solid rgba(0,0,0,0.05);
+// --- Area: Right Sidebar ---
+.app-right-sidebar {
+  grid-area: rightsidebar;
+  display: flex;
+  position: relative;
   background: white;
+  z-index: 900;
+  border-left: 1px solid rgba(0, 0, 0, 0.05);
+  transition: width 0.3s ease;
+
+  // Default Width
+  width: 300px;
   
+  // Span grid rows if needed, but grid-area handles it. 
+  // Note: if we want sidebar to go all the way down, we need to span rows.
+  // Sidebar is "sidebar" area. In template "sidebar main rightsidebar" / "sidebar footer rightsidebar"
+  // It spans 2 rows automatically if the area name is same.
+  
+  &.collapsed {
+    width: 0;
+    overflow: visible; // Allow toggle button to be seen!
+    border-left: none;
+  }
+
+  app-rightsidebar {
+    width: 300px; // Maintain internal width even when container collapses (container clips it)
+    height: 100%;
+  }
+
   @media (max-width: 1199px) {
-    display: none;
+    position: fixed;
+    top: 80px;
+    right: 0;
+    bottom: 0;
+    z-index: 1050;
+    width: 300px;
+    transform: translateX(100%);
+
+    &.show-mobile {
+      // Add logic if needed later
+      transform: translateX(0);
+    }
+
+    display: none; // Hide from flow
   }
 }
 
-/* Sidebar Specific Styles to ensure visibility */
-.nav-link {
-    font-size: 0.9rem;
-    font-weight: 500;
-    color: #6c757d;
-    transition: all 0.2s ease;
-    cursor: pointer;
+// --- Utilities ---
+.sidebar-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.3);
+  z-index: 1040;
+  display: none;
+  &.show {
+    display: block;
+  }
 }
 
-.nav-link:hover {
-    background-color: rgba(13, 110, 253, 0.05);
-    color: #0d6efd;
-}
+// Toggle Buttons
+.sidebar-toggle-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 32px; // Bigger click area
+  height: 32px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 50%; // Circle
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 1010;
+  color: #64748b;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 
-.transition-all {
-    transition: all 0.3s ease;
-}
+  &:hover {
+    background: #f8fafc;
+    color: #3b82f6;
+    transform: translateY(-50%) scale(1.1);
+    border-color: #cbd5e1;
+  }
 
-.cursor-pointer {
-    cursor: pointer;
+  &.left-toggle {
+    right: -16px; // Center on border
+  }
+
+  &.right-toggle {
+    left: -20px; // Stick out more into content
+  }
+
+  i {
+    font-size: 1rem;
+  }
 }

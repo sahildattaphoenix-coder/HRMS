@@ -1,0 +1,95 @@
+<div class="container-fluid p-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h5 class="fw-bold m-0">Projects</h5>
+    <button class="btn btn-primary btn-sm rounded-pill px-4" (click)="openAddModal()">
+      <i class="bi bi-plus-lg me-1"></i> Add Project
+    </button>
+  </div>
+
+  <div class="row mb-4">
+    <div class="col-md-4">
+      <div class="input-group">
+        <span class="input-group-text bg-white border-end-0"><i class="bi bi-search text-muted"></i></span>
+        <input type="text" class="form-control border-start-0 ps-0 shadow-none" placeholder="Search projects..." [(ngModel)]="searchTerm" (input)="filterProjects()">
+      </div>
+    </div>
+  </div>
+
+  <div class="card shadow-sm border-0 overflow-hidden">
+    <div class="table-responsive">
+      <table class="table align-middle mb-0 text-center table-hover">
+        <thead class="bg-light">
+          <tr>
+            <th class="py-3 text-secondary text-uppercase small fw-bold">Project Name</th>
+            <th class="py-3 text-secondary text-uppercase small fw-bold">Manager</th>
+            <th class="py-3 text-secondary text-uppercase small fw-bold">Team</th>
+            <th class="py-3 text-secondary text-uppercase small fw-bold">Priority/Cat</th>
+            <th class="py-3 text-secondary text-uppercase small fw-bold">Status</th>
+            <th class="py-3 text-secondary text-uppercase small fw-bold">Progress</th>
+            <th class="py-3 text-secondary text-uppercase small fw-bold">Deadline</th>
+            <th class="py-3 text-secondary text-uppercase small fw-bold">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let p of filteredProjects">
+            <td class="fw-semibold text-start ps-4">{{ p.title }}</td>
+            <td>{{ p.manager }}</td>
+            <td>
+              <div class="d-flex justify-content-center">
+                <div class="avatar-group">
+                    <span *ngFor="let m of p.team | slice:0:3" class="avatar avatar-xs rounded-circle bg-light d-flex align-items-center justify-content-center text-primary border border-white" [title]="m.name">
+                        {{ m.name.charAt(0) }}
+                    </span>
+                    <span *ngIf="p.team.length > 3" class="avatar avatar-xs rounded-circle bg-light d-flex align-items-center justify-content-center text-muted border border-white small">
+                        +{{ p.team.length - 3 }}
+                    </span>
+                </div>
+              </div>
+            </td>
+            <td><span class="badge bg-light text-dark border">{{ p.category }}</span></td>
+            <td>
+              <span class="badge rounded-pill" 
+                    [ngClass]="{
+                      'bg-success-subtle text-success': p.state === 'Active',
+                      'bg-warning-subtle text-warning': p.state === 'Pending',
+                      'bg-secondary-subtle text-secondary': p.state === 'Completed'
+                    }">
+                {{ p.state }}
+              </span>
+            </td>
+            <td style="width: 15%">
+                <div class="progress" style="height: 6px;">
+                    <div class="progress-bar bg-primary" role="progressbar" [style.width.%]="p.progress"></div>
+                </div>
+                <small class="text-muted d-block mt-1">{{ p.progress }}%</small>
+            </td>
+            <td class="text-muted small">{{ p.deadline | date:'dd MM yyyy' }}</td>
+            <td>
+              <button class="btn btn-sm btn-icon text-primary me-1" (click)="openEditModal(p)"><i class="bi bi-pencil-square"></i></button>
+              <button class="btn btn-sm btn-icon text-danger" (click)="deleteProject(p.id)"><i class="bi bi-trash"></i></button>
+            </td>
+          </tr>
+          <tr *ngIf="filteredProjects.length === 0">
+            <td colspan="8" class="text-muted py-5">No projects found.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Container -->
+<div *ngIf="showModal" class="modal-backdrop fade show"></div>
+<div *ngIf="showModal" class="modal fade show d-block" tabindex="-1">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content border-0 shadow-lg">
+      <div class="modal-header border-0 pb-0">
+        <h5 class="modal-title fw-bold">{{ selectedProject ? 'Edit Project' : 'Add New Project' }}</h5>
+        <button type="button" class="btn-close shadow-none" (click)="onModalClose(false)"></button>
+      </div>
+      <div class="modal-body">
+        <app-project-form [project]="selectedProject" (close)="onModalClose($event)"></app-project-form>
+      </div>
+    </div>
+  </div>
+</div>

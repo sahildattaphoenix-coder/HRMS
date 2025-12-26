@@ -1,0 +1,14 @@
+.user-chip {
+    transition: all 0.2s ease;
+    cursor: pointer;
+    &:hover {
+        background-color: #f8f9fa;
+        border-color: #dee2e6;
+    }
+}
+.bg-primary-subtle {
+    background-color: rgba(13, 110, 253, 0.1) !important;
+}
+.pointer-events-none {
+    pointer-events: none;
+}

@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { AuthService } from '../../core/services/auth.service';
 
 @Component({
@@ -10,6 +10,7 @@ import { AuthService } from '../../core/services/auth.service';
 export class SidebarComponent implements OnInit {
   role: string = 'employee';
   
+  @Input() collapsed: boolean = false;
   @Output() closeSidebar = new EventEmitter<void>();
   
   adminLinks = [

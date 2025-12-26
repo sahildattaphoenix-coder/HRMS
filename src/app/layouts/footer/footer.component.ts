@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../core/services/auth.service';
-import { User } from '../../core/models/employee.model';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -20,11 +19,11 @@ export class FooterComponent implements OnInit {
     "Small progress is still progress 🌱",
     "Keep pushing forward 🚀",
     "You are doing great work ✨",
-    "Believe in yourself 🌟",
+    "Hope today treats you well 🌟",
     "Make today count 🌈",
-    "Success is a journey, not a destination 🛣️",
+    "One task at a time 👋",
     "Your effort matters 💪",
-    "Stay positive, work hard, make it happen 🔥",
+    "You’ve got this 🔥",
     "Focus on the good 🌻",
     "Dream big, start small 💫"
   ];

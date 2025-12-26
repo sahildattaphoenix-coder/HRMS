@@ -1,81 +1,180 @@
 :host {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    background: white;
-    border-right: 1px solid #e2e8f0;
-    overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: white;
+  border-right: 1px solid #e2e8f0;
+  overflow: hidden;
 }
 
 .sidebar-top {
-    flex: 1;
-    overflow-y: auto;
-    overflow-x: hidden;
-    
-    // Custom scrollbar styling
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #f1f5f9;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 3px;
+
+    &:hover {
+      background: #94a3b8;
+    }
+  }
+}
+
+:host(.collapsed) {
+  overflow: visible !important;
+
+  .sidebar-top {
+    overflow: visible !important;
+
     &::-webkit-scrollbar {
-        width: 6px;
+      display: none;
     }
-    
-    &::-webkit-scrollbar-track {
-        background: #f1f5f9;
-    }
-    
-    &::-webkit-scrollbar-thumb {
-        background: #cbd5e1;
-        border-radius: 3px;
-        
-        &:hover {
-            background: #94a3b8;
-        }
-    }
+  }
+
+  // Hide text elements
+  .user-name, .logo-text, .nav-link span, .role-text {
+      display: none !important;
+  }
+  
+  // Center icons
+  .nav-link {
+      justify-content: center !important;
+      padding: 0.75rem !important;
+      
+      i { margin-right: 0 !important; font-size: 1.25rem; }
+  }
+  
+  // Adjust avatar
+  .user-block .avatar-wrapper {
+      width: 40px !important;
+      height: 40px !important;
+  }
+}
+
+// Host: Flex container, full height, no scroll on itself
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  position: relative;
+  overflow: hidden; 
+}
+
+.sidebar-top {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  min-height: 0;
+  padding-bottom: 1rem;
 }
 
 .sidebar-bottom {
-    flex-shrink: 0;
-    background: #ffffff;
-    border-top: 1px solid #f1f5f9;
-    
-    // Ensure logout is always visible on mobile
-    @media (max-width: 991px) {
-        position: sticky;
-        bottom: 60px;
-        z-index: 10;
-    }
+  flex-shrink: 0;
+  position: sticky;
+  bottom: 0;
+  width: 100%;
+  background: #ffffff;
+  border-top: 1px solid #f1f5f9;
+  z-index: 100; 
+  padding-bottom: 0;
+
+  @media (max-width: 991px) {
+    position: sticky;
+    bottom: 0;
+  }
 }
 
-.logo-text { color: #1e293b; font-family: 'Outfit', sans-serif; }
+.logo-text {
+  color: #1e293b;
+  font-family: "Outfit", sans-serif;
+}
+
+:host-context(.collapsed) {
+  .nav-item {
+    position: relative;
+  }
+
+  .nav-link {
+    &[data-title]:hover::after {
+      content: attr(data-title);
+      position: absolute;
+      left: 100%;
+      top: 50%;
+      transform: translateY(-50%);
+      background: #1e293b;
+      color: #fff;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      white-space: nowrap;
+      z-index: 10001;
+      margin-left: 26px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      pointer-events: none;
+      opacity: 1;
+      display: block;
+    }
+  }
+
+  .avatar-wrapper {
+    width: 100% !important;
+    height: auto !important;
+    display: flex;
+    justify-content: center;
+  }
+}
 
 .user-block {
-    .avatar-wrapper {
-        width: 80px;
-        height: 80px;
-        position: relative;
-        img { border: 3px solid #f1f5f9; padding: 2px; }
-    }
-    .user-name { color: #3b82f6; font-size: 0.9rem; }
+  .avatar-wrapper {
+    width: 80px;
+    height: 80px;
+    position: relative;
+    transition: all 0.3s ease;
+  }
+  .user-name {
+    color: #3b82f6;
+    font-size: 0.9rem;
+  }
 }
 
 .nav-link {
-    color: #64748b;
-    transition: all 0.2s ease;
-    cursor: pointer;
-    font-size: 0.85rem;
-    
-    i:first-child { font-size: 1.1rem; }
+  color: #64748b;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  font-size: 0.85rem;
+  position: relative;
 
-    &:hover {
-        background: #f1f5f9;
-        color: #3b82f6;
-    }
+  i:first-child {
+    font-size: 1.1rem;
+  }
 
-    &.active {
-        background: #eff6ff;
-        color: #3b82f6;
-        border-right: 3px solid #3b82f6;
-    }
+  &:hover {
+    background: #f1f5f9;
+    color: #3b82f6;
+  }
+
+  &.active {
+    background: #eff6ff;
+    color: #3b82f6;
+    border-right: 3px solid #3b82f6;
+  }
 }
 
-.smallest { font-size: 0.6rem; }
-.cursor-pointer { cursor: pointer; }
-.transition-all { transition: all 0.3s ease; }
+.smallest {
+  font-size: 0.6rem;
+}
+.cursor-pointer {
+  cursor: pointer;
+}
+.transition-all {
+  transition: all 0.3s ease;
+}

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ProjectService } from '../../../core/services/project.service';
 import { Project } from '../../../core/models/hrms.model';
 import { AuthService } from '../../../core/services/auth.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-my-project',
@@ -21,13 +22,30 @@ export class MyProjectComponent implements OnInit {
   ngOnInit(): void {
     const user = this.authService.currentUserValue;
     if (user) {
-      this.projectService.getMyProjects(user.id).subscribe(data => {
-        this.projects = data;
-        if (this.projects.length > 0) {
-          this.selectedProject = this.projects[0];
-        }
+      this.loadProjects(user.id);
+      
+      // Subscribe to real-time updates
+      this.projectService.refresh$.subscribe(() => {
+        this.loadProjects(user.id);
       });
     }
+  }
+
+  loadProjects(userId: string) {
+    this.projectService.getMyProjects(userId).subscribe(data => {
+      this.projects = data;
+      
+      // Select first project if none selected, or re-select current if it exists
+      if (!this.selectedProject && this.projects.length > 0) {
+        this.selectedProject = this.projects[0];
+      } else if (this.selectedProject) {
+        // Update selected object reference to the new one from API to keep data fresh
+        const updated = this.projects.find(p => p.id === this.selectedProject!.id);
+        if (updated) {
+           this.selectedProject = updated;
+        }
+      }
+    });
   }
 
   selectProject(project: Project) {

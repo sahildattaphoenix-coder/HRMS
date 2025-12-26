@@ -11,10 +11,29 @@ import { RightsidebarComponent } from './rightsidebar/rightsidebar.component';
   standalone: false
 })
 export class LayoutComponent {
-  sidebarOpen = false;
+  sidebarOpen = false; // Mobile sidebar state
+  isLeftSidebarCollapsed = false;
+  isRightSidebarCollapsed = false;
   
   toggleSidebar() {
     this.sidebarOpen = !this.sidebarOpen;
+  }
+
+  toggleLeftSidebar() {
+    this.isLeftSidebarCollapsed = !this.isLeftSidebarCollapsed;
+    this.triggerResize();
+  }
+
+  toggleRightSidebar() {
+    this.isRightSidebarCollapsed = !this.isRightSidebarCollapsed;
+    this.triggerResize();
+  }
+  
+  private triggerResize() {
+    // Wait for transition (300ms) then trigger resize
+    setTimeout(() => {
+      window.dispatchEvent(new Event('resize'));
+    }, 300);
   }
   
   closeSidebar() {

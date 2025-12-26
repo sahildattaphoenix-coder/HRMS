@@ -51,7 +51,7 @@ export class DashboardComponent implements OnInit {
   showAddModal = false;
   isEditing = false;
   editingProjectId: any = null;
-  projectForm: FormGroup;
+  // projectForm removed
   allEmployees: Employee[] = [];
   
   username: string = '';
@@ -77,19 +77,15 @@ export class DashboardComponent implements OnInit {
     private fb: FormBuilder
   ) {
     this.initCharts();
-    this.projectForm = this.fb.group({
-      title: ['', Validators.required],
-      manager: ['', Validators.required],
-      category: ['', Validators.required],
-      startDate: ['', Validators.required],
-      deadline: ['', Validators.required],
-      state: ['Active']
-    });
   }
 
   ngOnInit(): void {
     this.loadStats();
-    this.loadProjects();
+    // Load projects for chart
+    this.projectService.getProjects().subscribe(projects => {
+      this.projects = projects;
+      this.updateProjectChart();
+    });
     this.loadEmployees();
     this.loadAdminDashboardData();
     
@@ -134,6 +130,16 @@ export class DashboardComponent implements OnInit {
     });
   }
 
+  updateProjectChart() {
+    const active = this.projects.filter(p => p.state === 'Active').length;
+    const pending = this.projects.filter(p => p.state === 'Pending').length;
+    const completed = this.projects.filter(p => p.state === 'Completed').length;
+    
+    this.pieChartOptions.series = [active, pending, completed];
+    this.pieChartOptions.labels = ['Active', 'Pending', 'Completed'];
+    this.pieChartOptions.colors = ['#198754', '#ffc107', '#0dcaf0']; // Success, Warning, Info colors
+  }
+
   initCharts() {
     this.barChartOptions = {
       series: [{ name: 'Hours', data: [450, 420, 480, 500, 460, 200, 150] }],
@@ -145,12 +151,12 @@ export class DashboardComponent implements OnInit {
     };
 
     this.pieChartOptions = {
-      series: [35, 25, 20, 10, 10],
-      chart: { type: 'pie', height: 280 },
-      labels: ['Engineering', 'Marketing', 'Sales', 'HR', 'Other'],
-      colors: ['#93c5fd', '#86efac', '#fca5a5', '#fcd34d', '#fdba74'],
+      series: [1],
+      chart: { type: 'donut', height: 280 },
+      labels: ['No Projects'],
+      colors: ['#e9ecef'],
       responsive: [{ breakpoint: 480, options: { chart: { width: 200 }, legend: { show: false } } }],
-      legend: { show: false }
+      legend: { show: true, position: 'bottom' }
     };
   }
 
@@ -173,87 +179,5 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  filterProjects() {
-    this.filteredProjects = this.projects.filter(p => 
-      (p.title || '').toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-      (p.manager || '').toLowerCase().includes(this.searchTerm.toLowerCase())
-    );
-  }
 
-  deleteProject(id: any) {
-    if(confirm('Are you sure you want to delete this project?')) {
-      this.projectService.deleteProject(id).subscribe(() => {
-        this.loadProjects();
-      });
-    }
-  }
-
-  openAddProjectModal() {
-    this.isEditing = false;
-    this.showAddModal = true;
-    this.projectForm.reset({ state: 'Active' });
-  }
-
-  openEditProjectModal(project: Project) {
-    this.isEditing = true;
-    this.editingProjectId = project.id;
-    this.showAddModal = true;
-    this.projectForm.patchValue({
-      title: project.title,
-      manager: project.manager,
-      category: project.category,
-      startDate: project.startDate,
-      deadline: project.deadline,
-      state: project.state
-    });
-    this.currentTeam = [...(project.team || [])];
-  }
-
-  currentTeam: any[] = [];
-
-  toggleTeamMember(emp: any) {
-    const index = this.currentTeam.findIndex(m => m.id == emp.id);
-    if (index > -1) {
-      this.currentTeam.splice(index, 1);
-    } else {
-      this.currentTeam.push({ id: emp.id, name: emp.name, img: emp.img });
-    }
-  }
-
-  isMember(empId: any): boolean {
-    return this.currentTeam.some(m => m.id == empId);
-  }
-
-  closeModal() {
-    this.showAddModal = false;
-    this.isEditing = false;
-    this.editingProjectId = null;
-    this.currentTeam = [];
-    this.projectForm.reset({ state: 'Active' });
-  }
-
-  onSubmitProject() {
-    if (this.projectForm.valid) {
-      const projectData = {
-        ...this.projectForm.value,
-        team: this.currentTeam
-      };
-
-      if (this.isEditing) {
-        this.projectService.updateProject(this.editingProjectId, projectData).subscribe(() => {
-          this.loadProjects();
-          this.closeModal();
-        });
-      } else {
-        const newProject = {
-          ...projectData,
-          progress: 0
-        };
-        this.projectService.addProject(newProject).subscribe(() => {
-          this.loadProjects();
-          this.closeModal();
-        });
-      }
-    }
-  }
 }

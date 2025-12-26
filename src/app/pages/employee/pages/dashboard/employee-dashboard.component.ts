@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../../../core/services/auth.service';
 import { LeaveService } from '../../../../core/services/leave.service';
 import { AttendanceService } from '../../../../core/services/attendance.service';
-import { Attendance, LeaveRequest } from '../../../../core/models/hrms.model';
+import { Attendance, LeaveRequest, Project } from '../../../../core/models/hrms.model';
+import { ProjectService } from '../../../../core/services/project.service';
 import {
   ApexAxisChartSeries,
   ApexChart,
@@ -64,7 +65,8 @@ export class EmployeeDashboardComponent implements OnInit {
   constructor(
     public authService: AuthService,
     private leaveService: LeaveService,
-    private attendanceService: AttendanceService
+    private attendanceService: AttendanceService,
+    private projectService: ProjectService
   ) {
     this.barChartOptions = {
       series: [{ name: 'Hours', data: [8, 7.5, 8.5, 8, 7, 0, 0] }],
@@ -76,10 +78,10 @@ export class EmployeeDashboardComponent implements OnInit {
     };
 
     this.pieChartOptions = {
-      series: [45, 25, 30],
-      chart: { type: 'pie', height: 280 },
-      labels: ['Project Alpha', 'Internal Training', 'Bug Fixing'],
-      colors: ['#93c5fd', '#86efac', '#fca5a5'],
+      series: [], // Dynamic
+      chart: { type: 'donut', height: 280 },
+      labels: [], // Dynamic
+      colors: ['#93c5fd', '#86efac', '#fca5a5', '#fde047', '#c4b5fd'], // Added more colors
       responsive: [{ breakpoint: 480, options: { chart: { width: 200 }, legend: { show: false } } }],
       legend: { show: false } 
     };
@@ -90,11 +92,17 @@ export class EmployeeDashboardComponent implements OnInit {
       if (user) {
         this.username = (user.name || '').split(' ')[0].toLowerCase();
         this.loadDashboardData(user.id);
+
+        // Subscribe to real-time updates for charts
+        this.projectService.refresh$.subscribe(() => {
+          this.loadDashboardData(user.id);
+        });
       }
     });
   }
 
-
+  // ... (timerInterval, workDuration, ngOnDestroy omitted for brevity if unchanged, but I need to include them to match StartLine/EndLine logic if I replace a block)
+  // Actually, I can just replace loadDashboardData and constructor.
 
   timerInterval: any;
   workDuration: string = '00:00:00';
@@ -109,6 +117,18 @@ export class EmployeeDashboardComponent implements OnInit {
     this.leaveService.getLeaveSummaryByUserId(userId).subscribe(summary => this.leaveSummary = summary);
     this.leaveService.getMyLeaveRequests(userId).subscribe(leaves => this.leaveRequests = leaves.slice(0, 5));
     
+    // Load Projects for Chart
+    this.projectService.getMyProjects(userId).subscribe((projects: Project[]) => {
+      if (projects.length > 0) {
+        this.pieChartOptions.series = projects.map((p: Project) => p.progress || 0);
+        this.pieChartOptions.labels = projects.map((p: Project) => p.title);
+      } else {
+        this.pieChartOptions.series = [1];
+        this.pieChartOptions.labels = ['No Projects Assigned'];
+        this.pieChartOptions.colors = ['#e2e8f0'];
+      }
+    });
+
     this.attendanceService.getActiveAttendance(userId).subscribe(record => {
       this.todayRecord = record;
       if (record) {

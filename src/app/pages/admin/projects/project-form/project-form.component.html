@@ -1,0 +1,70 @@
+<form [formGroup]="projectForm" (ngSubmit)="onSubmit()">
+  <div class="row g-3">
+    <div class="col-md-6">
+      <label class="form-label small fw-bold text-muted">Project Title</label>
+      <input type="text" class="form-control" formControlName="title" placeholder="Enter project name">
+    </div>
+    <div class="col-md-6">
+      <label class="form-label small fw-bold text-muted">Project Manager</label>
+      <input type="text" class="form-control" formControlName="manager" placeholder="Manager Name">
+    </div>
+    <div class="col-md-4">
+      <label class="form-label small fw-bold text-muted">Category</label>
+      <select class="form-select" formControlName="category">
+        <option value="Internal">Internal</option>
+        <option value="Client">Client</option>
+        <option value="Support">Support</option>
+        <option value="Research">Research</option>
+      </select>
+    </div>
+    <div class="col-md-4">
+      <label class="form-label small fw-bold text-muted">Status</label>
+      <select class="form-select" formControlName="state">
+        <option value="Active">Active</option>
+        <option value="Pending">Pending</option>
+        <option value="Completed">Completed</option>
+      </select>
+    </div>
+    <div class="col-md-4">
+      <label class="form-label small fw-bold text-muted">Progress (%)</label>
+      <input type="number" class="form-control" formControlName="progress" min="0" max="100">
+    </div>
+    <div class="col-md-6">
+      <label class="form-label small fw-bold text-muted">Start Date</label>
+      <input type="date" class="form-control" formControlName="startDate">
+    </div>
+    <div class="col-md-6">
+      <label class="form-label small fw-bold text-muted">Deadline</label>
+      <input type="date" class="form-control" formControlName="deadline">
+    </div>
+
+    <!-- Team Selection -->
+    <div class="col-12 mt-4">
+      <label class="form-label small fw-bold text-muted mb-2">Assign Team Members</label>
+      <div class="card bg-light border-0">
+        <div class="card-header bg-transparent border-0 pt-3 pb-2">
+            <input type="text" class="form-control form-control-sm border-0 shadow-none bg-white" placeholder="Search employees..." [(ngModel)]="searchTerm" [ngModelOptions]="{standalone: true}">
+        </div>
+        <div class="card-body p-2" style="max-height: 200px; overflow-y: auto;">
+            <div class="d-flex flex-wrap gap-2">
+                <div *ngFor="let emp of filteredEmployees" 
+                     class="user-chip d-flex align-items-center gap-2 px-2 py-1 bg-white rounded border cursor-pointer user-select-none" 
+                     [class.border-primary]="isSelected(emp.id)"
+                     [class.bg-primary-subtle]="isSelected(emp.id)"
+                     (click)="toggleEmployee(emp)">
+                    <div class="form-check m-0 pointer-events-none">
+                        <input class="form-check-input" type="checkbox" [checked]="isSelected(emp.id)" readonly>
+                    </div>
+                    <span class="small">{{ emp.name }}</span>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 d-flex justify-content-end gap-2 mt-4 pt-3 border-top">
+      <button type="button" class="btn btn-light px-4" (click)="onCancel()">Cancel</button>
+      <button type="submit" class="btn btn-primary px-4" [disabled]="projectForm.invalid">Save Project</button>
+    </div>
+  </div>
+</form>

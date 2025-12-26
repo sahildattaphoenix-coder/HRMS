@@ -12,7 +12,9 @@
     </div>
     <div class="col-xl-3 col-md-6 col-12">
       <div class="stat-card shadow-sm border-0">
-        <div class="icon-box bg-blue-pale-soft"><i class="bi bi-person-check"></i></div>
+        <div class="icon-box bg-blue-pale-soft">
+          <i class="bi bi-person-check"></i>
+        </div>
         <div class="stat-content">
           <span class="stat-val">{{ adminStats.active }}</span>
           <span class="stat-label">Active</span>
@@ -21,7 +23,9 @@
     </div>
     <div class="col-xl-3 col-md-6 col-12">
       <div class="stat-card shadow-sm border-0">
-        <div class="icon-box bg-yellow-soft"><i class="bi bi-house-door"></i></div>
+        <div class="icon-box bg-yellow-soft">
+          <i class="bi bi-house-door"></i>
+        </div>
         <div class="stat-content">
           <span class="stat-val">{{ adminStats.wfh }}</span>
           <span class="stat-label">WFH</span>
@@ -30,7 +34,9 @@
     </div>
     <div class="col-xl-3 col-md-6 col-12">
       <div class="stat-card shadow-sm border-0">
-        <div class="icon-box bg-red-vivid-soft"><i class="bi bi-person-x"></i></div>
+        <div class="icon-box bg-red-vivid-soft">
+          <i class="bi bi-person-x"></i>
+        </div>
         <div class="stat-content">
           <span class="stat-val">{{ adminStats.absent }}</span>
           <span class="stat-label">Absent</span>
@@ -67,9 +73,9 @@
     </div>
     <div class="col-lg-7 col-12">
       <div class="chart-container shadow-sm p-4">
-        <h6 class="chart-title mb-4">My Current Project</h6>
-        <div class="d-flex align-items-center flex-wrap gap-2">
-          <div class="pie-wrapper flex-grow-1">
+        <h6 class="chart-title mb-4">Project Overview</h6>
+        <div class="d-flex align-items-center justify-content-center">
+          <div class="pie-wrapper w-100" style="max-width: 400px">
             <apx-chart
               [series]="pieChartOptions.series"
               [chart]="pieChartOptions.chart"
@@ -79,12 +85,14 @@
               [legend]="pieChartOptions.legend"
             ></apx-chart>
           </div>
-          <div class="project-info-card shadow-sm p-4 rounded-4 text-center">
-            <span class="d-block text-muted small mb-2">Project 1</span>
-            <div class="project-pill bg-white py-2 px-3 rounded shadow-sm">
-              <span class="fw-bold text-primary smallest">HRMS PROJECT</span>
-            </div>
-          </div>
+        </div>
+        <div class="text-center mt-3">
+          <button
+            class="btn btn-sm btn-outline-primary rounded-pill px-4"
+            routerLink="/admin/projects"
+          >
+            Manage Projects
+          </button>
         </div>
       </div>
     </div>
@@ -177,8 +185,8 @@
                 <td>{{ i + 1 }}</td>
                 <td>{{ leave.employeeId }}</td>
                 <td>{{ leave.employeeName }}</td>
-                <td>{{ leave.startDate | date : "dd/MM/yyyy" }}</td>
-                <td>{{ leave.endDate | date : "dd/MM/yyyy" }}</td>
+                <td>{{ leave.startDate | date : "dd MM yyyy" }}</td>
+                <td>{{ leave.endDate | date : "dd MM yyyy" }}</td>
                 <td>{{ leave.type }}</td>
                 <td class="text-muted text-truncate" style="max-width: 100px">
                   {{ leave.reason }}
@@ -247,7 +255,4 @@
       </div>
     </div>
   </div>
-
-  <div class="text-center py-4 text-muted small fw-bold">Copyright phoenix</div>
 </div>
-

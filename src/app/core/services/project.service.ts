@@ -1,48 +1,65 @@
 import { Injectable } from '@angular/core';
-import { Observable, map } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { ApiService } from './api.service';
 import { Project } from '../models/hrms.model';
+import { map, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProjectService {
+  private readonly ENDPOINT = 'projects';
+
   constructor(private apiService: ApiService) {}
 
   getProjects(): Observable<Project[]> {
-    return this.apiService.get<Project>('projects');
+    return this.apiService.get<Project>(this.ENDPOINT);
+  }
+
+  getProject(id: string | number): Observable<Project> {
+    return this.apiService.get<Project>(`${this.ENDPOINT}/${id}`).pipe(map(data => data as unknown as Project));
+  }
+
+  private _refresh$ = new Subject<void>();
+
+  get refresh$() {
+    return this._refresh$.asObservable();
+  }
+
+  // Added method to filter projects for a specific user
+  getMyProjects(userId: string | number): Observable<Project[]> {
+    return this.getProjects().pipe(
+      map(projects => projects.filter(p => p.team && p.team.some(member => member.id.toString() === userId.toString())))
+    );
+  }
+
+  addProject(project: Project): Observable<Project> {
+    return this.apiService.post<Project>(this.ENDPOINT, project).pipe(
+      tap(() => this._refresh$.next())
+    );
+  }
+
+  updateProject(id: string | number, project: Partial<Project>): Observable<Project> {
+    return this.apiService.put<Project>(this.ENDPOINT, id, project).pipe(
+      tap(() => this._refresh$.next())
+    );
+  }
+
+  deleteProject(id: string | number): Observable<any> {
+    return this.apiService.delete(this.ENDPOINT, id).pipe(
+      tap(() => this._refresh$.next())
+    );
   }
 
   getProjectStats(): Observable<any> {
     return this.getProjects().pipe(
-      map(projects => ({
-        totalProjects: projects.length,
-        workingProjects: projects.filter(p => p.state === 'Active').length,
-        completedProjects: projects.filter(p => p.state === 'Completed').length,
-        pendingProjects: projects.filter(p => p.state === 'Pending').length
-      }))
-    );
-  }
-
-  getProjectById(id: string | number): Observable<Project> {
-    return this.apiService.getById<Project>('projects', id);
-  }
-
-  addProject(project: Partial<Project>): Observable<Project> {
-    return this.apiService.post<Project>('projects', project);
-  }
-
-  updateProject(id: string | number, updates: Partial<Project>): Observable<Project> {
-    return this.apiService.patch<Project>('projects', id, updates);
-  }
-
-  deleteProject(id: string | number): Observable<any> {
-    return this.apiService.delete('projects', id);
-  }
-  
-  getMyProjects(employeeId: string | number): Observable<Project[]> {
-    return this.apiService.get<Project>('projects').pipe(
-      map(projects => projects.filter(p => p.team.some((member: any) => member.id == employeeId)))
+      map(projects => {
+        const total = projects.length;
+        const active = projects.filter(p => p.state === 'Active').length;
+        const completed = projects.filter(p => p.state === 'Completed').length;
+        const pending = projects.filter(p => p.state === 'Pending').length;
+        return { total, active, completed, pending };
+      })
     );
   }
 }

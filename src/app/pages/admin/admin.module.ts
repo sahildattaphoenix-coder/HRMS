@@ -7,6 +7,8 @@ import { SharedModule } from '../../shared/shared.module';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { EmployeesComponent } from './employees/employees.component';
 import { LeaveRequestsComponent } from './leave-requests/leave-requests.component';
+import { ProjectListComponent } from './projects/project-list/project-list.component';
+import { ProjectFormComponent } from './projects/project-form/project-form.component';
 import { AdminRoutingModule } from './admin-routing/admin-routing.module';
 import { EmployeeModule } from '../employee/employee.module';
 
@@ -14,7 +16,10 @@ import { EmployeeModule } from '../employee/employee.module';
   declarations: [
     DashboardComponent,
     EmployeesComponent,
-    LeaveRequestsComponent
+    EmployeesComponent,
+    LeaveRequestsComponent,
+    ProjectListComponent,
+    ProjectFormComponent
   ],
   imports: [
     CommonModule,

@@ -28,8 +28,8 @@
           <tbody>
             <tr *ngFor="let req of requests">
               <td class="fw-bold">{{ req.type }}</td>
-              <td>{{ req.startDate }}</td>
-              <td>{{ req.endDate }}</td>
+              <td>{{ req.startDate | date : "dd MM yyyy" }}</td>
+              <td>{{ req.endDate | date : "dd MM yyyy" }}</td>
               <td>
                 <small
                   class="text-muted truncate d-inline-block"
