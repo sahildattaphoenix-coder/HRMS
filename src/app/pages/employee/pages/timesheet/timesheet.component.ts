@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ApiService } from '../../../../core/services/api.service';
@@ -22,11 +22,14 @@ export class TimesheetComponent implements OnInit {
   projects$!: Observable<Project[]>;
   currentUser: User | null = null;
   isAdmin = false;
-  
+
+  @ViewChild('mainContent') mainContentRef!: ElementRef;
+  lastFocusedElement: HTMLElement | null = null;
+
   entryForm: FormGroup;
   selectedTimesheet: Timesheet | null = null;
   modalInstance: any;
-  
+
   // Filter controls for Admin
   filterForm: FormGroup;
 
@@ -87,12 +90,12 @@ export class TimesheetComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.projects$ = this.isAdmin 
+    this.projects$ = this.isAdmin
       ? this.projectService.getProjects()
       : this.projectService.getMyProjects(this.currentUser?.id || '');
 
     this.loadTimesheets();
-    
+
     // Auto-calculate hours
     this.entryForm.valueChanges.subscribe(val => {
       this.calculateHours();
@@ -104,31 +107,31 @@ export class TimesheetComponent implements OnInit {
       switchMap(() => this.apiService.get<Timesheet>('timesheets')),
       map(data => {
         let filtered = data;
-        
+
         // precise role based filtering
         if (!this.isAdmin) {
           filtered = filtered.filter(t => t.employeeId === this.currentUser?.id);
         } else {
-           // Admin filters
-           const fVal = this.filterForm.getRawValue(); // Use getRawValue to ensure we get all values
-           
-           if (fVal.employee) {
-             const searchLower = fVal.employee.toLowerCase();
-             filtered = filtered.filter(t => t.employeeName?.toLowerCase().includes(searchLower));
-           }
-           if (fVal.status && fVal.status !== 'All') {
-             filtered = filtered.filter(t => t.status === fVal.status);
-           }
-           if (fVal.date) {
-             filtered = filtered.filter(t => t.date === fVal.date);
-           }
+          // Admin filters
+          const fVal = this.filterForm.getRawValue(); // Use getRawValue to ensure we get all values
+
+          if (fVal.employee) {
+            const searchLower = fVal.employee.toLowerCase();
+            filtered = filtered.filter(t => t.employeeName?.toLowerCase().includes(searchLower));
+          }
+          if (fVal.status && fVal.status !== 'All') {
+            filtered = filtered.filter(t => t.status === fVal.status);
+          }
+          if (fVal.date) {
+            filtered = filtered.filter(t => t.date === fVal.date);
+          }
         }
-        
+
         // Calculate Stats (only for current user view or overall admin view)
         // Only calc for user if not admin, or if admin it shows aggregate? 
         // User asked to hide overview layout for admin.
         if (!this.isAdmin) {
-           this.monthlyStats = this.getStats(filtered);
+          this.monthlyStats = this.getStats(filtered);
         }
 
         // Sort by date desc
@@ -136,12 +139,12 @@ export class TimesheetComponent implements OnInit {
       })
     );
   }
-  
+
   // Reusable stats calculator
   getStats(data: Timesheet[]) {
     const currentMonth = new Date().getMonth();
     const currentYear = new Date().getFullYear();
-    
+
     const monthlyData = data.filter(t => {
       const d = new Date(t.date);
       return d.getMonth() === currentMonth && d.getFullYear() === currentYear && t.status !== 'Rejected';
@@ -166,10 +169,41 @@ export class TimesheetComponent implements OnInit {
     this.apiService.get<Timesheet>('timesheets').subscribe(data => {
       const empData = data.filter(t => t.employeeId === employeeId);
       this.employeeMonthlyStats = this.getStats(empData);
-      
+
       const modalEl = document.getElementById('employeeStatsModal');
       if (modalEl) {
+        // Store last focused element
+        this.lastFocusedElement = document.activeElement as HTMLElement;
+
         const modal = new bootstrap.Modal(modalEl);
+
+        modalEl.addEventListener('show.bs.modal', () => {
+          // Set inert on background
+          if (this.mainContentRef) {
+            this.mainContentRef.nativeElement.inert = true;
+          }
+        }, { once: true });
+
+        modalEl.addEventListener('shown.bs.modal', () => {
+          const firstInput = modalEl.querySelector('input, button') as HTMLElement;
+          if (firstInput) {
+            firstInput.focus();
+          } else {
+            modalEl.focus();
+          }
+        }, { once: true });
+
+        modalEl.addEventListener('hidden.bs.modal', () => {
+          // Remove inert
+          if (this.mainContentRef) {
+            this.mainContentRef.nativeElement.inert = false;
+          }
+          // Restore focus
+          if (this.lastFocusedElement) {
+            this.lastFocusedElement.focus();
+          }
+        }, { once: true });
+
         modal.show();
       }
     });
@@ -181,7 +215,7 @@ export class TimesheetComponent implements OnInit {
 
   openEntryModal(timesheet?: Timesheet) {
     this.selectedTimesheet = timesheet || null;
-    
+
     if (timesheet) {
       this.entryForm.patchValue({
         date: timesheet.date,
@@ -203,7 +237,41 @@ export class TimesheetComponent implements OnInit {
 
     const modalEl = document.getElementById('timesheetModal');
     if (modalEl) {
+      // Store last focused element
+      this.lastFocusedElement = document.activeElement as HTMLElement;
+
+      // Clean up previous instance if exists to prevent duplicates
+      if (this.modalInstance) {
+        this.modalInstance.dispose();
+      }
+
       this.modalInstance = new bootstrap.Modal(modalEl);
+
+      // Accessibility Fix: Robustly remove aria-hidden and manage inert
+      modalEl.addEventListener('show.bs.modal', () => {
+        if (this.mainContentRef) {
+          this.mainContentRef.nativeElement.inert = true;
+        }
+      }, { once: true }); // Use once to avoid accumulating listeners
+
+      modalEl.addEventListener('shown.bs.modal', () => {
+        const firstInput = modalEl.querySelector('input, select, textarea, button') as HTMLElement;
+        if (firstInput) {
+          firstInput.focus();
+        } else {
+          modalEl.focus();
+        }
+      }, { once: true });
+
+      modalEl.addEventListener('hidden.bs.modal', () => {
+        if (this.mainContentRef) {
+          this.mainContentRef.nativeElement.inert = false;
+        }
+        if (this.lastFocusedElement) {
+          this.lastFocusedElement.focus();
+        }
+      }, { once: true });
+
       this.modalInstance.show();
     }
   }
@@ -276,19 +344,19 @@ export class TimesheetComponent implements OnInit {
     const start = this.entryForm.get('startTime')?.value;
     const end = this.entryForm.get('endTime')?.value;
     const breakMins = this.entryForm.get('breakDuration')?.value || 0;
-    
+
     if (start && end) {
       const startTime = new Date(`1970-01-01T${start}`);
       const endTime = new Date(`1970-01-01T${end}`);
-      
+
       let diffMs = endTime.getTime() - startTime.getTime();
       let diffHours = diffMs / (1000 * 60 * 60);
-      
+
       // Subtract break
       diffHours -= (breakMins / 60);
 
       if (diffHours < 0) diffHours = 0;
-      
+
       this.entryForm.get('totalHours')?.setValue(diffHours.toFixed(2), { emitEvent: false });
       return parseFloat(diffHours.toFixed(2));
     }
@@ -302,11 +370,11 @@ export class TimesheetComponent implements OnInit {
 
     if (start && end) {
       if (start >= end) return { invalidTime: true };
-      
+
       const startTime = new Date(`1970-01-01T${start}`);
       const endTime = new Date(`1970-01-01T${end}`);
       let hours = (endTime.getTime() - startTime.getTime()) / (1000 * 60 * 60);
-      
+
       // Effective work hours check
       if ((hours - (breakMins / 60)) > 12) return { maxHours: true };
     }

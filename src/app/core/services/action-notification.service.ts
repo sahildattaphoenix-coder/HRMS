@@ -29,7 +29,6 @@ export class ActionNotificationService {
        // Stop polling if user logs out or is not admin
        if (!user || user.role?.toLowerCase() !== 'admin') {
          if (this.pollingSubscription) { 
-            console.log('ActionNotificationService: Stopping polling (User logout or not admin)');
             this.pollingSubscription.unsubscribe();
             this.pollingSubscription = null;
          }
@@ -44,8 +43,6 @@ export class ActionNotificationService {
           return;
        }
 
-       console.log('ActionNotificationService: User is Admin. Starting polling (3s interval)...');
-       
        // Clear IDs to ensure "notify on login" behavior for all pending items
        this.processedTimesheetIds.clear();
        this.processedLeaveIds.clear();
@@ -64,7 +61,6 @@ export class ActionNotificationService {
     // We let the subscription in startPolling handle the logic mostly, 
     // but this can force a full reset if needed.
     if (this.pollingSubscription) {
-      console.log('ActionNotificationService: Manual stopPolling called');
       this.pollingSubscription.unsubscribe();
       this.pollingSubscription = null;
     }
@@ -74,15 +70,11 @@ export class ActionNotificationService {
     // Check Timesheets
     this.apiService.get<Timesheet>('timesheets').subscribe({
       next: (data) => {
-        // Debug logging to see what we are fetching
-        console.log('ActionNotificationService: Timesheets fetched:', data.map(t => ({id: t.id, status: t.status, name: t.employeeName})));
-        
         // Filter for both Pending and Draft
         const pending = data.filter(t => t.status === 'Pending' || t.status === 'Draft');
         
         pending.forEach(t => {
           if (!this.processedTimesheetIds.has(t.id)) {
-            console.log(`ActionNotificationService: New ${t.status} Timesheet detected: ${t.id} - ${t.employeeName}`);
             this.toastService.info(`${t.status} Timesheet: ${t.employeeName}`, 5000);
             this.processedTimesheetIds.add(t.id);
           }
@@ -94,15 +86,11 @@ export class ActionNotificationService {
     // Check Leave Requests
     this.apiService.get<any>('leaveRequests').subscribe({
       next: (data) => {
-        // Debug logging
-        console.log('ActionNotificationService: Leaves fetched:', data.map((l:any) => ({id: l.id, status: l.status, name: l.employeeName})));
-
         // Filter for both Pending and Draft (if applicable for leaves)
         const pending = data.filter((l: any) => l.status === 'Pending' || l.status === 'Draft');
         
         pending.forEach((l: any) => {
           if (!this.processedLeaveIds.has(l.id)) {
-            console.log(`ActionNotificationService: New ${l.status} Leave detected: ${l.id} - ${l.employeeName}`);
             this.toastService.info(`${l.status} Leave: ${l.employeeName} (${l.leaveType})`, 5000);
             this.processedLeaveIds.add(l.id);
           }

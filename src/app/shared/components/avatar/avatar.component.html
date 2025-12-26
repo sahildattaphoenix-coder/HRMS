@@ -1,12 +1,6 @@
-<ng-container *ngIf="imageUrl && !showInitials; else initialsTemplate">
-  <img [src]="imageUrl" [class]="styleClass" [style.width.px]="size" [style.height.px]="size" (error)="onImageError()">
-</ng-container>
-
-<ng-template #initialsTemplate>
-  <div [class]="styleClass + ' bg-primary text-white d-flex align-items-center justify-content-center fw-bold'"
-       [style.width.px]="size" 
-       [style.height.px]="size"
-       [style.fontSize]="fontSize">
-      {{ initials }}
-  </div>
-</ng-template>
+<div [class]="styleClass + ' bg-primary text-white d-flex align-items-center justify-content-center fw-bold'"
+     [style.width.px]="size" 
+     [style.height.px]="size"
+     [style.fontSize]="fontSize">
+    {{ initials }}
+</div>

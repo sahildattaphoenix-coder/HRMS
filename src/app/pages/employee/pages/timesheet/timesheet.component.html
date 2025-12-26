@@ -1,4 +1,4 @@
-<div class="container-fluid p-0">
+<div class="container-fluid p-0" #mainContent>
   <div class="row g-3 mb-4" *ngIf="!isAdmin">
      <div class="col-md-3">
         <div class="card border-0 shadow-sm p-3 h-100">
@@ -193,7 +193,7 @@
 </div>
 
 <!-- Employee Stats Modal -->
-<div class="modal fade" id="employeeStatsModal" tabindex="-1" aria-labelledby="empStatsLabel" aria-hidden="true">
+<div class="modal fade" id="employeeStatsModal" tabindex="-1" aria-labelledby="empStatsLabel">
   <div class="modal-dialog modal-xl modal-dialog-centered">
     <div class="modal-content border-0 shadow">
       <div class="modal-header border-bottom-0 pb-0">
@@ -261,7 +261,7 @@
 </div>
 
 <!-- Add/Edit Modal (Existing) -->
-<div class="modal fade" id="timesheetModal" tabindex="-1" aria-labelledby="timesheetModalLabel" aria-hidden="true">
+<div class="modal fade" id="timesheetModal" tabindex="-1" aria-labelledby="timesheetModalLabel">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content border-0 shadow">
       <div class="modal-header border-bottom-0 pb-0">

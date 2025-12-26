@@ -8,7 +8,8 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class AvatarComponent implements OnInit {
   @Input() name: string = '';
-  @Input() imageUrl: string | undefined = '';
+  // Image URL is now ignored as we enforce initials only
+  @Input() imageUrl: string | undefined = ''; 
   @Input() size: number = 35;
   @Input() styleClass: string = '';
   @Input() fontSize: string = '0.85rem';
@@ -18,17 +19,11 @@ export class AvatarComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  showInitials = false;
-
   get initials(): string {
     if (!this.name) return '';
     const names = this.name.split(' ');
     if (names.length === 1) return names[0].charAt(0).toUpperCase();
     return (names[0].charAt(0) + names[names.length - 1].charAt(0)).toUpperCase();
-  }
-
-  onImageError() {
-    this.showInitials = true;
   }
 
   get dimensions(): any {

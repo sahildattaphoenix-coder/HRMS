@@ -16,7 +16,7 @@
       "role": "employee",
       "name": "Rahul",
       "designation": "UI / Ux designer",
-      "img": "assets/images/users/user-2.jpg"
+      "img": ""
     },
     {
       "email": "test@gmail.com",
@@ -41,22 +41,22 @@
         {
           "id": "101",
           "name": "Sahil Datta",
-          "img": "assets/images/user/default.jpg"
+          "img": ""
         },
         {
           "id": "102",
           "name": "Rahul",
-          "img": "assets/images/users/user-2.jpg"
+          "img": ""
         },
         {
           "id": 2,
           "name": "Rahul",
-          "img": "assets/images/users/user-2.jpg"
+          "img": ""
         },
         {
           "id": "FTRVnIT",
           "name": "test",
-          "img": "assets/images/user/default.jpg"
+          "img": ""
         }
       ],
       "id": "yzQMAHN"
@@ -158,7 +158,7 @@
       "qualification": "B.Tech",
       "reportingTo": "Sahil Datta",
       "status": "Active",
-      "img": "assets/images/users/user-2.jpg",
+      "img": "",
       "address": {
         "country": "India",
         "state": "Uttar Pradesh",
