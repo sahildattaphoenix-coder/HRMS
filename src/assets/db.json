@@ -363,6 +363,19 @@
       "employeeId": "2",
       "employeeName": "Rahul",
       "id": "1766744281539"
+    },
+    {
+      "date": "2025-12-26",
+      "project": "Phoenix",
+      "task": "UI polish",
+      "startTime": "17:30",
+      "endTime": "19:30",
+      "breakDuration": 15,
+      "totalHours": 1.75,
+      "status": "Pending",
+      "employeeId": "2",
+      "employeeName": "Rahul",
+      "id": "1766750465847"
     }
   ],
   "hrPolicies": [
