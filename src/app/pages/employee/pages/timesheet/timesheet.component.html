@@ -1,42 +1,326 @@
 <div class="container-fluid p-0">
-    <div class="mb-4 d-flex justify-content-between align-items-center">
-        <h5 class="text-muted fw-bold m-0">Project / TimeSheet</h5>
-    </div>
+  <div class="row g-3 mb-4" *ngIf="!isAdmin">
+     <div class="col-md-3">
+        <div class="card border-0 shadow-sm p-3 h-100">
+           <div class="d-flex align-items-center">
+              <div class="avatar-md bg-light-primary text-primary rounded-3 d-flex align-items-center justify-content-center me-3" style="width: 48px; height: 48px;">
+                 <i class="bi bi-clock-history fs-3"></i>
+              </div>
+              <div>
+                 <p class="text-muted mb-1 small text-uppercase">Total Hours</p>
+                 <h4 class="mb-0 fw-bold">{{ monthlyStats.totalHours }}h</h4>
+              </div>
+           </div>
+        </div>
+     </div>
+     <div class="col-md-3">
+        <div class="card border-0 shadow-sm p-3 h-100">
+           <div class="d-flex align-items-center">
+              <div class="avatar-md bg-light-warning text-warning rounded-3 d-flex align-items-center justify-content-center me-3" style="width: 48px; height: 48px;">
+                 <i class="bi bi-cup-hot fs-3"></i>
+              </div>
+              <div>
+                 <p class="text-muted mb-1 small text-uppercase">Total Breaks</p>
+                 <h4 class="mb-0 fw-bold">{{ monthlyStats.totalBreaks }}h</h4>
+              </div>
+           </div>
+        </div>
+     </div>
+     <div class="col-md-3">
+        <div class="card border-0 shadow-sm p-3 h-100">
+           <div class="d-flex align-items-center">
+              <div class="avatar-md bg-light-success text-success rounded-3 d-flex align-items-center justify-content-center me-3" style="width: 48px; height: 48px;">
+                 <i class="bi bi-check2-circle fs-3"></i>
+              </div>
+              <div>
+                 <p class="text-muted mb-1 small text-uppercase">Tasks Done</p>
+                 <h4 class="mb-0 fw-bold">{{ monthlyStats.taskCount }}</h4>
+              </div>
+           </div>
+        </div>
+     </div>
+     <div class="col-md-3">
+        <div class="card border-0 shadow-sm p-3 h-100">
+           <div class="d-flex align-items-center">
+              <div class="avatar-md bg-light-info text-info rounded-3 d-flex align-items-center justify-content-center me-3" style="width: 48px; height: 48px;">
+                 <i class="bi bi-graph-up fs-3"></i>
+              </div>
+              <div>
+                 <p class="text-muted mb-1 small text-uppercase">Avg Daily</p>
+                 <h4 class="mb-0 fw-bold">{{ monthlyStats.avgDaily }}h</h4>
+              </div>
+           </div>
+        </div>
+     </div>
+  </div>
 
-    <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
-        <div class="card-header bg-white py-3 border-0">
-             <h6 class="m-0 fw-bold">{{ role === 'admin' ? 'All Submitted Timesheets' : 'My Daily Task Log' }}</h6>
+  <div class="row">
+    <div class="col-12">
+      <div class="card border-0 shadow-sm rounded-3">
+        <div class="card-header bg-white border-bottom py-3 d-flex justify-content-between align-items-center">
+          <div>
+            <h5 class="fw-bold m-0 text-primary mb-1">
+              {{ isAdmin ? 'Employee Timesheets' : 'My Timesheet' }}
+            </h5>
+            <small class="text-muted">
+              {{ isAdmin ? 'Manage and approve employee time entries' : 'Track your daily work hours' }}
+            </small>
+          </div>
+          <button *ngIf="!isAdmin" class="btn btn-primary d-flex align-items-center gap-2" (click)="openEntryModal()">
+            <i class="bi bi-plus-lg"></i>
+            <span class="d-none d-sm-inline">Add Entry</span>
+          </button>
         </div>
-        <div class="card-body p-0">
-            <div class="table-responsive">
-                <table class="table table-hover align-middle mb-0 small text-center">
-                    <thead class="bg-light text-muted">
-                        <tr>
-                            <th class="py-3">Date</th>
-                            <th class="py-3">Task Description</th>
-                            <th class="py-3">Hours Spent</th>
-                            <th class="py-3">Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let entry of timesheets">
-                            <td>{{ entry.date }}</td>
-                            <td class="text-start">{{ entry.task }}</td>
-                            <td>{{ entry.hours }} hrs</td>
-                            <td>
-                                <span class="badge rounded-pill" 
-                                      [class.bg-success]="entry.status === 'Approved'"
-                                      [class.bg-warning]="entry.status === 'Pending'">
-                                    {{ entry.status }}
-                                </span>
-                            </td>
-                        </tr>
-                        <tr *ngIf="timesheets.length === 0">
-                            <td colspan="4" class="py-5 text-muted">No timesheet records found.</td>
-                        </tr>
-                    </tbody>
-                </table>
+
+        <div class="card-body p-4">
+          <!-- Admin Filters -->
+          <div *ngIf="isAdmin" class="row g-3 mb-4 p-3 bg-light rounded-3 border" [formGroup]="filterForm">
+            <div class="col-md-4">
+              <label class="form-label small text-muted">Employee Name</label>
+              <div class="input-group">
+                <span class="input-group-text bg-white border-end-0"><i class="bi bi-search text-muted"></i></span>
+                <input type="text" class="form-control border-start-0 ps-0" placeholder="Search employee..." formControlName="employee" (keyup)="filterTimesheets()">
+              </div>
             </div>
+            <div class="col-md-3">
+              <label class="form-label small text-muted">Status</label>
+              <select class="form-select" formControlName="status" (change)="filterTimesheets()">
+                <option value="All">All Statuses</option>
+                <option value="Pending">Pending</option>
+                <option value="Approved">Approved</option>
+                <option value="Rejected">Rejected</option>
+              </select>
+            </div>
+            <div class="col-md-3">
+              <label class="form-label small text-muted">Date</label>
+              <input type="date" class="form-control" formControlName="date" (change)="filterTimesheets()">
+            </div>
+            <div class="col-md-2 d-flex align-items-end">
+              <button class="btn btn-outline-secondary w-100" (click)="filterForm.reset({status: 'All'}); filterTimesheets()">
+                Reset
+              </button>
+            </div>
+          </div>
+
+          <!-- Timesheet Table -->
+          <div class="table-responsive">
+            <table class="table table-hover align-middle">
+              <thead class="bg-light">
+                <tr>
+                  <th class="border-0 text-muted small text-uppercase">Date</th>
+                  <th *ngIf="isAdmin" class="border-0 text-muted small text-uppercase">Employee</th>
+                  <th class="border-0 text-muted small text-uppercase" style="width: 20%">Project</th>
+                  <th class="border-0 text-muted small text-uppercase" style="width: 20%">Task</th>
+                  <th class="border-0 text-muted small text-uppercase text-center">Break</th>
+                  <th class="border-0 text-muted small text-uppercase text-center">Hours</th>
+                  <th class="border-0 text-muted small text-uppercase text-center">Status</th>
+                  <th class="border-0 text-muted small text-uppercase text-end">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let t of timesheets$ | async">
+                  <td class="fw-medium">{{ t.date | date:'dd MMM yyyy' }}</td>
+                  <td *ngIf="isAdmin" (click)="viewEmployeeStats(t.employeeId, t.employeeName)" style="cursor: pointer;" title="Click to view employee overview">
+                    <div class="d-flex align-items-center gap-2">
+                       <div class="avatar-sm bg-primary-subtle text-primary rounded-circle d-flex align-items-center justify-content-center" style="width: 32px; height: 32px">
+                          {{ t.employeeName.charAt(0) }}
+                       </div>
+                       <span class="text-primary fw-medium text-decoration-underline">{{ t.employeeName }}</span>
+                    </div>
+                  </td>
+                  <td>
+                    <span class="badge bg-light text-dark border fw-normal">{{ t.project }}</span>
+                  </td>
+                  <td>
+                    <p class="m-0 text-truncate" style="max-width: 200px" title="{{ t.task }}">{{ t.task }}</p>
+                    <small *ngIf="t.remarks" class="text-danger d-block mt-1 fst-italic">
+                      <i class="bi bi-exclamation-circle-fill me-1"></i>Rejection Remark: {{ t.remarks }}
+                    </small>
+                  </td>
+                  <td class="text-center">
+                    <span class="text-muted" *ngIf="t.breakDuration">{{ t.breakDuration }}m</span>
+                    <span class="text-muted" *ngIf="!t.breakDuration">-</span>
+                  </td>
+                  <td class="text-center">
+                    <div class="d-flex flex-column align-items-center">
+                      <span class="fw-bold">{{ t.totalHours }}h</span>
+                      <small class="text-muted" style="font-size: 0.75rem">{{ t.startTime }} - {{ t.endTime }}</small>
+                    </div>
+                  </td>
+                  <td class="text-center">
+                    <span class="badge rounded-pill px-3 py-2" [ngClass]="statusBadges[t.status]">
+                      {{ t.status }}
+                    </span>
+                  </td>
+                  <td class="text-end">
+                    <!-- Employee Actions -->
+                    <div *ngIf="!isAdmin && (t.status === 'Draft' || t.status === 'Rejected')" class="btn-group">
+                      <button class="btn btn-sm btn-icon btn-ghost-primary" (click)="openEntryModal(t)" title="Edit">
+                        <i class="bi bi-pencil"></i>
+                      </button>
+                      <button class="btn btn-sm btn-icon btn-ghost-danger" (click)="deleteEntry(t.id)" title="Delete">
+                         <i class="bi bi-trash"></i>
+                      </button>
+                      <button class="btn btn-sm btn-icon btn-ghost-success" (click)="submitForApproval(t)" title="Submit">
+                         <i class="bi bi-send"></i>
+                      </button>
+                    </div>
+
+                    <!-- Admin Actions -->
+                    <div *ngIf="isAdmin && (t.status === 'Pending' || t.status === 'Draft')" class="btn-group">
+                      <button class="btn btn-sm btn-success px-3" (click)="approveEntry(t)">Approve</button>
+                      <button class="btn btn-sm btn-outline-danger px-3" (click)="rejectEntry(t)">Reject</button>
+                    </div>
+                    
+                    <span *ngIf="(!isAdmin && t.status !== 'Draft' && t.status !== 'Rejected') || (isAdmin && t.status !== 'Pending' && t.status !== 'Draft')" class="text-muted small">
+                      <i class="bi bi-lock"></i>
+                    </span>
+                  </td>
+                </tr>
+                <tr *ngIf="(timesheets$ | async)?.length === 0">
+                   <td [attr.colspan]="isAdmin ? 8 : 7" class="text-center py-5 text-muted">
+                      <i class="bi bi-calendar-x fs-1 opacity-25 d-block mb-3"></i>
+                      No timesheet entries found.
+                   </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
+</div>
+
+<!-- Employee Stats Modal -->
+<div class="modal fade" id="employeeStatsModal" tabindex="-1" aria-labelledby="empStatsLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered">
+    <div class="modal-content border-0 shadow">
+      <div class="modal-header border-bottom-0 pb-0">
+         <h5 class="modal-title fw-bold" id="empStatsLabel">Overview: {{ selectedEmployeeName }}</h5>
+         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body bg-light p-4">
+         <div class="row g-3">
+             <div class="col-md-3">
+                <div class="card border-0 shadow-sm p-3 h-100">
+                   <div class="d-flex align-items-center">
+                      <div class="avatar-md bg-light-primary text-primary rounded-3 d-flex align-items-center justify-content-center me-3" style="width: 48px; height: 48px;">
+                         <i class="bi bi-clock-history fs-3"></i>
+                      </div>
+                      <div>
+                         <p class="text-muted mb-1 small text-uppercase">Total Hours</p>
+                         <h4 class="mb-0 fw-bold">{{ employeeMonthlyStats.totalHours }}h</h4>
+                      </div>
+                   </div>
+                </div>
+             </div>
+             <div class="col-md-3">
+                <div class="card border-0 shadow-sm p-3 h-100">
+                   <div class="d-flex align-items-center">
+                      <div class="avatar-md bg-light-warning text-warning rounded-3 d-flex align-items-center justify-content-center me-3" style="width: 48px; height: 48px;">
+                         <i class="bi bi-cup-hot fs-3"></i>
+                      </div>
+                      <div>
+                         <p class="text-muted mb-1 small text-uppercase">Total Breaks</p>
+                         <h4 class="mb-0 fw-bold">{{ employeeMonthlyStats.totalBreaks }}h</h4>
+                      </div>
+                   </div>
+                </div>
+             </div>
+             <div class="col-md-3">
+                <div class="card border-0 shadow-sm p-3 h-100">
+                   <div class="d-flex align-items-center">
+                      <div class="avatar-md bg-light-success text-success rounded-3 d-flex align-items-center justify-content-center me-3" style="width: 48px; height: 48px;">
+                         <i class="bi bi-check2-circle fs-3"></i>
+                      </div>
+                      <div>
+                         <p class="text-muted mb-1 small text-uppercase">Tasks Done</p>
+                         <h4 class="mb-0 fw-bold">{{ employeeMonthlyStats.taskCount }}</h4>
+                      </div>
+                   </div>
+                </div>
+             </div>
+             <div class="col-md-3">
+                <div class="card border-0 shadow-sm p-3 h-100">
+                   <div class="d-flex align-items-center">
+                      <div class="avatar-md bg-light-info text-info rounded-3 d-flex align-items-center justify-content-center me-3" style="width: 48px; height: 48px;">
+                         <i class="bi bi-graph-up fs-3"></i>
+                      </div>
+                      <div>
+                         <p class="text-muted mb-1 small text-uppercase">Avg Daily</p>
+                         <h4 class="mb-0 fw-bold">{{ employeeMonthlyStats.avgDaily }}h</h4>
+                      </div>
+                   </div>
+                </div>
+             </div>
+         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Add/Edit Modal (Existing) -->
+<div class="modal fade" id="timesheetModal" tabindex="-1" aria-labelledby="timesheetModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-0 shadow">
+      <div class="modal-header border-bottom-0 pb-0">
+        <h5 class="modal-title fw-bold" id="timesheetModalLabel">{{ selectedTimesheet ? 'Edit Entry' : 'New Timesheet Entry' }}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body pt-4">
+        <form [formGroup]="entryForm">
+          <div class="row g-3">
+             <div class="col-md-6">
+                <label class="form-label fw-medium">Date</label>
+                <input type="date" class="form-control bg-light border-0" formControlName="date">
+             </div>
+             <div class="col-md-6">
+                <label class="form-label fw-medium">Project</label>
+                <select class="form-select bg-light border-0" formControlName="project">
+                   <option value="" disabled>Select Project</option>
+                   <option *ngFor="let p of projects$ | async" [value]="p.title">{{ p.title }}</option>
+                </select>
+             </div>
+             <div class="col-12">
+                <label class="form-label fw-medium">Task Description</label>
+                <textarea class="form-control bg-light border-0" rows="3" formControlName="task" placeholder="What did you work on?"></textarea>
+             </div>
+             
+             <!-- Time Validation Error -->
+             <div class="col-12" *ngIf="entryForm.errors?.['invalidTime'] && (entryForm.touched || entryForm.dirty)">
+                <div class="alert alert-danger py-2 small mb-0">
+                   <i class="bi bi-exclamation-triangle me-2"></i> Start time must be before end time.
+                </div>
+             </div>
+
+             <div class="col-4">
+                <label class="form-label fw-medium">Start Time</label>
+                <input type="time" class="form-control bg-light border-0" formControlName="startTime">
+             </div>
+             <div class="col-4">
+                <label class="form-label fw-medium">End Time</label>
+                <input type="time" class="form-control bg-light border-0" formControlName="endTime">
+             </div>
+             
+             <div class="col-md-6">
+               <label class="form-label fw-medium">Break (mins)</label>
+               <input type="number" class="form-control bg-light border-0" formControlName="breakDuration" min="0">
+             </div>
+
+             <div class="col-md-6">
+                <label class="form-label fw-medium text-muted">Total Hours</label>
+                <input type="number" class="form-control-plaintext fw-bold ps-2" formControlName="totalHours" readonly>
+             </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer border-top-0 pt-0 pb-4 pe-4">
+        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary px-4" (click)="saveEntry()" [disabled]="entryForm.invalid">
+          {{ selectedTimesheet ? 'Update' : 'Save Draft' }}
+        </button>
+      </div>
+    </div>
+  </div>
 </div>

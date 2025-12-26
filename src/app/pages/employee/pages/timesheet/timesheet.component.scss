@@ -1,2 +1,53 @@
-/* Timesheet Styles */
-.table th { font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+.btn-icon {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.btn-ghost-primary {
+  color: var(--bs-primary);
+  background: transparent;
+  border: 1px solid transparent;
+  
+  &:hover {
+    background: rgba(var(--bs-primary-rgb), 0.1);
+    color: var(--bs-primary);
+  }
+}
+
+.btn-ghost-danger {
+  color: var(--bs-danger);
+  background: transparent;
+  border: 1px solid transparent;
+
+  &:hover {
+    background: rgba(var(--bs-danger-rgb), 0.1);
+    color: var(--bs-danger);
+  }
+}
+
+.btn-ghost-success {
+    color: var(--bs-success);
+    background: transparent;
+    border: 1px solid transparent;
+  
+    &:hover {
+      background: rgba(var(--bs-success-rgb), 0.1);
+      color: var(--bs-success);
+    }
+}
+  
+.avatar-sm {
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+// Table hover effect upgrade
+.table-hover tbody tr:hover {
+    background-color: rgba(var(--bs-primary-rgb), 0.02);
+}

@@ -1,5 +1,7 @@
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnChanges, Output, EventEmitter, Input } from '@angular/core';
 import { AuthService } from '../../core/services/auth.service';
+
+declare var bootstrap: any;
 
 @Component({
   selector: 'app-sidebar',
@@ -7,7 +9,7 @@ import { AuthService } from '../../core/services/auth.service';
   styleUrls: ['./sidebar.component.scss'],
   standalone: false
 })
-export class SidebarComponent implements OnInit {
+export class SidebarComponent implements OnInit, AfterViewInit, OnChanges {
   role: string = 'employee';
   
   @Input() collapsed: boolean = false;
@@ -15,11 +17,12 @@ export class SidebarComponent implements OnInit {
   
   adminLinks = [
     { path: '/admin/dashboard', label: 'Dashboard', icon: 'bi-grid-fill' },
-    { path: '/admin/employees', label: 'Employees', icon: 'bi-people-fill' }, // Added
-    { path: '/admin/projects', label: 'Teams / Projects', icon: 'bi-kanban-fill', hasSub: true }, // Updated label
+    { path: '/admin/employees', label: 'Employees', icon: 'bi-people-fill' },
+    { path: '/admin/projects', label: 'Teams / Projects', icon: 'bi-kanban-fill', hasSub: true },
     { path: '/admin/attendance', label: 'Attendance', icon: 'bi-calendar-check-fill', hasSub: true },
     { path: '/admin/leave-requests', label: 'Leave', icon: 'bi-person-x-fill', hasSub: true },
-    { path: '/admin/payroll', label: 'Payroll', icon: 'bi-file-earmark-spreadsheet-fill' }, // Global view for Admin
+    { path: '/admin/timesheet', label: 'Timesheet', icon: 'bi-clock-fill' },
+    { path: '/admin/payroll', label: 'Payroll', icon: 'bi-file-earmark-spreadsheet-fill' },
     { path: '/admin/policy', label: 'HR Policy', icon: 'bi-file-text-fill' },
     { path: '/admin/profile', label: 'My Profile', icon: 'bi-person-fill' }
   ];
@@ -43,6 +46,53 @@ export class SidebarComponent implements OnInit {
         this.role = user.role;
       }
     });
+  }
+
+  tooltips: any[] = [];
+
+  ngAfterViewInit() {
+    this.initTooltips();
+  }
+
+  ngOnChanges(changes: any) {
+    if (changes.collapsed) {
+      if (this.collapsed) {
+        // Give time for DOM to update
+        setTimeout(() => this.initTooltips(), 100);
+      } else {
+        this.disposeTooltips();
+      }
+    }
+  }
+  
+  initTooltips() {
+    // Only init if collapsed
+    if (!this.collapsed) return;
+    
+    const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    this.tooltips = tooltipTriggerList.map((tooltipTriggerEl: HTMLElement) => {
+      const tooltip = new bootstrap.Tooltip(tooltipTriggerEl, {
+        trigger: 'hover' // Explicitly set trigger to hover only
+      });
+      
+      // Auto-hide on click to prevent sticky tooltips
+      tooltipTriggerEl.addEventListener('click', () => {
+        try {
+          tooltip.hide();
+        } catch (e) {
+          // Ignore errors if node is missing
+        }
+      });
+
+      return tooltip;
+    });
+  }
+
+  disposeTooltips() {
+    this.tooltips.forEach(t => {
+      t.dispose();
+    });
+    this.tooltips = [];
   }
   
   onLinkClick() {

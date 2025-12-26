@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { TopbarComponent } from './topbar/topbar.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { RightsidebarComponent } from './rightsidebar/rightsidebar.component';
+import { ActionNotificationService } from '../core/services/action-notification.service';
 
 @Component({
   selector: 'app-layout',
@@ -10,10 +11,20 @@ import { RightsidebarComponent } from './rightsidebar/rightsidebar.component';
   styleUrl: './layout.component.scss',
   standalone: false
 })
-export class LayoutComponent {
+export class LayoutComponent implements OnInit, OnDestroy {
   sidebarOpen = false; // Mobile sidebar state
   isLeftSidebarCollapsed = false;
   isRightSidebarCollapsed = false;
+  
+  constructor(private notificationService: ActionNotificationService) {}
+
+  ngOnInit() {
+    this.notificationService.startPolling();
+  }
+
+  ngOnDestroy() {
+    this.notificationService.stopPolling();
+  }
   
   toggleSidebar() {
     if (window.innerWidth > 991) {

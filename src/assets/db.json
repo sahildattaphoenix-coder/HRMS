@@ -73,6 +73,17 @@
       "status": "Approved",
       "appliedDate": "2025-12-26T08:43:05.878Z",
       "id": 1
+    },
+    {
+      "type": "Sick Leave",
+      "startDate": "2025-12-26",
+      "endDate": "2025-12-27",
+      "reason": "test leave",
+      "employeeId": "2",
+      "employeeName": "Rahul",
+      "status": "Approved",
+      "appliedDate": "2025-12-26T10:15:37.372Z",
+      "id": 2
     }
   ],
   "employees": [
@@ -289,9 +300,60 @@
       "id": 1,
       "checkOut": "02:13 PM",
       "hours": 0.02
+    },
+    {
+      "employeeId": "2",
+      "employeeName": "Rahul",
+      "date": "2025-12-26",
+      "checkIn": "03:22 PM",
+      "checkInISO": "2025-12-26T09:52:45.125Z",
+      "status": "Present",
+      "id": 2,
+      "checkOut": "03:22 PM",
+      "hours": 0
     }
   ],
-  "timesheets": [],
+  "timesheets": [
+    {
+      "date": "2025-12-26",
+      "project": "Phoenix",
+      "task": "updated footer,  new siderbar style from arrow to hamburger fixed on header",
+      "startTime": "10:00",
+      "endTime": "15:08",
+      "totalHours": 5.13,
+      "status": "Approved",
+      "employeeId": "2",
+      "employeeName": "Rahul",
+      "id": "1766741906975"
+    },
+    {
+      "date": "2025-12-26",
+      "project": "Phoenix",
+      "task": "test",
+      "startTime": "12:36",
+      "endTime": "19:38",
+      "breakDuration": 60,
+      "totalHours": 6.03,
+      "status": "Rejected",
+      "employeeId": "2",
+      "employeeName": "Rahul",
+      "id": "1766743599068",
+      "remarks": "don't work on this"
+    },
+    {
+      "date": "2025-12-27",
+      "project": "Phoenix",
+      "task": "UI fixing",
+      "startTime": "10:00",
+      "endTime": "14:00",
+      "breakDuration": 15,
+      "totalHours": 3.75,
+      "status": "Approved",
+      "employeeId": "2",
+      "employeeName": "Rahul",
+      "id": "1766744281539"
+    }
+  ],
   "hrPolicies": [
     {
       "id": "1",

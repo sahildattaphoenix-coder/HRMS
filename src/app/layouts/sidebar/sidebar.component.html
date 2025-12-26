@@ -10,7 +10,9 @@
        [routerLink]="link.path"
        routerLinkActive="active"
        (click)="onLinkClick()"
-       [attr.data-title]="link.label"> <!-- data-title for tooltip if needed -->
+       data-bs-toggle="tooltip" 
+       data-bs-placement="right" 
+       title="{{ link.label }}">
       <i class="bi" [class]="link.icon"></i>
       <span class="hide-on-collapse">{{ link.label }}</span>
     </a>

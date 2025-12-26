@@ -63,3 +63,18 @@ export interface LeaveSummary {
   balance: number;
   sick: number;
 }
+
+export interface Timesheet {
+  id: string;
+  employeeId: string;
+  employeeName: string;
+  date: string;
+  project: string; // Project Name or ID
+  task: string;
+  startTime: string;
+  endTime: string;
+  breakDuration?: number; // Minutes
+  totalHours: number;
+  status: 'Draft' | 'Pending' | 'Approved' | 'Rejected';
+  remarks?: string;
+}
