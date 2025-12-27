@@ -32,7 +32,6 @@ export class LeaveService {
   }
 
   getLeaveSummary(): Observable<any> {
-    // This could be derived or a separate endpoint
     return this.apiService.getById<any>('leaveSummary', 'current');
   }
 
@@ -52,7 +51,7 @@ export class LeaveService {
           }
         });
 
-        const total = 30; // Standard entitlement
+        const total = 30;
         return {
           taken,
           total,
@@ -67,13 +66,12 @@ export class LeaveService {
     const startDate = new Date(start);
     const endDate = new Date(end);
 
-    // Normalize to midnight to ensure correct day difference
     startDate.setHours(0, 0, 0, 0);
     endDate.setHours(0, 0, 0, 0);
 
     const diffTime = Math.abs(endDate.getTime() - startDate.getTime());
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
-    return diffDays + 1; // Inclusive
+    return diffDays + 1;
   }
 }

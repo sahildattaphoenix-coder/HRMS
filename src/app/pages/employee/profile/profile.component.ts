@@ -47,12 +47,10 @@ export class ProfileComponent implements OnInit {
     this.authService.currentUser$.subscribe(user => {
       this.user = user;
       if (user) {
-        // Fetch real employee details from API
         this.apiService.get<Employee>('employees').subscribe(employees => {
           this.employeeDetails = employees.find(e => e.userId == user.id) || null;
         });
 
-        // Fetch user-specific leave summary
         this.leaveService.getLeaveSummaryByUserId(user.id).subscribe(data => {
           this.leaveSummary = data;
         });
@@ -68,7 +66,7 @@ export class ProfileComponent implements OnInit {
     this.barChartOptions = {
       series: [{
         name: 'Hours',
-        data: [8, 8, 8, 8, 8, 0, 0] // Weekly performance
+        data: [8, 8, 8, 8, 8, 0, 0]
       }],
       chart: {
         type: 'bar',

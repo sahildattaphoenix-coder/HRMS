@@ -21,18 +21,14 @@ export class ActionNotificationService {
   ) { }
 
   startPolling() {
-    // Stop existing polling to avoid duplicates
     this.stopPolling();
 
-    // Subscribe to currentUser so we react when the user is actually loaded/changed
     this.authService.currentUser$.subscribe(user => {
-      // Stop polling if user logs out or is not admin
       if (!user || user.role?.toLowerCase() !== 'admin') {
         if (this.pollingSubscription) {
           this.pollingSubscription.unsubscribe();
           this.pollingSubscription = null;
         }
-        // Clear processed IDs so that if they log back in, they get notified again
         this.processedTimesheetIds.clear();
         this.processedLeaveIds.clear();
         return;
@@ -43,11 +39,9 @@ export class ActionNotificationService {
         return;
       }
 
-      // Clear IDs to ensure "notify on login" behavior for all pending items
       this.processedTimesheetIds.clear();
       this.processedLeaveIds.clear();
 
-      // Poll every 3 seconds
       this.pollingSubscription = interval(2000).subscribe(() => {
         this.checkNewPendingActions();
       });
@@ -55,8 +49,6 @@ export class ActionNotificationService {
   }
 
   stopPolling() {
-    // We let the subscription in startPolling handle the logic mostly, 
-    // but this can force a full reset if needed.
     if (this.pollingSubscription) {
       this.pollingSubscription.unsubscribe();
       this.pollingSubscription = null;
@@ -64,10 +56,8 @@ export class ActionNotificationService {
   }
 
   private checkNewPendingActions() {
-    // Check Timesheets
     this.apiService.get<Timesheet>('timesheets').subscribe({
       next: (data) => {
-        // Filter for both Pending and Draft
         const pending = data.filter(t => t.status === 'Pending' || t.status === 'Draft');
 
         pending.forEach(t => {
@@ -80,10 +70,8 @@ export class ActionNotificationService {
       error: (err) => console.error('ActionNotificationService: Error fetching timesheets', err)
     });
 
-    // Check Leave Requests
     this.apiService.get<any>('leaveRequests').subscribe({
       next: (data) => {
-        // Filter for both Pending and Draft (if applicable for leaves)
         const pending = data.filter((l: any) => l.status === 'Pending' || l.status === 'Draft');
 
         pending.forEach((l: any) => {

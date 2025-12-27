@@ -47,13 +47,13 @@ export class DashboardComponent implements OnInit {
   projects: Project[] = [];
   filteredProjects: Project[] = [];
   searchTerm: string = '';
-  
+
   showAddModal = false;
   isEditing = false;
   editingProjectId: any = null;
-  // projectForm removed
+
   allEmployees: Employee[] = [];
-  
+
   username: string = '';
   barChartOptions!: BarChartOptions;
   pieChartOptions!: PieChartOptions;
@@ -81,14 +81,14 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadStats();
-    // Load projects for chart
+
     this.projectService.getProjects().subscribe(projects => {
       this.projects = projects;
       this.updateProjectChart();
     });
     this.loadEmployees();
     this.loadAdminDashboardData();
-    
+
     this.authService.currentUser$.subscribe(user => {
       if (user) {
         this.username = (user.name || '').split(' ')[0].toLowerCase();
@@ -114,14 +114,14 @@ export class DashboardComponent implements OnInit {
       this.apiService.get<Attendance>('attendance')
     ]).subscribe(([employees, attendance]) => {
       this.adminStats.teamCount = employees.length;
-      
+
       const todayStr = new Date().toISOString().split('T')[0];
       const todayAttendance = attendance.filter(a => a.date === todayStr);
-      
+
       this.adminStats.active = todayAttendance.filter(a => a.checkIn && !a.checkOut).length;
       this.adminStats.wfh = employees.filter(e => e.workMode === 'WFH' || e.workMode === 'Remote').length;
       this.adminStats.absent = employees.length - todayAttendance.length;
-      
+
       this.calculateWeeklyHours(attendance); // Update Chart
     });
   }
@@ -136,7 +136,7 @@ export class DashboardComponent implements OnInit {
     const active = this.projects.filter(p => p.state === 'Active').length;
     const pending = this.projects.filter(p => p.state === 'Pending').length;
     const completed = this.projects.filter(p => p.state === 'Completed').length;
-    
+
     this.pieChartOptions.series = [active, pending, completed];
     this.pieChartOptions.labels = ['Active', 'Pending', 'Completed'];
     this.pieChartOptions.colors = ['#198754', '#ffc107', '#0dcaf0']; // Success, Warning, Info colors
@@ -144,7 +144,7 @@ export class DashboardComponent implements OnInit {
 
   initCharts() {
     this.barChartOptions = {
-      series: [{ name: 'Hours', data: [] }], // Initialize empty
+      series: [{ name: 'Hours', data: [] }],
       chart: { type: 'bar', height: 250, toolbar: { show: false } },
       plotOptions: { bar: { columnWidth: '40%', distributed: true, borderRadius: 4 } },
       colors: ['#a7f3d0', '#a7f3d0', '#a7f3d0', '#a7f3d0', '#a7f3d0', '#f1f5f9', '#f1f5f9'],
@@ -163,35 +163,34 @@ export class DashboardComponent implements OnInit {
   }
 
   calculateWeeklyHours(attendance: Attendance[]) {
-      const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-      const hoursPerDay = new Array(7).fill(0);
-      
-      const today = new Date();
-      // Get start of the week (Monday)
-      const startOfWeek = new Date(today);
-      const day = startOfWeek.getDay() || 7; // Get current day number, converting Sun (0) to 7
-      if (day !== 1) startOfWeek.setHours(-24 * (day - 1)); 
-      else startOfWeek.setHours(0,0,0,0);
+    const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    const hoursPerDay = new Array(7).fill(0);
 
-      attendance.forEach(record => {
-          const recordDate = new Date(record.date);
-          // Check if record is in current week
-          if (recordDate >= startOfWeek) {
-              const dayIndex = recordDate.getDay() || 7; // 1 (Mon) - 7 (Sun)
-              // Map to 0-6 array index
-              const arrayIndex = dayIndex - 1;
-              
-              if (record.totalHours) {
-                  hoursPerDay[arrayIndex] += record.totalHours;
-              }
-          }
-      });
+    const today = new Date();
 
-      // Update Chart
-      this.barChartOptions.series = [{
-          name: 'Total Hours',
-          data: hoursPerDay.map(h => Number(h.toFixed(1)))
-      }];
+    const startOfWeek = new Date(today);
+    const day = startOfWeek.getDay() || 7;
+    if (day !== 1) startOfWeek.setHours(-24 * (day - 1));
+    else startOfWeek.setHours(0, 0, 0, 0);
+
+    attendance.forEach(record => {
+      const recordDate = new Date(record.date);
+
+      if (recordDate >= startOfWeek) {
+        const dayIndex = recordDate.getDay() || 7;
+
+        const arrayIndex = dayIndex - 1;
+
+        if (record.totalHours) {
+          hoursPerDay[arrayIndex] += record.totalHours;
+        }
+      }
+    });
+
+    this.barChartOptions.series = [{
+      name: 'Total Hours',
+      data: hoursPerDay.map(h => Number(h.toFixed(1)))
+    }];
   }
 
   loadEmployees() {

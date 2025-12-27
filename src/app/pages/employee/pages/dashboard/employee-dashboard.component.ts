@@ -40,10 +40,10 @@ export type PieChartOptions = {
   standalone: false
 })
 export class EmployeeDashboardComponent implements OnInit {
-  
+
   username = '';
-  currentDate = new Date(); 
-  
+  currentDate = new Date();
+
   leaveRequests: LeaveRequest[] = [];
   leaveSummary: any = null;
   clockInTime: string = '--:--';
@@ -51,18 +51,16 @@ export class EmployeeDashboardComponent implements OnInit {
   isClockedIn: boolean = false;
   todayRecord: Attendance | null = null;
 
-  // Todo List (Keep for UI completeness)
   newTask = '';
   todos = [
     { id: 1, text: 'Review performance metrics' },
     { id: 2, text: 'Submit project documentation' }
   ];
 
-  // Charts
   barChartOptions: BarChartOptions;
   pieChartOptions: PieChartOptions;
 
-  currentProject: Project | null = null; // Added property
+  currentProject: Project | null = null;
 
   constructor(
     public authService: AuthService,
@@ -71,7 +69,7 @@ export class EmployeeDashboardComponent implements OnInit {
     private projectService: ProjectService
   ) {
     this.barChartOptions = {
-      series: [{ name: 'Hours', data: [] }], // Start empty
+      series: [{ name: 'Hours', data: [] }],
       chart: { type: 'bar', height: 250, toolbar: { show: false } },
       plotOptions: { bar: { columnWidth: '40%', distributed: true, borderRadius: 4 } },
       colors: ['#a7f3d0', '#a7f3d0', '#a7f3d0', '#a7f3d0', '#a7f3d0', '#f1f5f9', '#f1f5f9'],
@@ -80,12 +78,12 @@ export class EmployeeDashboardComponent implements OnInit {
     };
 
     this.pieChartOptions = {
-      series: [], 
+      series: [],
       chart: { type: 'donut', height: 280 },
-      labels: [], 
+      labels: [],
       colors: ['#93c5fd', '#86efac', '#fca5a5', '#fde047', '#c4b5fd'],
       responsive: [{ breakpoint: 480, options: { chart: { width: 200 }, legend: { show: false } } }],
-      legend: { show: false } 
+      legend: { show: false }
     };
   }
 
@@ -103,7 +101,7 @@ export class EmployeeDashboardComponent implements OnInit {
   }
 
   // ... (timerInterval, workDuration, ngOnDestroy omitted for brevity if unchanged, but I need to include them to match StartLine/EndLine logic if I replace a block)
-  
+
   timerInterval: any;
   workDuration: string = '00:00:00';
 
@@ -114,11 +112,9 @@ export class EmployeeDashboardComponent implements OnInit {
   }
 
   loadDashboardData(userId: string) {
-    // 1. Leave Summary & Requests
     this.leaveService.getLeaveSummaryByUserId(userId).subscribe(summary => this.leaveSummary = summary);
     this.leaveService.getMyLeaveRequests(userId).subscribe(leaves => this.leaveRequests = leaves.slice(0, 5));
-    
-    // 2. Projects (Chart & Active Project Card)
+
     this.projectService.getMyProjects(userId).subscribe((projects: Project[]) => {
       // Find Active Project
       this.currentProject = projects.find(p => p.state === 'Active') || null;
@@ -134,28 +130,27 @@ export class EmployeeDashboardComponent implements OnInit {
       }
     });
 
-    // 3. Attendance (Weekly Chart & Today's Status)
     this.attendanceService.getAttendanceByEmployee(userId).subscribe(records => {
-        this.calculateWeeklyHours(records);
+      this.calculateWeeklyHours(records);
     });
 
     this.attendanceService.getActiveAttendance(userId).subscribe(record => {
       this.todayRecord = record;
       if (record) {
         this.clockInTime = record.checkIn;
-        this.clockOutTime = '--:--'; 
+        this.clockOutTime = '--:--';
         this.isClockedIn = true;
         this.startTimer();
       } else {
         this.attendanceService.getTodayAttendance(userId).subscribe(today => {
           if (today) {
-             this.clockInTime = today.checkIn;
-             this.clockOutTime = today.checkOut || '--:--';
-             this.isClockedIn = false;
+            this.clockInTime = today.checkIn;
+            this.clockOutTime = today.checkOut || '--:--';
+            this.isClockedIn = false;
           } else {
-             this.clockInTime = '--:--';
-             this.clockOutTime = '--:--';
-             this.isClockedIn = false;
+            this.clockInTime = '--:--';
+            this.clockOutTime = '--:--';
+            this.isClockedIn = false;
           }
           this.stopTimer();
         });
@@ -164,44 +159,41 @@ export class EmployeeDashboardComponent implements OnInit {
   }
 
   calculateWeeklyHours(attendance: Attendance[]) {
-      const hoursPerDay = new Array(7).fill(0);
-      
-      const today = new Date();
-      // Get start of the week (Monday)
-      const startOfWeek = new Date(today);
-      const day = startOfWeek.getDay() || 7; 
-      if (day !== 1) startOfWeek.setHours(-24 * (day - 1)); 
-      else startOfWeek.setHours(0,0,0,0);
+    const hoursPerDay = new Array(7).fill(0);
 
-      attendance.forEach(record => {
-          const recordDate = new Date(record.date);
-          if (recordDate >= startOfWeek) {
-              const dayIndex = recordDate.getDay() || 7; 
-              const arrayIndex = dayIndex - 1;
-              
-              if (record.totalHours) {
-                  hoursPerDay[arrayIndex] += record.totalHours;
-              } else if (record.hours) {
-                  // Fallback for legacy
-                  hoursPerDay[arrayIndex] += record.hours;
-              }
-          }
-      });
+    const today = new Date();
+    const startOfWeek = new Date(today);
+    const day = startOfWeek.getDay() || 7;
+    if (day !== 1) startOfWeek.setHours(-24 * (day - 1));
+    else startOfWeek.setHours(0, 0, 0, 0);
 
-      this.barChartOptions.series = [{
-          name: 'Hours',
-          data: hoursPerDay.map(h => Number(h.toFixed(1)))
-      }];
+    attendance.forEach(record => {
+      const recordDate = new Date(record.date);
+      if (recordDate >= startOfWeek) {
+        const dayIndex = recordDate.getDay() || 7;
+        const arrayIndex = dayIndex - 1;
+
+        if (record.totalHours) {
+          hoursPerDay[arrayIndex] += record.totalHours;
+        } else if (record.hours) {
+          hoursPerDay[arrayIndex] += record.hours;
+        }
+      }
+    });
+
+    this.barChartOptions.series = [{
+      name: 'Hours',
+      data: hoursPerDay.map(h => Number(h.toFixed(1)))
+    }];
   }
 
   startTimer() {
-    this.stopTimer(); // specific safety
+    this.stopTimer();
     if (!this.clockInTime || this.clockInTime === '--:--') return;
 
-    // Parse clockInTime (HH:mm AM/PM) to Date object for today
     const [time, modifier] = this.clockInTime.split(' ');
     let [hours, minutes] = time.split(':').map(Number);
-    
+
     if (hours === 12) {
       hours = 0;
     }
@@ -215,7 +207,7 @@ export class EmployeeDashboardComponent implements OnInit {
     this.timerInterval = setInterval(() => {
       const now = new Date();
       const diff = now.getTime() - startTime.getTime();
-      
+
       if (diff >= 0) {
         const h = Math.floor(diff / 3600000);
         const m = Math.floor((diff % 3600000) / 60000);
@@ -253,11 +245,10 @@ export class EmployeeDashboardComponent implements OnInit {
 
   clockOut() {
     if (!this.todayRecord || !this.todayRecord.id) return;
-    
+
     const checkOut = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     this.stopTimer();
-    
-    // Calculate actual hours
+
     const hours = this.calculateHours(this.todayRecord.checkIn, checkOut);
 
     this.attendanceService.clockOut(this.todayRecord.id, checkOut, hours).subscribe(() => {
@@ -277,7 +268,7 @@ export class EmployeeDashboardComponent implements OnInit {
     const start = parseTime(checkIn);
     const end = parseTime(checkOut);
     const diffMins = end - start;
-    
+
     return Number((diffMins / 60).toFixed(2));
   }
 

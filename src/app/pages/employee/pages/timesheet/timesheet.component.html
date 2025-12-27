@@ -73,7 +73,6 @@
         </div>
 
         <div class="card-body p-4">
-          <!-- Admin Filters -->
           <div *ngIf="isAdmin" class="row g-3 mb-4 p-3 bg-light rounded-3 border" [formGroup]="filterForm">
             <div class="col-md-4">
               <label class="form-label small text-muted">Employee Name</label>
@@ -101,8 +100,7 @@
               </button>
             </div>
           </div>
-
-          <!-- Timesheet Table -->
+          
           <div class="table-responsive">
             <table class="table table-hover align-middle">
               <thead class="bg-light">
@@ -153,7 +151,6 @@
                     </span>
                   </td>
                   <td class="text-end">
-                    <!-- Employee Actions -->
                     <div *ngIf="!isAdmin && (t.status === 'Draft' || t.status === 'Rejected')" class="btn-group">
                       <button class="btn btn-sm btn-icon btn-ghost-primary" (click)="openEntryModal(t)" title="Edit">
                         <i class="bi bi-pencil"></i>
@@ -166,7 +163,6 @@
                       </button>
                     </div>
 
-                    <!-- Admin Actions -->
                     <div *ngIf="isAdmin && (t.status === 'Pending' || t.status === 'Draft')" class="btn-group">
                       <button class="btn btn-sm btn-success px-3" (click)="approveEntry(t)">Approve</button>
                       <button class="btn btn-sm btn-outline-danger px-3" (click)="rejectEntry(t)">Reject</button>
@@ -192,7 +188,6 @@
   </div>
 </div>
 
-<!-- Employee Stats Modal -->
 <div class="modal fade" id="employeeStatsModal" tabindex="-1" aria-labelledby="empStatsLabel">
   <div class="modal-dialog modal-xl modal-dialog-centered">
     <div class="modal-content border-0 shadow">
@@ -260,7 +255,6 @@
   </div>
 </div>
 
-<!-- Add/Edit Modal (Existing) -->
 <div class="modal fade" id="timesheetModal" tabindex="-1" aria-labelledby="timesheetModalLabel">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content border-0 shadow">
@@ -287,7 +281,6 @@
                 <textarea class="form-control bg-light border-0" rows="3" formControlName="task" placeholder="What did you work on?"></textarea>
              </div>
              
-             <!-- Time Validation Error -->
              <div class="col-12" *ngIf="entryForm.errors?.['invalidTime'] && (entryForm.touched || entryForm.dirty)">
                 <div class="alert alert-danger py-2 small mb-0">
                    <i class="bi bi-exclamation-triangle me-2"></i> Start time must be before end time.

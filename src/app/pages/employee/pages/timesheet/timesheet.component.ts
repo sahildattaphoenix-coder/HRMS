@@ -77,7 +77,7 @@ export class TimesheetComponent implements OnInit {
       task: ['', Validators.required],
       startTime: ['', Validators.required],
       endTime: ['', Validators.required],
-      breakDuration: [0, [Validators.min(0)]], // Break in minutes
+      breakDuration: [0, [Validators.min(0)]],
       totalHours: [{ value: 0, disabled: true }],
       status: ['Draft']
     }, { validators: this.timeValidator });
@@ -96,7 +96,8 @@ export class TimesheetComponent implements OnInit {
 
     this.loadTimesheets();
 
-    // Auto-calculate hours
+    this.loadTimesheets();
+
     this.entryForm.valueChanges.subscribe(val => {
       this.calculateHours();
     });
@@ -108,12 +109,11 @@ export class TimesheetComponent implements OnInit {
       map(data => {
         let filtered = data;
 
-        // precise role based filtering
         if (!this.isAdmin) {
           filtered = filtered.filter(t => t.employeeId === this.currentUser?.id);
         } else {
-          // Admin filters
-          const fVal = this.filterForm.getRawValue(); // Use getRawValue to ensure we get all values
+
+          const fVal = this.filterForm.getRawValue();
 
           if (fVal.employee) {
             const searchLower = fVal.employee.toLowerCase();
@@ -127,20 +127,15 @@ export class TimesheetComponent implements OnInit {
           }
         }
 
-        // Calculate Stats (only for current user view or overall admin view)
-        // Only calc for user if not admin, or if admin it shows aggregate? 
-        // User asked to hide overview layout for admin.
         if (!this.isAdmin) {
           this.monthlyStats = this.getStats(filtered);
         }
 
-        // Sort by date desc
         return filtered.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
       })
     );
   }
 
-  // Reusable stats calculator
   getStats(data: Timesheet[]) {
     const currentMonth = new Date().getMonth();
     const currentYear = new Date().getFullYear();
@@ -163,7 +158,6 @@ export class TimesheetComponent implements OnInit {
     };
   }
 
-  // Admin: View specific employee stats
   viewEmployeeStats(employeeId: string, name: string) {
     this.selectedEmployeeName = name;
     this.apiService.get<Timesheet>('timesheets').subscribe(data => {
@@ -172,13 +166,11 @@ export class TimesheetComponent implements OnInit {
 
       const modalEl = document.getElementById('employeeStatsModal');
       if (modalEl) {
-        // Store last focused element
         this.lastFocusedElement = document.activeElement as HTMLElement;
 
         const modal = new bootstrap.Modal(modalEl);
 
         modalEl.addEventListener('show.bs.modal', () => {
-          // Set inert on background
           if (this.mainContentRef) {
             this.mainContentRef.nativeElement.inert = true;
           }
@@ -247,7 +239,6 @@ export class TimesheetComponent implements OnInit {
 
       this.modalInstance = new bootstrap.Modal(modalEl);
 
-      // Accessibility Fix: Robustly remove aria-hidden and manage inert
       modalEl.addEventListener('show.bs.modal', () => {
         if (this.mainContentRef) {
           this.mainContentRef.nativeElement.inert = true;
@@ -352,7 +343,6 @@ export class TimesheetComponent implements OnInit {
       let diffMs = endTime.getTime() - startTime.getTime();
       let diffHours = diffMs / (1000 * 60 * 60);
 
-      // Subtract break
       diffHours -= (breakMins / 60);
 
       if (diffHours < 0) diffHours = 0;
@@ -375,7 +365,6 @@ export class TimesheetComponent implements OnInit {
       const endTime = new Date(`1970-01-01T${end}`);
       let hours = (endTime.getTime() - startTime.getTime()) / (1000 * 60 * 60);
 
-      // Effective work hours check
       if ((hours - (breakMins / 60)) > 12) return { maxHours: true };
     }
     return null;
