@@ -4,30 +4,37 @@ import { ApiService } from './api.service';
 import { LeaveRequest } from '../models/hrms.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class LeaveService {
-  constructor(private apiService: ApiService) { }
+  constructor(private apiService: ApiService) {}
 
   getAllLeaveRequests(): Observable<LeaveRequest[]> {
     return this.apiService.get<LeaveRequest>('leaveRequests');
   }
 
   getMyLeaveRequests(employeeId: string | number): Observable<LeaveRequest[]> {
-    return this.apiService.get<LeaveRequest>('leaveRequests').pipe(
-      map(requests => requests.filter((r: any) => r.employeeId == employeeId))
-    );
+    return this.apiService
+      .get<LeaveRequest>('leaveRequests')
+      .pipe(
+        map((requests) =>
+          requests.filter((r: any) => r.employeeId == employeeId)
+        )
+      );
   }
 
   applyLeave(leave: Partial<LeaveRequest>): Observable<LeaveRequest> {
     return this.apiService.post<LeaveRequest>('leaveRequests', {
       ...leave,
       status: 'Pending',
-      appliedDate: new Date().toISOString()
+      appliedDate: new Date().toISOString(),
     });
   }
 
-  updateLeaveStatus(id: string | number, status: 'Approved' | 'Rejected'): Observable<LeaveRequest> {
+  updateLeaveStatus(
+    id: string | number,
+    status: 'Approved' | 'Rejected'
+  ): Observable<LeaveRequest> {
     return this.apiService.patch<LeaveRequest>('leaveRequests', id, { status });
   }
 
@@ -37,13 +44,13 @@ export class LeaveService {
 
   getLeaveSummaryByUserId(userId: string | number): Observable<any> {
     return this.getMyLeaveRequests(userId).pipe(
-      map(requests => {
-        const approvedLeaves = requests.filter(r => r.status === 'Approved');
+      map((requests) => {
+        const approvedLeaves = requests.filter((r) => r.status === 'Approved');
 
         let taken = 0;
         let sick = 0;
 
-        approvedLeaves.forEach(leave => {
+        approvedLeaves.forEach((leave) => {
           const days = this.calculateDays(leave.startDate, leave.endDate);
           taken += days;
           if (leave.type === 'Sick Leave') {
@@ -56,7 +63,7 @@ export class LeaveService {
           taken,
           total,
           balance: total - taken,
-          sick
+          sick,
         };
       })
     );

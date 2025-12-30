@@ -1,193 +1,198 @@
 <div class="dashboard-wrapper">
-<div class="dashboard-wrapper">
-  <div class="row g-3 mb-4">
-    <div class="col-xl-3 col-md-6 col-12">
-      <div class="stat-card shadow-sm border-0">
-        <div class="icon-box bg-red-soft"><i class="bi bi-people"></i></div>
-        <div class="stat-content">
-          <span class="stat-val">{{ adminStats.teamCount }}</span>
-          <span class="stat-label">My Team</span>
-        </div>
-      </div>
-    </div>
-    <div class="col-xl-3 col-md-6 col-12">
-      <div class="stat-card shadow-sm border-0">
-        <div class="icon-box bg-blue-pale-soft">
-          <i class="bi bi-person-check"></i>
-        </div>
-        <div class="stat-content">
-          <span class="stat-val">{{ adminStats.active }}</span>
-          <span class="stat-label">Active</span>
-        </div>
-      </div>
-    </div>
-    <div class="col-xl-3 col-md-6 col-12">
-      <div class="stat-card shadow-sm border-0">
-        <div class="icon-box bg-yellow-soft">
-          <i class="bi bi-house-door"></i>
-        </div>
-        <div class="stat-content">
-          <span class="stat-val">{{ adminStats.wfh }}</span>
-          <span class="stat-label">WFH</span>
-        </div>
-      </div>
-    </div>
-    <div class="col-xl-3 col-md-6 col-12">
-      <div class="stat-card shadow-sm border-0">
-        <div class="icon-box bg-red-vivid-soft">
-          <i class="bi bi-person-x"></i>
-        </div>
-        <div class="stat-content">
-          <span class="stat-val">{{ adminStats.absent }}</span>
-          <span class="stat-label">Absent</span>
-        </div>
-      </div>
-    </div>
-  </div>
-  
-  <div class="row g-2 mb-4">
-    <div class="col-lg-5">
-      <div class="chart-container shadow-sm p-4">
-        <h6 class="chart-title mb-4">Attendance Performances</h6>
-        <apx-chart
-          [series]="barChartOptions.series"
-          [chart]="barChartOptions.chart"
-          [plotOptions]="barChartOptions.plotOptions"
-          [colors]="barChartOptions.colors"
-          [xaxis]="barChartOptions.xaxis"
-          [dataLabels]="barChartOptions.dataLabels"
-        ></apx-chart>
-        <div class="chart-legend d-flex justify-content-center gap-4 mt-3">
-          <span class="legend-item"
-            ><span class="dot bg-success"></span>Present</span
-          >
-          <span class="legend-item"
-            ><span class="dot bg-grey"></span>Absent</span
-          >
-          <span class="legend-item"
-            ><span class="dot bg-danger"></span>Off</span
-          >
-        </div>
-      </div>
-    </div>
-    <div class="col-lg-7 col-12">
-      <div class="chart-container shadow-sm p-4">
-        <h6 class="chart-title mb-4">Project Overview</h6>
-        <div class="d-flex align-items-center justify-content-center">
-          <div class="pie-wrapper w-100" style="max-width: 400px">
-            <apx-chart
-              [series]="pieChartOptions.series"
-              [chart]="pieChartOptions.chart"
-              [labels]="pieChartOptions.labels"
-              [colors]="pieChartOptions.colors"
-              [responsive]="pieChartOptions.responsive"
-              [legend]="pieChartOptions.legend"
-            ></apx-chart>
+  <div class="dashboard-wrapper">
+    <div class="row g-3 mb-4">
+      <div class="col-xl-3 col-md-6 col-12">
+        <div class="stat-card shadow-sm border-0">
+          <div class="icon-box bg-red-soft"><i class="bi bi-people"></i></div>
+          <div class="stat-content">
+            <span class="stat-val">{{ adminStats.teamCount }}</span>
+            <span class="stat-label">My Team</span>
           </div>
         </div>
-        <div class="text-center mt-3">
-          <button
-            class="btn btn-sm btn-outline-primary rounded-pill px-4"
-            routerLink="/admin/projects"
-          >
-            Manage Projects
-          </button>
+      </div>
+      <div class="col-xl-3 col-md-6 col-12">
+        <div class="stat-card shadow-sm border-0">
+          <div class="icon-box bg-blue-pale-soft">
+            <i class="bi bi-person-check"></i>
+          </div>
+          <div class="stat-content">
+            <span class="stat-val">{{ adminStats.active }}</span>
+            <span class="stat-label">Active</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-3 col-md-6 col-12">
+        <div class="stat-card shadow-sm border-0">
+          <div class="icon-box bg-yellow-soft">
+            <i class="bi bi-house-door"></i>
+          </div>
+          <div class="stat-content">
+            <span class="stat-val">{{ adminStats.wfh }}</span>
+            <span class="stat-label">WFH</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-3 col-md-6 col-12">
+        <div class="stat-card shadow-sm border-0">
+          <div class="icon-box bg-red-vivid-soft">
+            <i class="bi bi-person-x"></i>
+          </div>
+          <div class="stat-content">
+            <span class="stat-val">{{ adminStats.absent }}</span>
+            <span class="stat-label">Absent</span>
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <div class="row g-4 mb-4">
-    <!-- Left: Leave Summary -->
-    <!-- Right: Combined Tables -->
-    <div class="col-12">
-      <div class="content-box shadow-sm mb-4 overflow-hidden">
-        <h6 class="chart-title p-4 pb-0 mb-0">Pending Approval by me</h6>
-        <div class="table-responsive p-4">
-          <table class="table text-center align-middle dashboard-table border">
-            <thead>
-              <tr>
-                <th>Sr.No</th>
-                <th>Em.Id</th>
-                <th>Em.Name</th>
-                <th>From Date</th>
-                <th>To Date</th>
-                <th>Leave Type</th>
-                <th>Reasons</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody *ngIf="pendingApprovals.length > 0; else noPending">
-              <tr *ngFor="let leave of pendingApprovals; let i = index">
-                <td>{{ i + 1 }}</td>
-                <td>{{ leave.employeeId }}</td>
-                <td>{{ leave.employeeName }}</td>
-                <td>{{ leave.startDate | date : "dd MM yyyy" }}</td>
-                <td>{{ leave.endDate | date : "dd MM yyyy" }}</td>
-                <td>{{ leave.type }}</td>
-                <td class="text-muted text-truncate" style="max-width: 100px">
-                  {{ leave.reason }}
-                </td>
-                <td>
-                  <span
-                    class="status-pill status-approved px-4 cursor-pointer"
-                    routerLink="/admin/leave-requests"
-                    >Action</span
-                  >
-                </td>
-              </tr>
-            </tbody>
-            <ng-template #noPending>
-              <tbody>
-                <tr>
-                  <td colspan="9" class="py-4 text-muted small">
-                    No pending approvals.
-                  </td>
-                </tr>
-              </tbody>
-            </ng-template>
-          </table>
+    <div class="row g-2 mb-4">
+      <div class="col-lg-5">
+        <div class="chart-container shadow-sm p-4">
+          <h6 class="chart-title mb-4">Attendance Performances</h6>
+          <apx-chart
+            [series]="barChartOptions.series"
+            [chart]="barChartOptions.chart"
+            [plotOptions]="barChartOptions.plotOptions"
+            [colors]="barChartOptions.colors"
+            [xaxis]="barChartOptions.xaxis"
+            [dataLabels]="barChartOptions.dataLabels"
+          ></apx-chart>
+          <div class="chart-legend d-flex justify-content-center gap-4 mt-3">
+            <span class="legend-item"
+              ><span class="dot bg-success"></span>Present</span
+            >
+            <span class="legend-item"
+              ><span class="dot bg-grey"></span>Absent</span
+            >
+            <span class="legend-item"
+              ><span class="dot bg-danger"></span>Off</span
+            >
+          </div>
         </div>
       </div>
+      <div class="col-lg-7 col-12">
+        <div class="chart-container shadow-sm p-4">
+          <h6 class="chart-title mb-4">Project Overview</h6>
+          <div class="d-flex align-items-center justify-content-center">
+            <div class="pie-wrapper w-100" style="max-width: 400px">
+              <apx-chart
+                [series]="pieChartOptions.series"
+                [chart]="pieChartOptions.chart"
+                [labels]="pieChartOptions.labels"
+                [colors]="pieChartOptions.colors"
+                [responsive]="pieChartOptions.responsive"
+                [legend]="pieChartOptions.legend"
+              ></apx-chart>
+            </div>
+          </div>
+          <div class="text-center mt-3">
+            <button
+              class="btn btn-sm btn-outline-primary rounded-pill px-4"
+              routerLink="/admin/projects"
+            >
+              Manage Projects
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
 
-      <div class="content-box shadow-sm overflow-hidden">
-        <h6 class="chart-title p-4 pb-0 mb-0">My Pending Request</h6>
-        <div class="table-responsive p-4">
-          <table class="table text-center align-middle dashboard-table border">
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Leave Type</th>
-                <th>Name</th>
-                <th>Short Summary</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody *ngIf="myPendingRequests.length > 0; else noMyRequests">
-              <tr *ngFor="let leave of myPendingRequests">
-                <td>{{ leave.id }}</td>
-                <td>{{ leave.type }}</td>
-                <td>{{ leave.employeeName }}</td>
-                <td class="text-muted text-truncate" style="max-width: 150px">
-                  {{ leave.reason }}
-                </td>
-                <td>
-                  <span class="status-pill status-pending px-4">{{
-                    leave.status
-                  }}</span>
-                </td>
-              </tr>
-            </tbody>
-            <ng-template #noMyRequests>
-              <tbody>
+    <div class="row g-4 mb-4">
+      <!-- Left: Leave Summary -->
+      <!-- Right: Combined Tables -->
+      <div class="col-12">
+        <div class="content-box shadow-sm mb-4 overflow-hidden">
+          <h6 class="chart-title p-4 pb-0 mb-0">Pending Approval by me</h6>
+          <div class="table-responsive p-4">
+            <table
+              class="table text-center align-middle dashboard-table border"
+            >
+              <thead>
                 <tr>
-                  <td colspan="5" class="py-4 text-muted small">
-                    No pending requests.
+                  <th>Sr.No</th>
+                  <th>Em.Id</th>
+                  <th>Em.Name</th>
+                  <th>From Date</th>
+                  <th>To Date</th>
+                  <th>Leave Type</th>
+                  <th>Reasons</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody *ngIf="pendingApprovals.length > 0; else noPending">
+                <tr *ngFor="let leave of pendingApprovals; let i = index">
+                  <td>{{ i + 1 }}</td>
+                  <td>{{ leave.employeeId }}</td>
+                  <td>{{ leave.employeeName }}</td>
+                  <td>{{ leave.startDate | date : "dd MM yyyy" }}</td>
+                  <td>{{ leave.endDate | date : "dd MM yyyy" }}</td>
+                  <td>{{ leave.type }}</td>
+                  <td class="text-muted text-truncate" style="max-width: 100px">
+                    {{ leave.reason }}
+                  </td>
+                  <td>
+                    <span
+                      class="status-pill status-approved px-4 cursor-pointer"
+                      routerLink="/admin/leave-requests"
+                      >Action</span
+                    >
                   </td>
                 </tr>
               </tbody>
-            </ng-template>
-          </table>
+              <ng-template #noPending>
+                <tbody>
+                  <tr>
+                    <td colspan="9" class="py-4 text-muted small">
+                      No pending approvals.
+                    </td>
+                  </tr>
+                </tbody>
+              </ng-template>
+            </table>
+          </div>
+        </div>
+
+        <div class="content-box shadow-sm overflow-hidden">
+          <h6 class="chart-title p-4 pb-0 mb-0">My Pending Request</h6>
+          <div class="table-responsive p-4">
+            <table
+              class="table text-center align-middle dashboard-table border"
+            >
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Leave Type</th>
+                  <th>Name</th>
+                  <th>Short Summary</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody *ngIf="myPendingRequests.length > 0; else noMyRequests">
+                <tr *ngFor="let leave of myPendingRequests">
+                  <td>{{ leave.id }}</td>
+                  <td>{{ leave.type }}</td>
+                  <td>{{ leave.employeeName }}</td>
+                  <td class="text-muted text-truncate" style="max-width: 150px">
+                    {{ leave.reason }}
+                  </td>
+                  <td>
+                    <span class="status-pill status-pending px-4">{{
+                      leave.status
+                    }}</span>
+                  </td>
+                </tr>
+              </tbody>
+              <ng-template #noMyRequests>
+                <tbody>
+                  <tr>
+                    <td colspan="5" class="py-4 text-muted small">
+                      No pending requests.
+                    </td>
+                  </tr>
+                </tbody>
+              </ng-template>
+            </table>
+          </div>
         </div>
       </div>
     </div>

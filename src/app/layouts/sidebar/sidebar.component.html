@@ -5,14 +5,16 @@
 
 <nav class="sidebar-nav">
   <div class="nav flex-column">
-    <a *ngFor="let link of role === 'admin' ? adminLinks : employeeLinks"
-       class="nav-link"
-       [routerLink]="link.path"
-       routerLinkActive="active"
-       (click)="onLinkClick()"
-       data-bs-toggle="tooltip" 
-       data-bs-placement="right" 
-       title="{{ link.label }}">
+    <a
+      *ngFor="let link of role === 'admin' ? adminLinks : employeeLinks"
+      class="nav-link"
+      [routerLink]="link.path"
+      routerLinkActive="active"
+      (click)="onLinkClick()"
+      data-bs-toggle="tooltip"
+      data-bs-placement="right"
+      title="{{ link.label }}"
+    >
       <i class="bi" [class]="link.icon"></i>
       <span class="hide-on-collapse">{{ link.label }}</span>
     </a>
@@ -22,7 +24,13 @@
 <div class="sidebar-bottom">
   <div class="user-block" *ngIf="authService.currentUser$ | async as user">
     <div class="avatar-wrapper">
-      <app-avatar [name]="user.name" [imageUrl]="user.img" [size]="40" fontSize="1rem" styleClass="rounded-circle"></app-avatar>
+      <app-avatar
+        [name]="user.name"
+        [imageUrl]="user.img"
+        [size]="40"
+        fontSize="1rem"
+        styleClass="rounded-circle"
+      ></app-avatar>
     </div>
     <div class="profile-info hide-on-collapse">
       <h6>{{ user.name }}</h6>

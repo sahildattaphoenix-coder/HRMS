@@ -1,29 +1,28 @@
-
 .footer {
-  background-color: #e6e9ec; 
+  background-color: #e6e9ec;
   border-top: 1px solid black;
-  color: black; 
+  color: black;
   padding: 20px 0;
   width: 100%;
-  
+
   .footer-content {
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 0.9rem;
-    font-family: 'Inter', sans-serif;
-    
+    font-family: "Inter", sans-serif;
+
     p {
       margin: 0;
     }
 
     .heart {
       margin: 0 4px;
-      color: #f06548; 
+      color: #f06548;
     }
 
     .brand {
-      color: #3b82f6; 
+      color: #3b82f6;
       font-weight: 500;
       margin-left: 4px;
     }

@@ -7,12 +7,11 @@ import { map } from 'rxjs/operators';
   selector: 'app-footer',
   templateUrl: './footer.component.html',
   styleUrls: ['./footer.component.scss'],
-  standalone: false
+  standalone: false,
 })
 export class FooterComponent implements OnInit {
   greeting: string = '';
-  constructor() { }
+  constructor() {}
 
-  ngOnInit(): void { }
-
+  ngOnInit(): void {}
 }

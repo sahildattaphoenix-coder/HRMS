@@ -20,7 +20,7 @@ export class DashboardService {
   getAttendance(): Observable<any[]> {
     return this.apiService.get('attendance');
   }
-  
+
   getStats(): Observable<any> {
     return this.apiService.getById('stats', 'current');
   }

@@ -16,16 +16,9 @@ import { FooterComponent } from './footer/footer.component';
     TopbarComponent,
     SidebarComponent,
     RightsidebarComponent,
-    FooterComponent
+    FooterComponent,
   ],
-  imports: [
-    CommonModule,
-    RouterModule,
-    FormsModule,
-    SharedModule
-  ],
-  exports: [
-    LayoutComponent
-  ]
+  imports: [CommonModule, RouterModule, FormsModule, SharedModule],
+  exports: [LayoutComponent],
 })
-export class LayoutsModule { }
+export class LayoutsModule {}

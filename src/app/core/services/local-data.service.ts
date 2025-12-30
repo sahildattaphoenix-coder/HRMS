@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class LocalDataService {
   private storageKey = 'hrms_data';
@@ -36,8 +36,8 @@ export class LocalDataService {
   }
 
   getCollection(key: string): Observable<any[]> {
-    return new Observable(observer => {
-      this.stateSubject.subscribe(state => {
+    return new Observable((observer) => {
+      this.stateSubject.subscribe((state) => {
         if (state) {
           observer.next(state[key] || []);
         }
@@ -54,10 +54,10 @@ export class LocalDataService {
   addItem(collectionKey: string, item: any) {
     const state = { ...this.stateSubject.value };
     if (!state[collectionKey]) state[collectionKey] = [];
-    
+
     const newItem = { ...item };
     if (!newItem.id) newItem.id = Date.now().toString();
-    
+
     state[collectionKey] = [...state[collectionKey], newItem];
     this.saveState(state);
     return of(newItem);
@@ -67,7 +67,7 @@ export class LocalDataService {
     const state = { ...this.stateSubject.value };
     if (!state[collectionKey]) return of(null);
 
-    state[collectionKey] = state[collectionKey].map((item: any) => 
+    state[collectionKey] = state[collectionKey].map((item: any) =>
       item.id == id ? { ...item, ...updates } : item
     );
     this.saveState(state);
@@ -78,7 +78,9 @@ export class LocalDataService {
     const state = { ...this.stateSubject.value };
     if (!state[collectionKey]) return of(null);
 
-    state[collectionKey] = state[collectionKey].filter((item: any) => item.id != id);
+    state[collectionKey] = state[collectionKey].filter(
+      (item: any) => item.id != id
+    );
     this.saveState(state);
     return of(true);
   }

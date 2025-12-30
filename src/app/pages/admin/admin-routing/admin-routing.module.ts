@@ -4,7 +4,6 @@ import { DashboardComponent } from '../dashboard/dashboard.component';
 import { EmployeesComponent } from '../employees/employees.component';
 import { LeaveRequestsComponent } from '../leave-requests/leave-requests.component';
 import { ProjectListComponent } from '../projects/project-list/project-list.component';
-import { UnderConstructionComponent } from '../../../shared/components/under-construction/under-construction.component';
 import { ProfileComponent } from '../../employee/profile/profile.component';
 import { PayrollComponent } from '../../employee/payroll/payroll.component';
 import { MyAttendanceComponent } from '../../employee/pages/my-attendance/my-attendance.component';
@@ -21,11 +20,11 @@ const routes: Routes = [
   { path: 'payroll', component: PayrollComponent },
   { path: 'policy', component: HrPolicyComponent },
   { path: 'profile', component: ProfileComponent },
-  { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
+  { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AdminRoutingModule { }
+export class AdminRoutingModule {}

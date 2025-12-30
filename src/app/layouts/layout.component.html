@@ -1,31 +1,54 @@
 <div class="app-layout-grid">
   <!-- Header: Spans full width or just content area depending on design. Usually full width -->
   <header class="app-header">
-    <app-topbar [isCollapsed]="isLeftSidebarCollapsed" (toggleSidebar)="toggleSidebar()"></app-topbar>
+    <app-topbar
+      [isCollapsed]="isLeftSidebarCollapsed"
+      (toggleSidebar)="toggleSidebar()"
+    ></app-topbar>
   </header>
 
   <!-- Left Sidebar Area -->
-  <aside class="app-sidebar" [class.collapsed]="isLeftSidebarCollapsed" [class.mobile-show]="sidebarOpen">
-    <app-sidebar [class.collapsed]="isLeftSidebarCollapsed" [collapsed]="isLeftSidebarCollapsed" (closeSidebar)="closeSidebar()"></app-sidebar>
+  <aside
+    class="app-sidebar"
+    [class.collapsed]="isLeftSidebarCollapsed"
+    [class.mobile-show]="sidebarOpen"
+  >
+    <app-sidebar
+      [class.collapsed]="isLeftSidebarCollapsed"
+      [collapsed]="isLeftSidebarCollapsed"
+      (closeSidebar)="closeSidebar()"
+    ></app-sidebar>
   </aside>
 
   <!-- Mobile Backdrop -->
-  <div class="sidebar-backdrop" [class.show]="sidebarOpen" (click)="closeSidebar()"></div>
+  <div
+    class="sidebar-backdrop"
+    [class.show]="sidebarOpen"
+    (click)="closeSidebar()"
+  ></div>
 
   <!-- Main Content Area -->
   <main class="app-main">
     <div class="content-wrapper">
-      <router-outlet></router-outlet> 
+      <router-outlet></router-outlet>
     </div>
   </main>
-  
+
   <app-footer></app-footer>
 
   <!-- Right Sidebar Area -->
   <aside class="app-right-sidebar" [class.collapsed]="isRightSidebarCollapsed">
     <!-- Toggle Button -->
-    <div class="sidebar-toggle-btn right-toggle d-none d-xl-flex" [class.collapsed]="isRightSidebarCollapsed" (click)="toggleRightSidebar()">
-        <i class="bi" [class.bi-chevron-right]="!isRightSidebarCollapsed" [class.bi-chevron-left]="isRightSidebarCollapsed"></i>
+    <div
+      class="sidebar-toggle-btn right-toggle d-none d-xl-flex"
+      [class.collapsed]="isRightSidebarCollapsed"
+      (click)="toggleRightSidebar()"
+    >
+      <i
+        class="bi"
+        [class.bi-chevron-right]="!isRightSidebarCollapsed"
+        [class.bi-chevron-left]="isRightSidebarCollapsed"
+      ></i>
     </div>
     <app-rightsidebar></app-rightsidebar>
   </aside>

@@ -5,7 +5,7 @@ import { SharedService } from '../../core/services/shared.service';
   selector: 'app-rightsidebar',
   templateUrl: './rightsidebar.component.html',
   styleUrls: ['./rightsidebar.component.scss'],
-  standalone: false
+  standalone: false,
 })
 export class RightsidebarComponent implements OnInit {
   @Input() collapsed: boolean = false;
@@ -21,15 +21,20 @@ export class RightsidebarComponent implements OnInit {
   constructor(private sharedService: SharedService) {}
 
   ngOnInit() {
-    this.currentMonthName = new Intl.DateTimeFormat('en-US', { month: 'long', year: 'numeric' }).format(new Date());
+    this.currentMonthName = new Intl.DateTimeFormat('en-US', {
+      month: 'long',
+      year: 'numeric',
+    }).format(new Date());
     this.loadData();
   }
 
   loadData() {
-    this.sharedService.getTodos().subscribe(data => this.todos = data);
-    this.sharedService.getHolidays().subscribe(data => this.holidays = data);
-    this.sharedService.getEvents().subscribe(data => {
-      this.upcomingBirthdays = (data && data.birthdays) ? data.birthdays : [];
+    this.sharedService.getTodos().subscribe((data) => (this.todos = data));
+    this.sharedService
+      .getHolidays()
+      .subscribe((data) => (this.holidays = data));
+    this.sharedService.getEvents().subscribe((data) => {
+      this.upcomingBirthdays = data && data.birthdays ? data.birthdays : [];
     });
   }
 
@@ -37,7 +42,7 @@ export class RightsidebarComponent implements OnInit {
     if (!this.newTodoText.trim()) return;
     const newTodo = {
       task: this.newTodoText,
-      completed: false
+      completed: false,
     };
     this.sharedService.addTodo(newTodo).subscribe(() => {
       this.newTodoText = '';
@@ -65,7 +70,7 @@ export class RightsidebarComponent implements OnInit {
   }
 
   deleteTodo(id: string) {
-    if(confirm('Delete this task?')) {
+    if (confirm('Delete this task?')) {
       this.sharedService.deleteTodo(id).subscribe(() => {
         this.loadData();
       });

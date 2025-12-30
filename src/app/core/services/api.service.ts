@@ -6,7 +6,7 @@ import { Employee } from '../models/employee.model';
 import { Attendance, LeaveRequest } from '../models/hrms.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ApiService {
   private apiUrl = environment.apiUrl;
@@ -28,18 +28,21 @@ export class ApiService {
    * @param endpoint API endpoint
    * @param params Optional query parameters
    */
-  get<T>(endpoint: string, params?: Record<string, string | number>): Observable<T[]> {
+  get<T>(
+    endpoint: string,
+    params?: Record<string, string | number>
+  ): Observable<T[]> {
     let httpParams = new HttpParams();
-    
+
     if (params) {
-      Object.keys(params).forEach(key => {
+      Object.keys(params).forEach((key) => {
         httpParams = httpParams.set(key, String(params[key]));
       });
     }
 
-    return this.http.get<T[]>(`${this.apiUrl}/${endpoint}`, { params: httpParams }).pipe(
-      tap(data => this.updateLocalState(endpoint, data))
-    );
+    return this.http
+      .get<T[]>(`${this.apiUrl}/${endpoint}`, { params: httpParams })
+      .pipe(tap((data) => this.updateLocalState(endpoint, data)));
   }
 
   /**
@@ -53,36 +56,44 @@ export class ApiService {
    * Create new resource
    */
   post<T>(endpoint: string, data: Partial<T>): Observable<T> {
-    return this.http.post<T>(`${this.apiUrl}/${endpoint}`, data).pipe(
-      tap(() => this.refreshCollection(endpoint))
-    );
+    return this.http
+      .post<T>(`${this.apiUrl}/${endpoint}`, data)
+      .pipe(tap(() => this.refreshCollection(endpoint)));
   }
 
   /**
    * Update entire resource
    */
-  put<T>(endpoint: string, id: string | number, data: Partial<T>): Observable<T> {
-    return this.http.put<T>(`${this.apiUrl}/${endpoint}/${id}`, data).pipe(
-      tap(() => this.refreshCollection(endpoint))
-    );
+  put<T>(
+    endpoint: string,
+    id: string | number,
+    data: Partial<T>
+  ): Observable<T> {
+    return this.http
+      .put<T>(`${this.apiUrl}/${endpoint}/${id}`, data)
+      .pipe(tap(() => this.refreshCollection(endpoint)));
   }
 
   /**
    * Partially update resource
    */
-  patch<T>(endpoint: string, id: string | number, data: Partial<T>): Observable<T> {
-    return this.http.patch<T>(`${this.apiUrl}/${endpoint}/${id}`, data).pipe(
-      tap(() => this.refreshCollection(endpoint))
-    );
+  patch<T>(
+    endpoint: string,
+    id: string | number,
+    data: Partial<T>
+  ): Observable<T> {
+    return this.http
+      .patch<T>(`${this.apiUrl}/${endpoint}/${id}`, data)
+      .pipe(tap(() => this.refreshCollection(endpoint)));
   }
 
   /**
    * Delete resource
    */
   delete<T>(endpoint: string, id: string | number): Observable<T> {
-    return this.http.delete<T>(`${this.apiUrl}/${endpoint}/${id}`).pipe(
-      tap(() => this.refreshCollection(endpoint))
-    );
+    return this.http
+      .delete<T>(`${this.apiUrl}/${endpoint}/${id}`)
+      .pipe(tap(() => this.refreshCollection(endpoint)));
   }
 
   /**

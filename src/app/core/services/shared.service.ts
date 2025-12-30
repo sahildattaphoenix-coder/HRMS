@@ -3,7 +3,7 @@ import { Observable, map } from 'rxjs';
 import { ApiService } from './api.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SharedService {
   constructor(private apiService: ApiService) {}
@@ -15,13 +15,15 @@ export class SharedService {
   getHolidays(): Observable<any[]> {
     return this.apiService.get<any>('holidays');
   }
-  
+
   getEvents(): Observable<any> {
-    return this.apiService.get<any>('events').pipe(map(data => data[0] || {}));
+    return this.apiService
+      .get<any>('events')
+      .pipe(map((data) => data[0] || {}));
   }
 
   getStats(): Observable<any> {
-    return this.apiService.get<any>('stats').pipe(map(data => data[0] || {}));
+    return this.apiService.get<any>('stats').pipe(map((data) => data[0] || {}));
   }
 
   getTimesheets(): Observable<any[]> {
@@ -37,9 +39,13 @@ export class SharedService {
   }
 
   getAttendanceByUserId(userId: string | number): Observable<any[]> {
-    return this.apiService.get<any>('attendance').pipe(
-      map(list => list.filter(a => a.userId == userId || a.employeeId == userId))
-    );
+    return this.apiService
+      .get<any>('attendance')
+      .pipe(
+        map((list) =>
+          list.filter((a) => a.userId == userId || a.employeeId == userId)
+        )
+      );
   }
 
   addTodo(todo: any): Observable<any> {
@@ -51,7 +57,9 @@ export class SharedService {
   }
 
   toggleTodo(todo: any): Observable<any> {
-    return this.apiService.patch<any>('todos', todo.id, { completed: !todo.completed });
+    return this.apiService.patch<any>('todos', todo.id, {
+      completed: !todo.completed,
+    });
   }
 
   updateTodo(todo: any): Observable<any> {

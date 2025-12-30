@@ -10,16 +10,13 @@ import { StorageKeys } from '../constants/storage-keys';
 import { ApiEndpoints } from '../constants/api-endpoints';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
   private currentUserSubject = new BehaviorSubject<User | null>(null);
   public currentUser$ = this.currentUserSubject.asObservable();
 
-  constructor(
-    private http: HttpClient,
-    private router: Router
-  ) {
+  constructor(private http: HttpClient, private router: Router) {
     this.loadUserFromStorage();
   }
 
@@ -46,35 +43,43 @@ export class AuthService {
   login(email: string, password: string): Observable<User | null> {
     const loginRequest: LoginRequest = { email, password };
 
-    return this.http.post<LoginResponse>(`${environment.apiUrl}/${ApiEndpoints.AUTH.LOGIN}`, loginRequest).pipe(
-      map(response => {
-        if (response && response.user) {
-          // Store token
-          if (response.token) {
-            localStorage.setItem(StorageKeys.AUTH_TOKEN, response.token);
+    return this.http
+      .post<LoginResponse>(
+        `${environment.apiUrl}/${ApiEndpoints.AUTH.LOGIN}`,
+        loginRequest
+      )
+      .pipe(
+        map((response) => {
+          if (response && response.user) {
+            // Store token
+            if (response.token) {
+              localStorage.setItem(StorageKeys.AUTH_TOKEN, response.token);
+            }
+
+            // Store sanitized user (no password)
+            const user: User = {
+              id: response.user.id,
+              email: response.user.email,
+              name: response.user.name,
+              role: response.user.role,
+              designation: response.user.designation,
+              img: response.user.img,
+            };
+
+            localStorage.setItem(
+              StorageKeys.CURRENT_USER,
+              JSON.stringify(user)
+            );
+            this.currentUserSubject.next(user);
+            return user;
           }
-
-          // Store sanitized user (no password)
-          const user: User = {
-            id: response.user.id,
-            email: response.user.email,
-            name: response.user.name,
-            role: response.user.role,
-            designation: response.user.designation,
-            img: response.user.img
-          };
-
-          localStorage.setItem(StorageKeys.CURRENT_USER, JSON.stringify(user));
-          this.currentUserSubject.next(user);
-          return user;
-        }
-        return null;
-      }),
-      catchError(error => {
-        console.error('Login failed', error);
-        return of(null);
-      })
-    );
+          return null;
+        }),
+        catchError((error) => {
+          console.error('Login failed', error);
+          return of(null);
+        })
+      );
   }
 
   /**

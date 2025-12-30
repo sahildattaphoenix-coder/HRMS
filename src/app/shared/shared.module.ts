@@ -16,11 +16,7 @@ import { ToastContainerComponent } from './components/toast-container/toast-cont
     AvatarComponent,
     ToastContainerComponent,
   ],
-  imports: [
-    CommonModule,
-    RouterModule,
-    FormsModule
-  ],
+  imports: [CommonModule, RouterModule, FormsModule],
   exports: [
     HolidayCalendarComponent,
     UnderConstructionComponent,
@@ -28,8 +24,8 @@ import { ToastContainerComponent } from './components/toast-container/toast-cont
     AvatarComponent,
     ToastContainerComponent,
     CommonModule,
-    RouterModule, 
-    FormsModule
-  ]
+    RouterModule,
+    FormsModule,
+  ],
 })
-export class SharedModule { }
+export class SharedModule {}

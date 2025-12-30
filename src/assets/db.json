@@ -35,18 +35,13 @@
       "category": "Internal",
       "startDate": "2025-12-24",
       "deadline": "2025-12-31",
-      "state": "Active",
+      "state": "Pending",
       "progress": 20,
       "team": [
         {
           "id": "101",
           "name": "Sahil Datta",
           "img": "assets/images/user/default.jpg"
-        },
-        {
-          "id": "102",
-          "name": "Rahul",
-          "img": "assets/images/users/user-2.jpg"
         },
         {
           "id": 2,
@@ -57,9 +52,68 @@
           "id": "FTRVnIT",
           "name": "test",
           "img": "assets/images/user/default.jpg"
+        },
+        {
+          "id": "102",
+          "name": "Rahul",
+          "img": "assets/images/users/user-2.jpg"
         }
       ],
       "id": "yzQMAHN"
+    },
+    {
+      "title": "axiom",
+      "manager": "Sahil",
+      "category": "Internal",
+      "startDate": "2025-12-29",
+      "deadline": "2026-01-29",
+      "state": "Active",
+      "progress": 15,
+      "team": [
+        {
+          "id": "102",
+          "name": "Rahul",
+          "img": "assets/images/users/user-2.jpg"
+        },
+        {
+          "id": "101",
+          "name": "Sahil Datta",
+          "img": "assets/images/user/default.jpg"
+        },
+        {
+          "id": "Ws4afdg",
+          "name": "test",
+          "img": "assets/images/user/default.jpg"
+        }
+      ],
+      "id": "dWXjsHK"
+    },
+    {
+      "title": "HRMS",
+      "manager": "sahil",
+      "category": "Internal",
+      "startDate": "2025-12-29",
+      "deadline": "2026-01-30",
+      "state": "Completed",
+      "progress": 100,
+      "team": [
+        {
+          "id": "102",
+          "name": "Rahul",
+          "img": "assets/images/users/user-2.jpg"
+        },
+        {
+          "id": "101",
+          "name": "Sahil Datta",
+          "img": "assets/images/user/default.jpg"
+        },
+        {
+          "id": "Ws4afdg",
+          "name": "test",
+          "img": "assets/images/user/default.jpg"
+        }
+      ],
+      "id": "FWyKzSE"
     }
   ],
   "leaveRequests": [
@@ -292,7 +346,7 @@
     {
       "id": "2",
       "task": "Submit timesheet",
-      "completed": false
+      "completed": true
     },
     {
       "id": "3",
@@ -322,6 +376,14 @@
       "id": 2,
       "checkOut": "03:22 PM",
       "hours": 0
+    },
+    {
+      "employeeId": "2",
+      "employeeName": "Rahul",
+      "date": "2025-12-29",
+      "checkIn": "10:18 AM",
+      "status": "Present",
+      "id": 3
     }
   ],
   "timesheets": [
@@ -376,6 +438,19 @@
       "employeeId": "2",
       "employeeName": "Rahul",
       "id": "1766750465847"
+    },
+    {
+      "date": "2025-12-29",
+      "project": "axiom",
+      "task": "test",
+      "startTime": "10:32",
+      "endTime": "14:00",
+      "breakDuration": 7,
+      "totalHours": 3.35,
+      "status": "Pending",
+      "employeeId": "FTRVnIT",
+      "employeeName": "test",
+      "id": "1766984604692"
     }
   ],
   "hrPolicies": [

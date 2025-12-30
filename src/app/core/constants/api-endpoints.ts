@@ -6,7 +6,7 @@ export class ApiEndpoints {
   static readonly AUTH = {
     LOGIN: 'auth/login',
     LOGOUT: 'auth/logout',
-    REFRESH: 'auth/refresh'
+    REFRESH: 'auth/refresh',
   };
 
   static readonly USERS = 'users';

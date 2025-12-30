@@ -8,7 +8,7 @@ import { SharedModule } from './shared/shared.module';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
   standalone: true,
-  imports: [RouterModule, SharedModule]
+  imports: [RouterModule, SharedModule],
 })
 export class AppComponent implements OnInit {
   title = 'hrms';

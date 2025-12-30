@@ -8,7 +8,7 @@ import { forkJoin, switchMap } from 'rxjs';
   selector: 'app-employees',
   templateUrl: './employees.component.html',
   styleUrls: ['./employees.component.scss'],
-  standalone: false
+  standalone: false,
 })
 export class EmployeesComponent implements OnInit {
   employees: Employee[] = [];
@@ -27,12 +27,17 @@ export class EmployeesComponent implements OnInit {
   employeeForm: FormGroup;
   editingEmployeeId: string | null = null;
 
-  departments = ['All', 'Engineering', 'Design', 'Management', 'HR', 'Marketing', 'Sales'];
+  departments = [
+    'All',
+    'Engineering',
+    'Design',
+    'Management',
+    'HR',
+    'Marketing',
+    'Sales',
+  ];
 
-  constructor(
-    private apiService: ApiService,
-    private fb: FormBuilder
-  ) {
+  constructor(private apiService: ApiService, private fb: FormBuilder) {
     this.employeeForm = this.fb.group({
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
@@ -41,7 +46,7 @@ export class EmployeesComponent implements OnInit {
       department: ['Engineering', Validators.required],
       designation: ['', Validators.required],
       status: ['Active', Validators.required],
-      role: ['employee', Validators.required]
+      role: ['employee', Validators.required],
     });
   }
 
@@ -52,22 +57,27 @@ export class EmployeesComponent implements OnInit {
 
   loadEmployees() {
     this.loading = true;
-    this.apiService.get<Employee>('employees').subscribe(data => {
-      this.employees = data;
-      this.applyFilters();
-      this.loading = false;
-    }, (error) => {
-      console.error('Error loading employees:', error);
-      this.loading = false;
-    });
+    this.apiService.get<Employee>('employees').subscribe(
+      (data) => {
+        this.employees = data;
+        this.applyFilters();
+        this.loading = false;
+      },
+      (error) => {
+        console.error('Error loading employees:', error);
+        this.loading = false;
+      }
+    );
   }
 
   applyFilters() {
-    this.filteredEmployees = this.employees.filter(emp => {
-      const matchesSearch = emp.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-                            emp.empNo.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-                            emp.email.toLowerCase().includes(this.searchTerm.toLowerCase());
-      const matchesDept = this.selectedDept === 'All' || emp.department === this.selectedDept;
+    this.filteredEmployees = this.employees.filter((emp) => {
+      const matchesSearch =
+        emp.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+        emp.empNo.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+        emp.email.toLowerCase().includes(this.searchTerm.toLowerCase());
+      const matchesDept =
+        this.selectedDept === 'All' || emp.department === this.selectedDept;
       return matchesSearch && matchesDept;
     });
   }
@@ -75,7 +85,12 @@ export class EmployeesComponent implements OnInit {
   openAddModal() {
     this.isEditing = false;
     this.showModal = true;
-    this.employeeForm.reset({ department: 'Engineering', status: 'Active', role: 'employee', password: '123456' });
+    this.employeeForm.reset({
+      department: 'Engineering',
+      status: 'Active',
+      role: 'employee',
+      password: '123456',
+    });
   }
 
   openEditModal(emp: Employee) {
@@ -90,7 +105,7 @@ export class EmployeesComponent implements OnInit {
       department: emp.department,
       designation: emp.designation,
       status: emp.status,
-      role: 'employee' // Assume employee role for editing profile
+      role: 'employee', // Assume employee role for editing profile
     });
     this.employeeForm.get('password')?.disable();
   }
@@ -106,10 +121,16 @@ export class EmployeesComponent implements OnInit {
   onSubmit() {
     if (this.employeeForm.valid) {
       if (this.isEditing && this.editingEmployeeId) {
-        this.apiService.patch<Employee>('employees', this.editingEmployeeId, this.employeeForm.getRawValue()).subscribe(() => {
-          this.loadEmployees();
-          this.closeModal();
-        });
+        this.apiService
+          .patch<Employee>(
+            'employees',
+            this.editingEmployeeId,
+            this.employeeForm.getRawValue()
+          )
+          .subscribe(() => {
+            this.loadEmployees();
+            this.closeModal();
+          });
       } else {
         const formData = this.employeeForm.getRawValue();
         const newUser: Partial<User> = {
@@ -121,39 +142,65 @@ export class EmployeesComponent implements OnInit {
           img: '', // Default to empty string for AvatarComponent
         };
 
-        this.apiService.post<User>('users', newUser).pipe(
-          switchMap((user) => {
-            const newEmp: Partial<Employee> = {
-              userId: user.id,
-              name: formData.name,
-              email: formData.email,
-              empNo: formData.empNo,
-              department: formData.department,
-              designation: formData.designation,
-              status: formData.status,
-              img: user.img || '', // Use user image or empty
-              age: 25,
-              joiningDate: new Date().toISOString().split('T')[0],
-              address: { country: 'India', state: '', city: '', pincode: '', street: '', homeNo: '' },
-              bank: { name: '', accountNo: '', ifsc: '', pincode: '', location: '', aadhar: '', pan: '' }
-            };
-            return this.apiService.post<Employee>('employees', newEmp);
-          })
-        ).subscribe(() => {
-          this.loadEmployees();
-          this.closeModal();
-        });
+        this.apiService
+          .post<User>('users', newUser)
+          .pipe(
+            switchMap((user) => {
+              const newEmp: Partial<Employee> = {
+                userId: user.id,
+                name: formData.name,
+                email: formData.email,
+                empNo: formData.empNo,
+                department: formData.department,
+                designation: formData.designation,
+                status: formData.status,
+                img: user.img || '', // Use user image or empty
+                age: 25,
+                joiningDate: new Date().toISOString().split('T')[0],
+                address: {
+                  country: 'India',
+                  state: '',
+                  city: '',
+                  pincode: '',
+                  street: '',
+                  homeNo: '',
+                },
+                bank: {
+                  name: '',
+                  accountNo: '',
+                  ifsc: '',
+                  pincode: '',
+                  location: '',
+                  aadhar: '',
+                  pan: '',
+                },
+              };
+              return this.apiService.post<Employee>('employees', newEmp);
+            })
+          )
+          .subscribe(() => {
+            this.loadEmployees();
+            this.closeModal();
+          });
       }
     }
   }
 
   deleteEmployee(id: string) {
-    if (confirm('Are you sure you want to delete this employee? This will NOT delete their login credentials.')) {
-      this.apiService.delete('employees', id).subscribe(() => this.loadEmployees());
+    if (
+      confirm(
+        'Are you sure you want to delete this employee? This will NOT delete their login credentials.'
+      )
+    ) {
+      this.apiService
+        .delete('employees', id)
+        .subscribe(() => this.loadEmployees());
     }
   }
 
   deactivateEmployee(emp: Employee) {
-    this.apiService.patch('employees', emp.id, { status: 'Inactive' }).subscribe(() => this.loadEmployees());
+    this.apiService
+      .patch('employees', emp.id, { status: 'Inactive' })
+      .subscribe(() => this.loadEmployees());
   }
 }

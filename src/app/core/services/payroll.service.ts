@@ -4,15 +4,17 @@ import { ApiService } from './api.service';
 import { Payroll } from '../models/hrms.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class PayrollService {
   constructor(private apiService: ApiService) {}
 
   getPayrollByEmployee(employeeId: string | number): Observable<Payroll[]> {
-    return this.apiService.get<Payroll>('payroll').pipe(
-      map(payroll => payroll.filter((p: any) => p.employeeId == employeeId))
-    );
+    return this.apiService
+      .get<Payroll>('payroll')
+      .pipe(
+        map((payroll) => payroll.filter((p: any) => p.employeeId == employeeId))
+      );
   }
 
   getAllPayroll(): Observable<Payroll[]> {

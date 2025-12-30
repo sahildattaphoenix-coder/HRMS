@@ -1,70 +1,130 @@
-  <!-- Add/Edit Project Modal -->
-  <div class="custom-modal-backdrop" *ngIf="showAddModal" (click)="closeModal()"></div>
-  <div class="custom-modal bg-white rounded-4 shadow-lg p-4" *ngIf="showAddModal">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-      <h5 class="fw-bold m-0">{{ isEditing ? 'Edit' : 'Create' }} Project</h5>
-      <button class="btn-close shadow-none" (click)="closeModal()"></button>
+<!-- Add/Edit Project Modal -->
+<div
+  class="custom-modal-backdrop"
+  *ngIf="showAddModal"
+  (click)="closeModal()"
+></div>
+<div class="custom-modal bg-white rounded-4 shadow-lg p-4" *ngIf="showAddModal">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h5 class="fw-bold m-0">{{ isEditing ? 'Edit' : 'Create' }} Project</h5>
+    <button class="btn-close shadow-none" (click)="closeModal()"></button>
+  </div>
+
+  <form [formGroup]="projectForm" (ngSubmit)="onSubmitProject()">
+    <div class="row g-3">
+      <div class="col-md-6 text-start">
+        <label class="form-label smallest fw-bold text-muted text-uppercase"
+          >Project Title</label
+        >
+        <input
+          type="text"
+          class="form-control rounded-3"
+          formControlName="title"
+        />
+      </div>
+      <div class="col-md-6 text-start">
+        <label class="form-label smallest fw-bold text-muted text-uppercase"
+          >Manager</label
+        >
+        <input
+          type="text"
+          class="form-control rounded-3"
+          formControlName="manager"
+        />
+      </div>
+      <div class="col-md-6 text-start">
+        <label class="form-label smallest fw-bold text-muted text-uppercase"
+          >Category</label
+        >
+        <select class="form-select rounded-3" formControlName="category">
+          <option value="Web Development">Web Development</option>
+          <option value="Mobile App">Mobile App</option>
+          <option value="Design">Design</option>
+          <option value="Marketing">Marketing</option>
+        </select>
+      </div>
+      <div class="col-md-6 text-start">
+        <label class="form-label smallest fw-bold text-muted text-uppercase"
+          >State</label
+        >
+        <select class="form-select rounded-3" formControlName="state">
+          <option value="Active">Active</option>
+          <option value="Pending">Pending</option>
+          <option value="Completed">Completed</option>
+        </select>
+      </div>
+      <div class="col-md-6 text-start">
+        <label class="form-label smallest fw-bold text-muted text-uppercase"
+          >Start Date</label
+        >
+        <input
+          type="date"
+          class="form-control rounded-3"
+          formControlName="startDate"
+        />
+      </div>
+      <div class="col-md-6 text-start">
+        <label class="form-label smallest fw-bold text-muted text-uppercase"
+          >Deadline</label
+        >
+        <input
+          type="date"
+          class="form-control rounded-3"
+          formControlName="deadline"
+        />
+      </div>
+
+      <div class="col-12 text-start">
+        <label
+          class="form-label smallest fw-bold text-muted text-uppercase mb-2"
+          >Team Members</label
+        >
+        <div
+          class="d-flex flex-wrap gap-2 border p-3 rounded-3 bg-light"
+          style="max-height: 150px; overflow-y: auto"
+        >
+          <div
+            *ngFor="let emp of allEmployees"
+            class="d-flex align-items-center gap-2 p-2 rounded-pill border bg-white cursor-pointer select-none"
+            [class.border-primary]="isMember(emp.id)"
+            [class.bg-blue-soft]="isMember(emp.id)"
+            (click)="toggleTeamMember(emp)"
+          >
+            <app-avatar
+              [name]="emp.name"
+              [imageUrl]="emp.img"
+              [size]="24"
+              [fontSize]="'0.6rem'"
+              styleClass="rounded-circle"
+            ></app-avatar>
+            <span class="smallest fw-bold">{{ emp.name }}</span>
+            <i
+              class="bi bi-check-circle-fill text-primary ms-1"
+              *ngIf="isMember(emp.id)"
+            ></i>
+          </div>
+        </div>
+        <div class="form-text smallest">
+          Click to select/deselect team members
+        </div>
+      </div>
     </div>
 
-    <form [formGroup]="projectForm" (ngSubmit)="onSubmitProject()">
-      <div class="row g-3">
-        <div class="col-md-6 text-start">
-          <label class="form-label smallest fw-bold text-muted text-uppercase">Project Title</label>
-          <input type="text" class="form-control rounded-3" formControlName="title">
-        </div>
-        <div class="col-md-6 text-start">
-          <label class="form-label smallest fw-bold text-muted text-uppercase">Manager</label>
-          <input type="text" class="form-control rounded-3" formControlName="manager">
-        </div>
-        <div class="col-md-6 text-start">
-            <label class="form-label smallest fw-bold text-muted text-uppercase">Category</label>
-            <select class="form-select rounded-3" formControlName="category">
-                <option value="Web Development">Web Development</option>
-                <option value="Mobile App">Mobile App</option>
-                <option value="Design">Design</option>
-                <option value="Marketing">Marketing</option>
-            </select>
-        </div>
-        <div class="col-md-6 text-start">
-            <label class="form-label smallest fw-bold text-muted text-uppercase">State</label>
-            <select class="form-select rounded-3" formControlName="state">
-                <option value="Active">Active</option>
-                <option value="Pending">Pending</option>
-                <option value="Completed">Completed</option>
-            </select>
-        </div>
-        <div class="col-md-6 text-start">
-          <label class="form-label smallest fw-bold text-muted text-uppercase">Start Date</label>
-          <input type="date" class="form-control rounded-3" formControlName="startDate">
-        </div>
-        <div class="col-md-6 text-start">
-          <label class="form-label smallest fw-bold text-muted text-uppercase">Deadline</label>
-          <input type="date" class="form-control rounded-3" formControlName="deadline">
-        </div>
-
-        <div class="col-12 text-start">
-            <label class="form-label smallest fw-bold text-muted text-uppercase mb-2">Team Members</label>
-            <div class="d-flex flex-wrap gap-2 border p-3 rounded-3 bg-light" style="max-height: 150px; overflow-y: auto;">
-                <div *ngFor="let emp of allEmployees" 
-                     class="d-flex align-items-center gap-2 p-2 rounded-pill border bg-white cursor-pointer select-none"
-                     [class.border-primary]="isMember(emp.id)"
-                     [class.bg-blue-soft]="isMember(emp.id)"
-                     (click)="toggleTeamMember(emp)">
-                    <app-avatar [name]="emp.name" [imageUrl]="emp.img" [size]="24" [fontSize]="'0.6rem'" styleClass="rounded-circle"></app-avatar>
-                    <span class="smallest fw-bold">{{ emp.name }}</span>
-                    <i class="bi bi-check-circle-fill text-primary ms-1" *ngIf="isMember(emp.id)"></i>
-                </div>
-            </div>
-            <div class="form-text smallest">Click to select/deselect team members</div>
-        </div>
-
-      </div>
-
-      <div class="mt-5 text-end">
-        <button type="button" class="btn btn-light rounded-pill px-4 me-2" (click)="closeModal()">Cancel</button>
-        <button type="submit" class="btn btn-primary rounded-pill px-4" [disabled]="projectForm.invalid">
-          {{ isEditing ? 'Update' : 'Create' }} Project
-        </button>
-      </div>
-    </form>
-  </div>
+    <div class="mt-5 text-end">
+      <button
+        type="button"
+        class="btn btn-light rounded-pill px-4 me-2"
+        (click)="closeModal()"
+      >
+        Cancel
+      </button>
+      <button
+        type="submit"
+        class="btn btn-primary rounded-pill px-4"
+        [disabled]="projectForm.invalid"
+      >
+        {{ isEditing ? 'Update' : 'Create' }} Project
+      </button>
+    </div>
+  </form>
+</div>
