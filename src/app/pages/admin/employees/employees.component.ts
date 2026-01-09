@@ -41,7 +41,7 @@ export class EmployeesComponent implements OnInit {
     this.employeeForm = this.fb.group({
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      password: ['123456', Validators.required], // Default password for new users
+      password: ['123456', Validators.required], 
       empNo: ['', Validators.required],
       department: ['Engineering', Validators.required],
       designation: ['', Validators.required],
